@@ -100,8 +100,24 @@ at the viewer with large, curious yellow-green eyes..."
 > "구분된 섹션을 나눠서 만들 때는 **XML이나 마크다운**을 선호합니다."
 > "인포그래픽 디자인의 경우 **계층구조 설계가 필수**고 이를 표현하는 가장 쉬운 방법이 **마크다운**"
 
-### 3.3 JSON 프롬프트 예시
+### 3.3 JSON 프롬프트 예시 (권장 기본 형식)
 
+> **권장**: 이미지 생성 시 JSON 구조를 기본으로 사용하고, 유연한 설명이 필요한 부분만 자연어로 작성합니다.
+
+**기본 JSON 구조:**
+```json
+{
+  "subject": "주제 - 핵심 피사체 설명",
+  "style": "스타일 - 사진풍/일러스트/3D/수채화 등",
+  "mood": "분위기 - 색조, 감정, 톤",
+  "composition": "구도 - 앵글, 프레이밍",
+  "lighting": "조명 - 자연광/스튜디오/골든아워 등",
+  "details": "세부사항 - 추가 디테일 (자연어로 유연하게)",
+  "aspect_ratio": "16:9"
+}
+```
+
+**상세 예시:**
 ```json
 {
   "subject": "premium minimalist coffee machine",
@@ -124,6 +140,10 @@ at the viewer with large, curious yellow-green eyes..."
 - 자동화에 최적
 - 스키마 검증으로 **재현성 강화**
 - 배치 생성과 A/B 파라미터 튜닝에 유리
+
+**유연한 자연어 부분:**
+- `details` 필드: 복잡한 설명, 스토리, 감정 표현에 자연어 사용
+- `description` 필드: 각 이미지별 고유한 장면 설명
 
 ### 3.4 Markdown 프롬프트 예시
 
@@ -544,10 +564,11 @@ Create high-quality, vertical layout infographic
 
 | 상황 | 권장 형식 |
 |------|----------|
+| **기본 이미지 생성** | **JSON** (구조화된 속성 + 유연한 자연어 details) |
 | 구분된 섹션/인포그래픽 | **XML** 또는 **Markdown** |
 | 연결된 느낌/타임라인 | **JSON** 또는 **YAML** |
 | 배치 생성/일관성 필요 | **JSON** |
-| 일반적 이미지 생성 | **자연어** |
+| 간단한 단일 이미지 | **자연어** (짧은 설명 시) |
 
 ### 14.3 핵심 인사이트
 
