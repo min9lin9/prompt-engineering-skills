@@ -1,6 +1,6 @@
 # /prompt - AI 프롬프트 생성기
 
-> **Version**: 2.2.0 | **Updated**: 2025-12-28
+> **Version**: 2.3.0 | **Updated**: 2025-12-28
 > **Model Rankings**: [LMArena Leaderboard](https://lmarena.ai) (2025년 12월 기준)
 
 AI 모델별로 최적화된 프롬프트를 생성합니다.
@@ -25,7 +25,8 @@ $ARGUMENTS
 | **이미지 편집** | ChatGPT Image | Gemini 3 Pro Image | Seedream 4.5 |
 | **Text-to-Video** | Veo 3.1 | Sora 2 Pro | Veo 3 |
 | **Image-to-Video** | Veo 3.1 | Wan 2.5 | Kling 2.6 Pro |
-| **검색** | Gemini 3 Pro | GPT-5.2 Search | Grok 4.1 Search |
+| **웹 검색/리서치** | Gemini 3 Pro Grounding | GPT-5.2 Search | GPT-5.1 Search |
+| **팩트체크** | **GPT-5.2 Thinking** | Gemini 3 Pro Grounding | Perplexity Sonar Pro |
 
 ---
 
@@ -168,6 +169,7 @@ E. 자동                               3.출력형식 (JSON, 표, 글머리 등
 | 4 | `claude-4.5-prompt-strategies.md` | Claude 4.5 에이전트/코딩 전략 | Claude 시 |
 | 5 | `gemini-prompt-strategies.md` | Gemini 3, Flash, Veo, Nano Banana 전략 | Gemini 시 |
 | 6 | `image-prompt-guide.md` | 이미지/동영상 생성 가이드 | 이미지/동영상 시 |
+| 7 | `research-prompt-guide.md` | 팩트체크/리서치 가이드 | 팩트체크/리서치 시 |
 
 ---
 
@@ -188,8 +190,12 @@ E. 자동                               3.출력형식 (JSON, 표, 글머리 등
 
 ## Metadata
 
-- **Version**: 2.2.0
+- **Version**: 2.3.0
 - **Updated**: 2025-12-28
+- **Changes v2.3.0**:
+  - 검색/리서치 모델 추천 추가 (Search Arena 기준)
+  - 팩트체크: GPT-5.2 Thinking 고정 추천
+  - research-prompt-guide.md 스킬 참조 추가
 - **Changes v2.2.0**:
   - 추가 요소별 상세 예시 추가 (조명, 앵글, 비율 등)
   - 입력 예시 더 친절하게 개선

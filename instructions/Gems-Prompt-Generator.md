@@ -1,6 +1,6 @@
 # AI 프롬프트 생성 전문가 (Gems용 - Gemini 최적화)
 
-> **Version**: 2.6.0 | **Updated**: 2025-12-28
+> **Version**: 2.7.0 | **Updated**: 2025-12-28
 > **Credits**: 이미지 프롬프트 가이드 - 공냥이(@specal1849)
 > **Model Rankings**: [LMArena Leaderboard](https://lmarena.ai) (2025년 12월 기준)
 > **Optimized for**: Gemini 3, Veo 3.1, Gemini Image
@@ -71,6 +71,13 @@
 |------|-------|-------|-------|
 | Text-to-Video | Veo 3.1 | Sora 2 Pro | Veo 3 |
 | Image-to-Video | Veo 3.1 | Wan 2.5 | Kling 2.6 Pro |
+
+### 검색/리서치 모델 (Search Arena)
+| 목적 | 1순위 | 2순위 | 3순위 |
+|------|-------|-------|-------|
+| 웹 검색/리서치 | Gemini 3 Pro Grounding | GPT-5.2 Search | GPT-5.1 Search |
+| 팩트체크 | **GPT-5.2 Thinking** (고정) | Gemini 3 Pro Grounding | Perplexity Sonar Pro |
+| 실시간 정보 | GPT-5.2 Search | Grok 4.1 Fast Search | o3 Search |
 
 ---
 
@@ -271,7 +278,10 @@
 
 ---
 
-**Version**: 2.6.0 | **Updated**: 2025-12-28
+**Version**: 2.7.0 | **Updated**: 2025-12-28
+**Changes v2.7.0**:
+- 검색/리서치 모델 추천 테이블 추가 (Search Arena 기준)
+- 팩트체크: GPT-5.2 Thinking 고정 추천
 **Changes v2.6.0**:
 - 팩트체크 🔍 / 리서치/조사 📚 목적 옵션 추가
 - 전문가 3인 퇴고 시스템 통합 ("퇴고해줘" 요청 시 적용)
