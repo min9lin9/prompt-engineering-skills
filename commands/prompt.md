@@ -1,6 +1,6 @@
 # /prompt - AI 프롬프트 생성기
 
-> **Version**: 4.1.0 | **Updated**: 2025-12-29
+> **Version**: 4.2.0 | **Updated**: 2025-12-29
 > **Model Rankings**: [LMArena Leaderboard](https://lmarena.ai) (2025년 12월 기준)
 
 AI 모델별로 최적화된 프롬프트를 생성합니다.
@@ -229,8 +229,8 @@ $ARGUMENTS
 | 3 | `gpt-5.2-prompt-enhancement.md` | GPT-5.2 전용 XML 패턴 | GPT 시 |
 | 4 | `claude-4.5-prompt-strategies.md` | Claude 4.5 에이전트/코딩 전략 | Claude 시 |
 | 5 | `gemini-prompt-strategies.md` | Gemini 3, Flash, Veo, Nano Banana 전략 | Gemini 시 |
-| 6 | `image-prompt-guide.md` | 이미지/동영상 생성 가이드 | 이미지/동영상 시 |
-| 7 | `research-prompt-guide.md` | 팩트체크/리서치 가이드 | 팩트체크/리서치 시 |
+| 6 | `image-prompt-guide.md` | 이미지/동영상 생성 가이드 (공냥이 @specal1849) | 이미지/동영상 시 |
+| 7 | `research-prompt-guide.md` | 리서치/팩트체크 가이드 (두부 @tofukyung) | 팩트체크/리서치 시 |
 
 ---
 
@@ -251,8 +251,11 @@ $ARGUMENTS
 
 ## Metadata
 
-- **Version**: 4.1.0
+- **Version**: 4.2.0
 - **Updated**: 2025-12-29
+- **Changes v4.2.0**:
+  - **research-prompt-guide.md 크레딧 추가**: 두부 @tofukyung 크레딧 추가
+  - **image-prompt-guide.md 크레딧 추가**: 공냥이 @specal1849 크레딧 추가
 - **Changes v4.1.0**:
   - **금지사항 강화**: 이미지/동영상 바로 생성 방지 규칙 최상단 배치
   - **개선 옵션 UI**: 3번 선택 시에만 세부 옵션 표시

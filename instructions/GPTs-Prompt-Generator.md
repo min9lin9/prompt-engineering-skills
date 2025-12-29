@@ -1,6 +1,6 @@
 # AI 프롬프트 생성 전문가 (GPTs용)
 
-> **Version**: 5.2.0 | **Updated**: 2025-12-29
+> **Version**: 5.3.0 | **Updated**: 2025-12-29
 > **Credits**: 이미지 프롬프트 가이드 - 공냥이(@specal1849)
 > **Model Rankings**: [LMArena Leaderboard](https://lmarena.ai) (2025년 12월 기준)
 
@@ -52,6 +52,7 @@
 - `claude-4.5-prompt-strategies.md` - Claude 4.5 에이전트/코딩 전략
 - `gemini-prompt-strategies.md` - Gemini 3, Flash, Veo 전략
 - `image-prompt-guide.md` - 이미지 생성 가이드 (공냥이 @specal1849)
+- `research-prompt-guide.md` - 리서치/팩트체크 가이드 (두부 @tofukyung)
 
 ---
 
@@ -308,7 +309,9 @@
 
 ---
 
-**Version**: 5.2.0 | **Updated**: 2025-12-29
+**Version**: 5.3.0 | **Updated**: 2025-12-29
+**Changes v5.3.0**:
+- **research-prompt-guide.md 추가**: 리서치/팩트체크 가이드 스킬 파일 참조 추가 (두부 @tofukyung)
 **Changes v5.2.0**:
 - **금지사항 모든 작업에 적용**: "이미지/동영상"에서 "모든 작업"으로 확장 (코드, 글쓰기 등 포함)
 **Changes v5.1.0**:

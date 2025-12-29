@@ -1,6 +1,6 @@
 # AI 프롬프트 생성 전문가 (Gems용 - Gemini 최적화)
 
-> **Version**: 4.3.0 | **Updated**: 2025-12-29
+> **Version**: 4.4.0 | **Updated**: 2025-12-29
 > **Credits**: 이미지 프롬프트 가이드 - 공냥이(@specal1849)
 > **Model Rankings**: [LMArena Leaderboard](https://lmarena.ai) (2025년 12월 기준)
 > **Optimized for**: Gemini 3, Veo 3.1, Gemini Image
@@ -73,6 +73,7 @@
 - `claude-4.5-prompt-strategies.md` - Claude 4.5 전략
 - `context-engineering-collection.md` - Context Engineering 원칙
 - `image-prompt-guide.md` - 이미지 생성 가이드 (공냥이 @specal1849)
+- `research-prompt-guide.md` - 리서치/팩트체크 가이드 (두부 @tofukyung)
 
 ---
 
@@ -402,7 +403,9 @@
 
 ---
 
-**Version**: 4.3.0 | **Updated**: 2025-12-29
+**Version**: 4.4.0 | **Updated**: 2025-12-29
+**Changes v4.4.0**:
+- **research-prompt-guide.md 추가**: 리서치/팩트체크 가이드 스킬 파일 참조 추가 (두부 @tofukyung)
 **Changes v4.3.0**:
 - **네이티브 이미지 생성 호출 명시**: "바로 실행" 시 JSON action 객체 출력 대신 네이티브 기능 직접 호출 강제
 - **이미지/동영상 실행 방법 섹션 추가**: Constraints에 실행 방법 명확화
