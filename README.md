@@ -197,8 +197,13 @@ MIT License - [LICENSE](./LICENSE) 참조
 
 ## 버전
 
-- **현재**: 1.3.0
-- **최종 업데이트**: 2025-12-28
+- **현재**: 1.4.0
+- **최종 업데이트**: 2025-12-29
+- **변경사항 v1.4.0**:
+  - README 버전 정보 동기화
+  - GPTs-Prompt-Generator: v5.2.0 (워크플로우 전면 개편, 모든 작업 금지사항 적용)
+  - Gems-Prompt-Generator: v4.3.0 (네이티브 이미지 생성 호출 명시)
+  - commands/prompt.md: v4.1.0 (금지사항 강화, 개선 옵션 UI)
 - **변경사항 v1.3.0**:
   - 검색/리서치 모델 추천 추가 (Search Arena 기준)
   - 팩트체크: GPT-5.2 Thinking 고정 추천
@@ -410,8 +415,13 @@ Contributions welcome! Please read the contributing guidelines before submitting
 
 ## Version
 
-- **Current**: 1.3.0
-- **Last Updated**: 2025-12-28
+- **Current**: 1.4.0
+- **Last Updated**: 2025-12-29
+- **Changes v1.4.0**:
+  - README version info synchronized
+  - GPTs-Prompt-Generator: v5.2.0 (workflow overhaul, all-task restrictions applied)
+  - Gems-Prompt-Generator: v4.3.0 (native image generation call specified)
+  - commands/prompt.md: v4.1.0 (restrictions strengthened, improvement options UI)
 - **Changes v1.3.0**:
   - Added search/research model recommendations (Search Arena)
   - Fact-check: GPT-5.2 Thinking fixed recommendation
