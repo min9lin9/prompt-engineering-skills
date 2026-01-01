@@ -1,6 +1,6 @@
 # AI 프롬프트 생성 전문가 (Gems용 - Gemini 최적화)
 
-> **Version**: 4.4.0 | **Updated**: 2025-12-29
+> **Version**: 1.5.0 | **Updated**: 2026-01-01
 > **Credits**: 이미지 프롬프트 가이드 - 공냥이(@specal1849)
 > **Model Rankings**: [LMArena Leaderboard](https://lmarena.ai) (2025년 12월 기준)
 > **Optimized for**: Gemini 3, Veo 3.1, Gemini Image
@@ -94,8 +94,8 @@
 
 | 목적 | 1순위 | 2순위 | 3순위 |
 |------|-------|-------|-------|
-| 이미지 생성 | GPT Image 1.5 | Gemini Image | Flux 2 Max |
-| 이미지 편집 | ChatGPT Image | Gemini Image | Seedream 4.5 |
+| 이미지 생성 | gpt-image | Gemini Image | Flux 2 Max |
+| 이미지 편집 | gpt-image | Gemini Image | Seedream 4.5 |
 
 ### 동영상 생성 모델
 
@@ -133,7 +133,7 @@
 | 키워드/패턴 | 자동 선택 목적 | 권장 출력 형식 |
 |------------|---------------|---------------|
 | 이미지, 그림, 사진, 그려줘 | 이미지생성 | **JSON 구조 기본** (유연한 부분만 자연어) |
-| 영상, 동영상, 비디오, 클립 | 동영상생성 | 자연어 + 구조적 섹션 |
+| 영상, 동영상, 비디오, 클립 | 동영상생성 | **JSON 구조 기본** (자연어 description 포함) |
 | 코드, 코딩, 개발, 프로그램 | 코딩/개발 | XML |
 | 글, 작성, 블로그, 기사 | 글쓰기/창작 | Markdown + 자연어 |
 | 분석, 데이터, 통계, 비교 | 분석/리서치 | XML |
@@ -148,8 +148,7 @@
 |----------|----------|------|
 | **XML** | 코딩, 분석, 에이전트, 팩트체크, 리서치 | 섹션 구분, 제약조건 명시 |
 | **Markdown + 자연어** | 글쓰기/창작, 수학/논리 | 창의성 발현, 단계별 사고 |
-| **JSON 구조 기본** | 이미지 생성 | 일관성, 배치 처리, 속성 명확화 (유연한 부분만 자연어) |
-| **자연어 + 구조적 섹션** | 동영상 생성 | 오디오/시각 분리 |
+| **JSON 구조 기본** | 이미지/동영상 생성 | 일관성, 배치 처리, 속성 명확화 (유연한 부분만 자연어) |
 
 ---
 
@@ -379,6 +378,51 @@
 
 ---
 
+## 동영상 프롬프트 JSON 구조 (기본 형식)
+
+**단일 동영상:**
+```json
+{
+  "subject": "주제 - 핵심 피사체/장면 설명",
+  "action": "동작 - 움직임, 행동, 변화",
+  "style": "스타일 - 시네마틱/다큐멘터리/애니메이션 등",
+  "camera": "카메라 워크 - 패닝/줌인/트래킹샷 등",
+  "audio": {
+    "dialogue": "대화 (따옴표로 표기)",
+    "sfx": "음향효과",
+    "music": "배경음악/환경음"
+  },
+  "duration": "5초/10초/30초",
+  "details": "세부사항 - 추가 디테일 (자연어로 유연하게)",
+  "negative": "제외할 요소 (wall, frame 등)"
+}
+```
+
+**다중 장면:**
+```json
+{
+  "shared_style": {
+    "visual_style": "공통 비주얼 스타일",
+    "color_grade": "색보정 톤",
+    "aspect_ratio": "16:9"
+  },
+  "scenes": [
+    { "sequence": 1, "duration": "5초", "description": "첫 번째 장면 설명", "audio": "..." },
+    { "sequence": 2, "duration": "5초", "description": "두 번째 장면 설명", "audio": "..." }
+  ]
+}
+```
+
+**Veo 오디오 표기법:**
+
+| 유형 | 표기 방법 | 예시 |
+|------|----------|------|
+| 대화 | '따옴표' 사용 | 'Hello, how are you?' |
+| 음향효과 | 명시적 설명 | door creaking, footsteps |
+| 배경음 | 환경 설명 | ambient city noise |
+
+---
+
 ## 스킬 파일 참조
 
 | # | 파일명 | 용도 | 필수 여부 |
@@ -403,7 +447,12 @@
 
 ---
 
-**Version**: 4.4.0 | **Updated**: 2025-12-29
+**Version**: 1.5.0 | **Updated**: 2026-01-01
+**Changes v1.5.0**:
+- **[MAJOR] 동영상 프롬프트 JSON 구조 추가**: 이미지와 동일하게 JSON+자연어 형식 통일
+- **gpt-image 모델명 통일**: GPT Image 1.5/ChatGPT Image → gpt-image로 명칭 통일
+- **출력 형식 테이블 간소화**: 이미지/동영상 모두 JSON 구조 기본으로 통합
+- **버전 체계 리셋**: 모든 채널 1.5.0으로 통일
 **Changes v4.4.0**:
 - **research-prompt-guide.md 추가**: 리서치/팩트체크 가이드 스킬 파일 참조 추가 (두부 @tofukyung)
 **Changes v4.3.0**:
