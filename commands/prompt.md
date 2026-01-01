@@ -805,43 +805,38 @@ AI: 최종 프롬프트 출력 + 5가지 선택지 (Step 3으로 복귀)
 
 ---
 
-## 동영상 프롬프트 JSON 구조 (기본 형식)
+## 동영상 프롬프트 JSON 구조
 
-**단일 동영상:**
+> **모든 동영상에 스토리보드 형식 적용** (단일 클립도 scenes 배열 사용)
+
 ```json
 {
-  "model": "Veo 3.1 | Sora 2 | Sora 2 Pro",
-  "subject": "주제 - 핵심 피사체/장면 설명",
-  "action": "동작 - 움직임, 행동, 변화",
-  "style": "스타일 - 시네마틱/다큐멘터리/애니메이션 등",
-  "camera": "카메라 워크 - 패닝/줌인/트래킹샷 등",
-  "audio": {
-    "dialogue": "대화 (따옴표로 표기)",
-    "sfx": "음향효과",
-    "music": "배경음악/환경음"
-  },
-  "duration": "모델별 기본: Veo 8초 / Sora 2 10초 / Sora 2 Pro 20초",
-  "details": "세부사항 - 추가 디테일 (자연어로 유연하게)",
-  "negative": "제외할 요소 (wall, frame 등)"
-}
-```
-
-**다중 장면 (스토리보드 기반):**
-```json
-{
+  "model": "Veo 3.1",
   "shared_style": {
-    "visual_style": "공통 비주얼 스타일",
+    "visual_style": "스타일 (cinematic, animation, realistic 등)",
     "color_grade": "색보정 톤",
     "aspect_ratio": "16:9"
   },
   "scenes": [
-    { "sequence": 1, "time_range": "0-3초", "duration": "3초", "description": "오프닝 장면 설명", "camera": "와이드샷", "audio": "환경음" },
-    { "sequence": 2, "time_range": "3-6초", "duration": "3초", "description": "전개 장면 설명", "camera": "패닝", "audio": "대화 포함" },
-    { "sequence": 3, "time_range": "6-10초", "duration": "4초", "description": "클라이막스 장면 설명", "camera": "클로즈업", "audio": "배경음악" }
+    {
+      "sequence": 1,
+      "duration": "8s",
+      "description": "장면 + 캐릭터 행동 + 조명/빛",
+      "camera": "카메라 위치 + 모션 (dolly, pan, tracking 등)",
+      "audio": "대사 + 효과음 + 배경음"
+    }
   ],
-  "total_duration": "10초"
+  "negative": "제외 요소 (단순 나열)",
+  "details": "품질 지시사항"
 }
 ```
+
+**필수 요소 (공식 가이드 기준):**
+- **Subject**: 피사체 (사람, 동물, 사물, 풍경)
+- **Action**: 동작 (걷기, 달리기, 회전 등)
+- **Style**: 영상 스타일 (SF, 필름누아르, 애니메이션 등)
+- **Camera**: 위치 + 모션 (aerial, eye-level, dolly, POV)
+- **Audio**: 대사(따옴표), 효과음, 환경음
 
 **오디오 표기법:**
 - 대화: '따옴표' 사용 (예: 'Hello, how are you?')
