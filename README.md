@@ -61,7 +61,8 @@ prompt-engineering-skills/
 │   └── context-engineering-collection.md  # CE 원칙
 │
 ├── commands/                           # Claude Code 커맨드
-│   └── prompt.md                       # /prompt 커맨드
+│   ├── prompt.md                       # /prompt 커맨드
+│   └── prompt-sync.md                  # /prompt-sync 동기화 커맨드
 │
 ├── instructions/                       # GPTs/Gems 시스템 프롬프트
 │   ├── GPTs-Prompt-Generator.md        # ChatGPT GPTs용
@@ -120,6 +121,33 @@ cp commands/*.md ~/.claude/commands/
 ```
 
 그 후 Claude Code에서 `/prompt` 커맨드 사용.
+
+#### 🔄 업데이트 동기화
+
+설치 후 최신 버전으로 업데이트하려면:
+
+```
+/prompt-sync
+```
+
+또는 원클릭 동기화:
+
+**macOS / Linux:**
+```bash
+git clone --depth 1 https://github.com/tofukyung/prompt-engineering-skills.git /tmp/pes-sync && \
+cp /tmp/pes-sync/skills/*.md ~/.claude/skills/ && \
+cp /tmp/pes-sync/commands/*.md ~/.claude/commands/ && \
+rm -rf /tmp/pes-sync && echo "✅ 동기화 완료!"
+```
+
+**Windows PowerShell:**
+```powershell
+git clone --depth 1 https://github.com/tofukyung/prompt-engineering-skills.git $env:TEMP\pes-sync; `
+Copy-Item "$env:TEMP\pes-sync\skills\*.md" "$env:USERPROFILE\.claude\skills\"; `
+Copy-Item "$env:TEMP\pes-sync\commands\*.md" "$env:USERPROFILE\.claude\commands\"; `
+Remove-Item -Recurse -Force "$env:TEMP\pes-sync"; `
+Write-Host "✅ 동기화 완료!" -ForegroundColor Green
+```
 
 ### ChatGPT GPTs 직접 만들기
 
@@ -230,8 +258,16 @@ MIT License - [LICENSE](./LICENSE) 참조
 
 ## 버전
 
-- **현재**: 1.4.0
-- **최종 업데이트**: 2025-12-29
+- **현재**: 1.5.0
+- **최종 업데이트**: 2026-01-01
+- **변경사항 v1.5.0**:
+  - 모든 채널(GPTs, Gems, Skills) 버전 1.5.0으로 통일
+  - 동영상 프롬프트 JSON+자연어 형식으로 통일 (이미지와 동일)
+  - gpt-image 모델명 통일 (DALL-E/GPT Image 1.5 → gpt-image)
+  - `/prompt-sync` 명령어 추가: 자동 업데이트 동기화
+  - 원클릭 설치/동기화 스크립트 추가
+  - 진행 상황 표시 (🔍→🧠→✅) 추가
+  - $ARGUMENTS 처리 규칙 추가
 - **변경사항 v1.4.0**:
   - README 버전 정보 동기화
   - GPTs-Prompt-Generator: v5.2.0 (워크플로우 전면 개편, 모든 작업 금지사항 적용)
@@ -312,7 +348,8 @@ prompt-engineering-skills/
 │   └── context-engineering-collection.md  # CE principles
 │
 ├── commands/                           # Claude Code commands
-│   └── prompt.md                       # /prompt command
+│   ├── prompt.md                       # /prompt command
+│   └── prompt-sync.md                  # /prompt-sync sync command
 │
 ├── instructions/                       # GPTs/Gems system prompts
 │   ├── GPTs-Prompt-Generator.md        # For ChatGPT GPTs
@@ -371,6 +408,33 @@ cp commands/*.md ~/.claude/commands/
 ```
 
 Then use the `/prompt` command in Claude Code.
+
+#### 🔄 Sync Updates
+
+To update to the latest version after installation:
+
+```
+/prompt-sync
+```
+
+Or one-click sync:
+
+**macOS / Linux:**
+```bash
+git clone --depth 1 https://github.com/tofukyung/prompt-engineering-skills.git /tmp/pes-sync && \
+cp /tmp/pes-sync/skills/*.md ~/.claude/skills/ && \
+cp /tmp/pes-sync/commands/*.md ~/.claude/commands/ && \
+rm -rf /tmp/pes-sync && echo "✅ Sync complete!"
+```
+
+**Windows PowerShell:**
+```powershell
+git clone --depth 1 https://github.com/tofukyung/prompt-engineering-skills.git $env:TEMP\pes-sync; `
+Copy-Item "$env:TEMP\pes-sync\skills\*.md" "$env:USERPROFILE\.claude\skills\"; `
+Copy-Item "$env:TEMP\pes-sync\commands\*.md" "$env:USERPROFILE\.claude\commands\"; `
+Remove-Item -Recurse -Force "$env:TEMP\pes-sync"; `
+Write-Host "✅ Sync complete!" -ForegroundColor Green
+```
 
 ### Create Your Own ChatGPT GPTs
 
@@ -481,8 +545,16 @@ Contributions welcome! Please read the contributing guidelines before submitting
 
 ## Version
 
-- **Current**: 1.4.0
-- **Last Updated**: 2025-12-29
+- **Current**: 1.5.0
+- **Last Updated**: 2026-01-01
+- **Changes v1.5.0**:
+  - Unified all channels (GPTs, Gems, Skills) to version 1.5.0
+  - Video prompts now use JSON+natural language format (same as images)
+  - Standardized gpt-image model naming (DALL-E/GPT Image 1.5 → gpt-image)
+  - Added `/prompt-sync` command: automatic update synchronization
+  - Added one-click install/sync scripts
+  - Added progress indicators (🔍→🧠→✅)
+  - Added $ARGUMENTS handling rules
 - **Changes v1.4.0**:
   - README version info synchronized
   - GPTs-Prompt-Generator: v5.2.0 (workflow overhaul, all-task restrictions applied)
