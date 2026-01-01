@@ -258,8 +258,18 @@ MIT License - [LICENSE](./LICENSE) 참조
 
 ## 버전
 
-- **현재**: 1.5.0
+- **현재**: 1.8.0
 - **최종 업데이트**: 2026-01-01
+- **변경사항 v1.8.0**:
+  - 동영상 프롬프트 JSON 구조 통일: 모든 동영상에 스토리보드 형식(scenes 배열) 적용
+  - GPTs 기본 모델: Sora 2, Gems 기본 모델: Veo 3.1
+  - 스토리보드 필수 요소 체크리스트 추가 (sequence, duration, description, camera, audio)
+- **변경사항 v1.7.0**:
+  - 동영상 생성 시 스토리보드 단계 필수화 (생략 금지)
+  - 스토리보드 JSON 구조 상세화 (lighting, character action, camera motion 등)
+- **변경사항 v1.6.0**:
+  - 명시적 요소 확장: 사용자 입력에서 암시적 요소를 구체적으로 풀어쓰기
+  - Agent 모드 프롬프트 지원 추가
 - **변경사항 v1.5.0**:
   - 모든 채널(GPTs, Gems, Skills) 버전 1.5.0으로 통일
   - 동영상 프롬프트 JSON+자연어 형식으로 통일 (이미지와 동일)
@@ -545,8 +555,18 @@ Contributions welcome! Please read the contributing guidelines before submitting
 
 ## Version
 
-- **Current**: 1.5.0
+- **Current**: 1.8.0
 - **Last Updated**: 2026-01-01
+- **Changes v1.8.0**:
+  - Unified video prompt JSON structure: storyboard format (scenes array) for all videos
+  - GPTs default model: Sora 2, Gems default model: Veo 3.1
+  - Added storyboard required elements checklist (sequence, duration, description, camera, audio)
+- **Changes v1.7.0**:
+  - Storyboard step now mandatory for video generation (cannot skip)
+  - Detailed storyboard JSON structure (lighting, character action, camera motion, etc.)
+- **Changes v1.6.0**:
+  - Explicit element expansion: expand implicit elements from user input
+  - Added Agent mode prompt support
 - **Changes v1.5.0**:
   - Unified all channels (GPTs, Gems, Skills) to version 1.5.0
   - Video prompts now use JSON+natural language format (same as images)

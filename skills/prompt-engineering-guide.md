@@ -1565,12 +1565,156 @@ operation = client.models.generate_videos(
 
 ---
 
+## 중간 구조화 워크플로우 (Step 1.7)
+
+프롬프트 생성 전, 목적에 따라 **중간 구조화 단계**를 수행하여 품질을 높입니다.
+
+> ⚠️ **CRITICAL: 동영상 생성 시 스토리보드 단계 생략 절대 금지**
+> - 동영상 요청 시 **반드시** 스토리보드를 먼저 생성
+> - 사용자가 스토리보드 확인 후 프롬프트 생성 진행
+> - 이 단계를 건너뛰면 품질이 크게 저하됨
+
+### 적용 조건
+
+| 목적 | 구조화 유형 | 출력 형식 | 다음 단계 |
+|------|------------|----------|----------|
+| **동영상생성** | 스토리보드 | 시간순 장면 테이블 + JSON | 시간초별 프롬프트 생성 |
+| **글쓰기/창작** | 개요 | 섹션별 목록 | 섹션별 프롬프트 생성 |
+| **분석/리서치** | 개요 | 섹션별 목록 | 섹션별 프롬프트 생성 |
+
+### 동영상: 스토리보드 생성 (MANDATORY)
+
+**자동 수행 (생략 금지):**
+1. 사용자 요청을 분석하여 스토리보드 생성
+2. 시간순으로 장면 구성 (오프닝 → 전개 → 클라이막스)
+3. 각 장면별: 설명, 캐릭터 행동, 조명/빛, 카메라 워크, 오디오 정의
+
+**스토리보드 필수 요소 체크리스트:**
+
+| 요소 | 설명 | 예시 |
+|------|------|------|
+| **sequence** | 장면 순서 | 1, 2, 3... |
+| **duration** | 장면 길이 | "3s", "2.5s" |
+| **description** | 장면 + 캐릭터 행동 + 조명/빛 | "Santa waves with rosy cheeks, golden glow from moon" |
+| **camera** | 카메라 위치 + 모션 | "Wide establishing shot, slow pan following sleigh" |
+| **audio** | 대사 + 효과음 + 배경음 | "Jingle bells, Santa's laugh: 'Ho ho ho!'" |
+
+**스토리보드 출력 형식 (반드시 준수):**
+
+```markdown
+## 📋 스토리보드
+
+### 장면 구성
+
+| # | 시간 | 장면 설명 | 조명 | 카메라 | 오디오 |
+|---|------|----------|------|--------|--------|
+| 1 | 0-3초 | [장면 + 캐릭터 행동] | [조명/빛] | [카메라 워크] | [대사/효과음/배경음] |
+| 2 | 3-6초 | [장면 + 캐릭터 행동] | [조명/빛] | [카메라 워크] | [대사/효과음/배경음] |
+| 3 | 6-8초 | [장면 + 캐릭터 행동] | [조명/빛] | [카메라 워크] | [대사/효과음/배경음] |
+
+### 프롬프트 JSON (상세)
+
+---
+✅ 이 스토리보드로 프롬프트를 생성할까요? (Y/수정 요청)
+```
+
+**스토리보드 기반 동영상 프롬프트 JSON (상세 예시):**
+
+```json
+{
+  "model": "Veo 3.1",
+  "shared_style": {
+    "visual_style": "Cute and whimsical 2D storybook illustration, soft textures, vibrant festive colors (red, green, gold)",
+    "color_grade": "Warm golden glow from the moon against a deep indigo starry night",
+    "aspect_ratio": "16:9"
+  },
+  "scenes": [
+    {
+      "sequence": 1,
+      "duration": "3s",
+      "description": "Santa's sleigh pulled by reindeer enters from the left, flying over a cozy, snow-covered village with glowing windows. Stardust falls from the runners.",
+      "camera": "Wide establishing shot, slow pan following the sleigh's path.",
+      "audio": "Ambient quiet night, distant wind, and light jingle bells."
+    },
+    {
+      "sequence": 2,
+      "duration": "3s",
+      "description": "Close-up on Santa Claus, rosy cheeks and a big smile. He waves his hand and tosses a brightly wrapped gift box toward a village chimney.",
+      "camera": "Medium close-up on Santa, moving at the same speed as the sleigh.",
+      "audio": "Santa's hearty laugh: 'Ho ho ho! Merry Christmas!'"
+    },
+    {
+      "sequence": 3,
+      "duration": "2s",
+      "description": "The sleigh accelerates toward a large, bright full moon, becoming a silhouette while golden sparkles fill the screen.",
+      "camera": "Zoom out showing the entire landscape as the sleigh disappears into the distance.",
+      "audio": "Upbeat festive orchestral music reaching a gentle climax, then fading."
+    }
+  ],
+  "negative": "realistic photography, 3D render, dark or scary atmosphere, distorted faces, wall, frame",
+  "details": "High-quality digital illustration, clean outlines, cozy and joyful mood, magical glittering effects."
+}
+```
+
+### 글쓰기/리서치: 개요 생성
+
+**자동 수행:**
+1. 사용자 요청을 분석하여 개요(아웃라인) 생성
+2. 논리적 구조로 섹션 구성
+3. 각 섹션별: 목표, 핵심 포인트 정의
+
+**개요 출력 형식:**
+
+```markdown
+## 📋 개요
+
+### 글 구조
+
+1. **서론** - [핵심 메시지]
+   - 도입부 훅
+   - 배경 설명
+
+2. **본론 1** - [첫 번째 논점]
+   - 주요 내용
+   - 예시/근거
+
+3. **본론 2** - [두 번째 논점]
+   - 주요 내용
+   - 예시/근거
+
+4. **결론** - [정리 및 Call-to-Action]
+   - 요약
+   - 다음 단계 제안
+
+---
+✅ 이 개요로 프롬프트를 생성할까요? (Y/수정 요청)
+```
+
+### 중간 구조화의 이점
+
+1. **명확한 방향성**: 프롬프트 생성 전 구조 확정
+2. **품질 향상**: 단계별 검토로 누락 방지
+3. **사용자 참여**: 중간 확인으로 의도 반영
+4. **일관성 유지**: 전체 흐름의 논리적 연결
+
+---
+
 ## Skill Metadata
 
 **Created**: 2025-12-27
-**Last Updated**: 2025-12-28
+**Last Updated**: 2026-01-01
 **Author**: Claude Code
-**Version**: 1.2.0
+**Version**: 1.4.0
+
+**Changes v1.4.0**:
+- **[MAJOR] 중간 구조화 워크플로우 (Step 1.7) 추가**: 동영상 스토리보드, 글쓰기/리서치 개요 생성
+- 스토리보드 기반 동영상 JSON 구조 추가 (time_range, camera 필드)
+- 개요 기반 글쓰기 프롬프트 구조 추가
+
+**Changes v1.3.0**:
+- 명시적 요소 확장 규칙 (Explicit Element Expansion) 섹션 추가
+- 에이전트 모드 워크플로우 섹션 추가
+- 목적별 확장 체크리스트 및 상세 예시 추가
 
 **Changes v1.2.0**:
 - 전문가 3인 퇴고 시스템 추가 (Step 7)

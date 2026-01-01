@@ -1,6 +1,6 @@
 # /prompt - AI 프롬프트 생성기
 
-> **Version**: 1.7.0 | **Updated**: 2026-01-01
+> **Version**: 1.8.0 | **Updated**: 2026-01-01
 > **Model Rankings**: [LMArena Leaderboard](https://lmarena.ai) (2025년 12월 기준)
 
 AI 모델별로 최적화된 프롬프트를 생성합니다.
@@ -68,8 +68,24 @@ $ARGUMENTS
 | **비전/멀티모달** | Gemini 3 Pro | Gemini 3 Flash | GPT-5.1 |
 | **이미지 생성** | gpt-image (GPT Image 1.5) | Gemini 3 Pro Image | Flux 2 Max |
 | **이미지 편집** | gpt-image (ChatGPT) | Gemini 3 Pro Image | Seedream 4.5 |
-| **Text-to-Video** | Veo 3.1 | Sora 2 Pro | Veo 3 |
+| **Text-to-Video** | Veo 3.1 | Sora 2 | Sora 2 Pro |
 | **Image-to-Video** | Veo 3.1 | Wan 2.5 | Kling 2.6 Pro |
+
+### 동영상 생성 모델 상세 (생성 길이 비교)
+
+> **기본 길이** = 확장/스토리보드 기능 미사용 시
+> **최대 길이** = 확장/스토리보드/Flow 사용 시
+
+| 모델 | 기본 길이 | 최대 길이 | 해상도 | 비고 |
+|------|----------|----------|--------|------|
+| **Veo 3.1** | 4-8초 | 60초 (~148초) | 1080p | 네이티브 오디오, 7초씩 확장 가능 |
+| **Sora 2** | 10초 | 15초 | 720p | ChatGPT Plus 이상 |
+| **Sora 2 Pro** | 20초 | 25초 | 1080p | ChatGPT Pro ($200/월) |
+
+---
+
+| 목적 | 1순위 | 2순위 | 3순위 |
+|------|-------|-------|-------|
 | **웹 검색/리서치** | Gemini 3 Pro Grounding | GPT-5.2 Search | GPT-5.1 Search |
 | **팩트체크** | **GPT-5.2 Thinking** | Gemini 3 Pro Grounding | Perplexity Sonar Pro |
 
@@ -167,11 +183,23 @@ AskUserQuestion 호출 (questions 배열에 4개 질문):
 
 > **참고**: 구도(클로즈업/와이드샷 등)는 "기타" 옵션에서 추가 지정 가능
 
-#### 🎬 동영상 생성 시 질문 (4가지)
+#### 🎬 동영상 생성 시 질문 (5가지)
 
 ```
-AskUserQuestion 호출 (questions 배열에 4개 질문):
+AskUserQuestion 호출 (questions 배열에 최대 4개씩, 2번에 나눠 호출):
+
+[첫 번째 호출 - 모델/스타일]
 [
+  {
+    "question": "동영상 생성 모델을 선택해주세요",
+    "header": "모델",
+    "multiSelect": false,
+    "options": [
+      {"label": "Veo 3.1 (Recommended)", "description": "기본 8초 (최대 60초), 네이티브 오디오, 1080p"},
+      {"label": "Sora 2", "description": "기본 10초 (최대 15초), 720p"},
+      {"label": "Sora 2 Pro", "description": "기본 20초 (최대 25초), 1080p, ChatGPT Pro 필요"}
+    ]
+  },
   {
     "question": "동영상 스타일을 선택해주세요",
     "header": "스타일",
@@ -184,13 +212,13 @@ AskUserQuestion 호출 (questions 배열에 4개 질문):
     ]
   },
   {
-    "question": "동영상 길이를 선택해주세요",
+    "question": "동영상 길이를 선택해주세요 (모델별 기본 옵션)",
     "header": "길이",
     "multiSelect": false,
     "options": [
-      {"label": "5초 (Recommended)", "description": "짧은 클립, SNS용"},
-      {"label": "10초", "description": "중간 길이"},
-      {"label": "30초", "description": "긴 영상"}
+      {"label": "기본 (Recommended)", "description": "Veo: 8초 / Sora 2: 10초 / Sora 2 Pro: 20초"},
+      {"label": "짧게", "description": "Veo: 4초 / Sora 2: 5초 / Sora 2 Pro: 10초"},
+      {"label": "길게 (확장 필요)", "description": "Veo: 30-60초 / Sora 2: 15초 / Sora 2 Pro: 25초"}
     ]
   },
   {
@@ -203,7 +231,11 @@ AskUserQuestion 호출 (questions 배열에 4개 질문):
       {"label": "줌인/줌아웃", "description": "확대/축소 효과"},
       {"label": "트래킹샷", "description": "피사체 따라 이동"}
     ]
-  },
+  }
+]
+
+[두 번째 호출 - 오디오 (Veo 선택 시에만)]
+[
   {
     "question": "오디오 구성을 선택해주세요",
     "header": "오디오",
@@ -219,6 +251,7 @@ AskUserQuestion 호출 (questions 배열에 4개 질문):
 ```
 
 > **참고**: 분위기(평화로운/긴장감 등)는 "기타" 옵션에서 추가 지정 가능
+> **참고**: 확장/스토리보드 요청 시 해당 모델의 최대 길이까지 유동적으로 대응
 
 #### 💻 코딩/개발 시 질문 (4가지)
 
@@ -637,8 +670,12 @@ AskUserQuestion 호출:
 - 앵글: 클로즈업 / 와이드샷 / 버드아이뷰 / 로우앵글
 
 **🎬 동영상 전용:**
-- 길이: 5초 / 10초 / 30초
-- 오디오: 대화 / 배경음악 / 효과음
+- **모델별 기본 길이 (확장 미사용)**:
+  - Veo 3.1: 4초 / 6초 / 8초 (기본)
+  - Sora 2: 5초 / 10초 (기본)
+  - Sora 2 Pro: 10초 / 15초 / 20초 (기본)
+- **확장/스토리보드 시**: 모델별 최대 길이까지 유동 대응
+- 오디오: 대화 / 배경음악 / 효과음 (Veo만 네이티브 지원)
 - 카메라: 패닝 / 줌인 / 트래킹샷
 - 부정 프롬프트: 제외할 요소
 
@@ -773,6 +810,7 @@ AI: 최종 프롬프트 출력 + 5가지 선택지 (Step 3으로 복귀)
 **단일 동영상:**
 ```json
 {
+  "model": "Veo 3.1 | Sora 2 | Sora 2 Pro",
   "subject": "주제 - 핵심 피사체/장면 설명",
   "action": "동작 - 움직임, 행동, 변화",
   "style": "스타일 - 시네마틱/다큐멘터리/애니메이션 등",
@@ -782,7 +820,7 @@ AI: 최종 프롬프트 출력 + 5가지 선택지 (Step 3으로 복귀)
     "sfx": "음향효과",
     "music": "배경음악/환경음"
   },
-  "duration": "5초/10초/30초",
+  "duration": "모델별 기본: Veo 8초 / Sora 2 10초 / Sora 2 Pro 20초",
   "details": "세부사항 - 추가 디테일 (자연어로 유연하게)",
   "negative": "제외할 요소 (wall, frame 등)"
 }
@@ -855,8 +893,13 @@ AI: 최종 프롬프트 출력 + 5가지 선택지 (Step 3으로 복귀)
 
 ## Metadata
 
-- **Version**: 1.7.0
+- **Version**: 1.8.0
 - **Updated**: 2026-01-01
+- **Changes v1.8.0**:
+  - **[MAJOR] 동영상 모델 선택 기능 추가**: Veo 3.1, Sora 2, Sora 2 Pro 중 선택 (AskQuestion 첫 번째 질문)
+  - **동영상 모델별 생성 길이 비교 테이블 추가**: 기본 길이(확장 미사용), 최대 길이(확장 사용), 해상도 정보
+  - **동영상 길이 옵션 이원화**: 기본 옵션(확장 미사용) + 확장/스토리보드 사용 시 유동적 대응
+  - **동영상 JSON 구조에 model 필드 추가**: 선택한 모델 정보 포함
 - **Changes v1.7.0**:
   - **[MAJOR] 동영상 스토리보드 워크플로우 추가**: 동영상 생성 시 시간순 스토리보드 먼저 생성 후 프롬프트 생성
   - **[MAJOR] 글쓰기/리서치 개요 워크플로우 추가**: 글쓰기/리서치 시 개요(아웃라인) 먼저 생성 후 섹션별 프롬프트 생성
