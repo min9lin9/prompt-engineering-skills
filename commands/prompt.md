@@ -1,6 +1,6 @@
 # /prompt - AI 프롬프트 생성기
 
-> **Version**: 1.5.2 | **Updated**: 2026-01-01
+> **Version**: 1.7.0 | **Updated**: 2026-01-01
 > **Model Rankings**: [LMArena Leaderboard](https://lmarena.ai) (2025년 12월 기준)
 
 AI 모델별로 최적화된 프롬프트를 생성합니다.
@@ -21,6 +21,36 @@ $ARGUMENTS
 ### 실행 트리거 (ONLY THESE)
 - "1번" 또는 "바로 실행" → 작업 실행
 - "이 프롬프트로 만들어줘" → 작업 실행
+
+---
+
+## 🔍 명시적 요소 확장 규칙 (Explicit Element Expansion)
+
+**원칙**: 사용자 입력이 간략해도, AI가 누락된 요소를 추론하여 **명시적으로 상세하게** 채웁니다.
+
+### 확장 프로세스
+
+1. **사용자 입력 분석**: 제공된 키워드/문장에서 핵심 의도 파악
+2. **누락 요소 식별**: 아래 체크리스트 기준으로 빈 항목 확인
+3. **추론 및 확장**: 문맥에 맞게 **구체적인 값**으로 채움
+4. **명시적 출력**: 모든 요소를 프롬프트에 **상세히** 기술
+
+### 목적별 확장 체크리스트
+
+| 목적 | 필수 확장 요소 | 예시 (입력 → 확장) |
+|------|--------------|------------------|
+| **이미지** | 피사체, 표정, 동작, 배경, 조명, 색상, 구도, 분위기 | "밝은 모습" → "자연스러운 미소, 카메라 응시, 골든아워 조명, 부드러운 보케 배경" |
+| **동영상** | 피사체, 동작(시작→진행→종료), 카메라워크, 오디오, 페이스 | "걷는 장면" → "좌→우로 걸음, 트래킹샷, 발소리+환경음" |
+| **코딩** | 언어, 프레임워크, 아키텍처, 에러처리, 테스트 | "API" → "FastAPI, RESTful, try-except, pytest 포함" |
+| **글쓰기** | 톤, 대상, 길이, 구조, 핵심메시지 | "블로그" → "친근한 톤, 개발자 대상, 1500자, 서론-3단락-결론" |
+| **분석** | 범위, 기간, 비교대상, 평가기준, 출력형식 | "시장 분석" → "국내 SaaS, 2024-2025, 3사 비교, 표+차트" |
+| **에이전트** | 역할, 도구, 권한, 제약, 출력형식 | "자동화해줘" → "데이터수집 에이전트, 웹검색+파일저장, 읽기전용, JSON 출력" |
+
+### 확장 원칙
+
+1. **암묵적 → 명시적**: "좋은 느낌"같은 모호한 표현을 구체적 속성으로 변환
+2. **단일 → 다중**: 하나의 키워드를 여러 관련 요소로 분해
+3. **추상 → 구체**: 개념적 설명을 실행 가능한 상세 사항으로 변환
 
 ---
 
@@ -83,112 +113,166 @@ $ARGUMENTS
 
 목적이 감지되면, 해당 목적에 맞는 옵션을 `AskUserQuestion` 도구로 질문합니다.
 
-#### 🖼️ 이미지 생성 시 질문
+#### 🖼️ 이미지 생성 시 질문 (4가지)
 
 ```
-AskUserQuestion 호출:
-- question: "이미지 스타일을 선택해주세요"
-  header: "스타일"
-  options:
-    - label: "사진풍 (Recommended)"
-      description: "실제 사진처럼 사실적인 이미지"
-    - label: "일러스트"
-      description: "만화/애니메이션 스타일"
-    - label: "3D 렌더링"
-      description: "3D 그래픽 스타일"
-    - label: "수채화/유화"
-      description: "전통 회화 스타일"
-
-- question: "이미지 비율을 선택해주세요"
-  header: "비율"
-  options:
-    - label: "1:1 (Recommended)"
-      description: "정사각형 - SNS, 프로필"
-    - label: "16:9"
-      description: "와이드 - 유튜브, 배너"
-    - label: "9:16"
-      description: "세로 - 스토리, 릴스"
-    - label: "4:3"
-      description: "표준 - PPT, 사진"
-
-- question: "조명 스타일을 선택해주세요"
-  header: "조명"
-  options:
-    - label: "자연광 (Recommended)"
-      description: "자연스러운 햇빛/실내광"
-    - label: "스튜디오"
-      description: "전문 촬영 조명"
-    - label: "골든아워"
-      description: "황금빛 일출/일몰"
-    - label: "네온/드라마틱"
-      description: "강렬한 색상 조명"
+AskUserQuestion 호출 (questions 배열에 4개 질문):
+[
+  {
+    "question": "이미지 스타일을 선택해주세요",
+    "header": "스타일",
+    "multiSelect": false,
+    "options": [
+      {"label": "사진풍 (Recommended)", "description": "실제 사진처럼 사실적인 이미지"},
+      {"label": "일러스트", "description": "만화/애니메이션 스타일"},
+      {"label": "3D 렌더링", "description": "3D 그래픽 스타일"},
+      {"label": "수채화/유화", "description": "전통 회화 스타일"}
+    ]
+  },
+  {
+    "question": "이미지 비율을 선택해주세요",
+    "header": "비율",
+    "multiSelect": false,
+    "options": [
+      {"label": "1:1 (Recommended)", "description": "정사각형 - SNS, 프로필"},
+      {"label": "16:9", "description": "와이드 - 유튜브, 배너"},
+      {"label": "9:16", "description": "세로 - 스토리, 릴스"},
+      {"label": "4:3", "description": "표준 - PPT, 사진"}
+    ]
+  },
+  {
+    "question": "조명 스타일을 선택해주세요",
+    "header": "조명",
+    "multiSelect": false,
+    "options": [
+      {"label": "자연광 (Recommended)", "description": "자연스러운 햇빛/실내광"},
+      {"label": "스튜디오", "description": "전문 촬영 조명"},
+      {"label": "골든아워", "description": "황금빛 일출/일몰"},
+      {"label": "네온/드라마틱", "description": "강렬한 색상 조명"}
+    ]
+  },
+  {
+    "question": "분위기를 선택해주세요",
+    "header": "분위기",
+    "multiSelect": false,
+    "options": [
+      {"label": "밝은/활기찬 (Recommended)", "description": "따뜻하고 긍정적인 느낌"},
+      {"label": "어두운/신비로운", "description": "미스터리하고 분위기 있는"},
+      {"label": "몽환적/판타지", "description": "꿈결같은 초현실적 분위기"},
+      {"label": "역동적/강렬한", "description": "에너지 넘치는 액션 느낌"}
+    ]
+  }
+]
 ```
 
-#### 🎬 동영상 생성 시 질문
+> **참고**: 구도(클로즈업/와이드샷 등)는 "기타" 옵션에서 추가 지정 가능
+
+#### 🎬 동영상 생성 시 질문 (4가지)
 
 ```
-AskUserQuestion 호출:
-- question: "동영상 스타일을 선택해주세요"
-  header: "스타일"
-  options:
-    - label: "시네마틱 (Recommended)"
-      description: "영화같은 고퀄리티 영상"
-    - label: "다큐멘터리"
-      description: "현실적인 다큐 스타일"
-    - label: "애니메이션"
-      description: "만화/애니 스타일"
-    - label: "뮤직비디오"
-      description: "빠른 컷, 역동적"
-
-- question: "동영상 길이를 선택해주세요"
-  header: "길이"
-  options:
-    - label: "5초 (Recommended)"
-      description: "짧은 클립, SNS용"
-    - label: "10초"
-      description: "중간 길이"
-    - label: "30초"
-      description: "긴 영상"
-
-- question: "카메라 워크를 선택해주세요"
-  header: "카메라"
-  options:
-    - label: "고정샷 (Recommended)"
-      description: "안정적인 고정 촬영"
-    - label: "패닝"
-      description: "좌우로 천천히 이동"
-    - label: "줌인/줌아웃"
-      description: "확대/축소 효과"
-    - label: "트래킹샷"
-      description: "피사체 따라 이동"
+AskUserQuestion 호출 (questions 배열에 4개 질문):
+[
+  {
+    "question": "동영상 스타일을 선택해주세요",
+    "header": "스타일",
+    "multiSelect": false,
+    "options": [
+      {"label": "시네마틱 (Recommended)", "description": "영화같은 고퀄리티 영상"},
+      {"label": "다큐멘터리", "description": "현실적인 다큐 스타일"},
+      {"label": "애니메이션", "description": "만화/애니 스타일"},
+      {"label": "뮤직비디오", "description": "빠른 컷, 역동적"}
+    ]
+  },
+  {
+    "question": "동영상 길이를 선택해주세요",
+    "header": "길이",
+    "multiSelect": false,
+    "options": [
+      {"label": "5초 (Recommended)", "description": "짧은 클립, SNS용"},
+      {"label": "10초", "description": "중간 길이"},
+      {"label": "30초", "description": "긴 영상"}
+    ]
+  },
+  {
+    "question": "카메라 워크를 선택해주세요",
+    "header": "카메라",
+    "multiSelect": false,
+    "options": [
+      {"label": "고정샷 (Recommended)", "description": "안정적인 고정 촬영"},
+      {"label": "패닝", "description": "좌우로 천천히 이동"},
+      {"label": "줌인/줌아웃", "description": "확대/축소 효과"},
+      {"label": "트래킹샷", "description": "피사체 따라 이동"}
+    ]
+  },
+  {
+    "question": "오디오 구성을 선택해주세요",
+    "header": "오디오",
+    "multiSelect": false,
+    "options": [
+      {"label": "환경음만 (Recommended)", "description": "자연스러운 배경 사운드"},
+      {"label": "대화 포함", "description": "캐릭터 대사 있음"},
+      {"label": "배경음악", "description": "BGM 추가"},
+      {"label": "무음", "description": "소리 없이 영상만"}
+    ]
+  }
+]
 ```
 
-#### 💻 코딩/개발 시 질문
+> **참고**: 분위기(평화로운/긴장감 등)는 "기타" 옵션에서 추가 지정 가능
+
+#### 💻 코딩/개발 시 질문 (4가지)
 
 ```
-AskUserQuestion 호출:
-- question: "타겟 AI 모델을 선택해주세요"
-  header: "AI 모델"
-  options:
-    - label: "Claude Opus 4.5 (Recommended)"
-      description: "코딩 1위, 에이전트 최적"
-    - label: "GPT-5.2"
-      description: "수학/논리 강점"
-    - label: "Gemini 3 Pro"
-      description: "멀티모달 강점"
-
-- question: "프롬프트 상세도를 선택해주세요"
-  header: "상세도"
-  options:
-    - label: "상세 (Recommended)"
-      description: "구조화된 XML 프롬프트"
-    - label: "보통"
-      description: "1-2문단 수준"
-    - label: "간결"
-      description: "3-5문장 핵심만"
+AskUserQuestion 호출 (questions 배열에 4개 질문):
+[
+  {
+    "question": "타겟 AI 모델을 선택해주세요",
+    "header": "AI 모델",
+    "multiSelect": false,
+    "options": [
+      {"label": "Claude Opus 4.5 (Recommended)", "description": "코딩 1위, 에이전트 최적"},
+      {"label": "GPT-5.2", "description": "수학/논리 강점"},
+      {"label": "Gemini 3 Pro", "description": "멀티모달 강점"}
+    ]
+  },
+  {
+    "question": "프롬프트 상세도를 선택해주세요",
+    "header": "상세도",
+    "multiSelect": false,
+    "options": [
+      {"label": "상세 (Recommended)", "description": "구조화된 XML 프롬프트"},
+      {"label": "보통", "description": "1-2문단 수준"},
+      {"label": "간결", "description": "3-5문장 핵심만"}
+    ]
+  },
+  {
+    "question": "코드 아키텍처 수준을 선택해주세요",
+    "header": "아키텍처",
+    "multiSelect": false,
+    "options": [
+      {"label": "함수/모듈 단위 (Recommended)", "description": "재사용 가능한 함수로 구성"},
+      {"label": "클래스 기반", "description": "OOP 패턴 적용"},
+      {"label": "전체 시스템", "description": "디렉토리 구조 포함"},
+      {"label": "단일 스크립트", "description": "간단한 1파일 코드"}
+    ]
+  },
+  {
+    "question": "에러 처리 수준을 선택해주세요",
+    "header": "에러처리",
+    "multiSelect": false,
+    "options": [
+      {"label": "기본 try-except (Recommended)", "description": "핵심 에러만 처리"},
+      {"label": "상세 에러 처리", "description": "모든 예외 상황 처리"},
+      {"label": "로깅 포함", "description": "에러 + 로그 시스템"},
+      {"label": "없음", "description": "에러 처리 생략"}
+    ]
+  }
+]
 ```
 
-#### ✍️ 글쓰기/창작 시 질문
+> **참고**: 테스트 옵션(유닛테스트/TDD 등)은 "기타" 옵션에서 추가 지정 가능
+
+#### ✍️ 글쓰기/창작 시 질문 (5가지)
 
 ```
 AskUserQuestion 호출:
@@ -201,6 +285,8 @@ AskUserQuestion 호출:
       description: "블로그, SNS용"
     - label: "창의적/문학적"
       description: "스토리, 에세이용"
+    - label: "설명적/교육적"
+      description: "튜토리얼, 가이드용"
 
 - question: "글 분량을 선택해주세요"
   header: "분량"
@@ -211,9 +297,47 @@ AskUserQuestion 호출:
       description: "3-5문장"
     - label: "긴"
       description: "여러 문단, 1000자+"
+    - label: "시리즈"
+      description: "여러 파트로 나눔"
+
+- question: "대상 독자를 선택해주세요"
+  header: "대상"
+  options:
+    - label: "일반 대중 (Recommended)"
+      description: "전문 지식 없는 독자"
+    - label: "전문가/업계 종사자"
+      description: "해당 분야 전문가"
+    - label: "초보자/입문자"
+      description: "처음 접하는 독자"
+    - label: "내부 팀/동료"
+      description: "회사/조직 내부용"
+
+- question: "글의 구조를 선택해주세요"
+  header: "구조"
+  options:
+    - label: "서론-본론-결론 (Recommended)"
+      description: "전통적인 3단 구성"
+    - label: "문제-해결"
+      description: "문제 제시 후 해결책"
+    - label: "리스트형"
+      description: "번호/글머리 나열"
+    - label: "스토리텔링"
+      description: "내러티브 흐름"
+
+- question: "핵심 메시지/목적을 선택해주세요"
+  header: "목적"
+  options:
+    - label: "정보 전달 (Recommended)"
+      description: "객관적 정보 제공"
+    - label: "설득/행동 유도"
+      description: "독자의 행동 변화 유도"
+    - label: "엔터테인먼트"
+      description: "재미와 흥미 제공"
+    - label: "감정 전달"
+      description: "감동, 공감 유발"
 ```
 
-#### 🔍 분석/리서치 시 질문
+#### 🔍 분석/리서치 시 질문 (5가지)
 
 ```
 AskUserQuestion 호출:
@@ -226,6 +350,8 @@ AskUserQuestion 호출:
       description: "핵심만 빠르게"
     - label: "비교 분석"
       description: "여러 항목 비교"
+    - label: "트렌드 분석"
+      description: "시간에 따른 변화"
 
 - question: "출력 형식을 선택해주세요"
   header: "형식"
@@ -236,9 +362,47 @@ AskUserQuestion 호출:
       description: "항목별 나열"
     - label: "서술형"
       description: "문장으로 설명"
+    - label: "차트/그래프 제안"
+      description: "시각화 방향 포함"
+
+- question: "분석 범위를 선택해주세요"
+  header: "범위"
+  options:
+    - label: "특정 주제 집중 (Recommended)"
+      description: "좁고 깊게 분석"
+    - label: "넓은 개요"
+      description: "여러 주제 넓게"
+    - label: "경쟁사/시장 비교"
+      description: "외부 비교 포함"
+    - label: "내부 데이터 분석"
+      description: "자체 데이터 중심"
+
+- question: "분석 기간을 선택해주세요"
+  header: "기간"
+  options:
+    - label: "최근 1년 (Recommended)"
+      description: "최신 데이터 기준"
+    - label: "전체 기간"
+      description: "역사적 관점"
+    - label: "최근 분기"
+      description: "단기 트렌드"
+    - label: "미래 전망"
+      description: "예측 포함"
+
+- question: "평가 기준을 선택해주세요"
+  header: "기준"
+  options:
+    - label: "정량적 지표 (Recommended)"
+      description: "수치, 통계 중심"
+    - label: "정성적 평가"
+      description: "품질, 의견 중심"
+    - label: "혼합 평가"
+      description: "정량+정성 모두"
+    - label: "벤치마크 비교"
+      description: "업계 표준 대비"
 ```
 
-#### 🤖 에이전트/자동화 시 질문
+#### 🤖 에이전트/자동화 시 질문 (5가지)
 
 ```
 AskUserQuestion 호출:
@@ -251,6 +415,8 @@ AskUserQuestion 호출:
       description: "여러 에이전트 협업"
     - label: "파이프라인"
       description: "순차적 작업 흐름"
+    - label: "계층적"
+      description: "오케스트레이터 + 워커"
 
 - question: "도구 사용 범위를 선택해주세요"
   header: "도구"
@@ -261,7 +427,117 @@ AskUserQuestion 호출:
       description: "MCP, API 연동"
     - label: "최소 도구"
       description: "텍스트 처리만"
+    - label: "커스텀 도구"
+      description: "맞춤 도구 정의"
+
+- question: "에이전트 권한 수준을 선택해주세요"
+  header: "권한"
+  options:
+    - label: "읽기 전용 (Recommended)"
+      description: "조회만 가능, 안전"
+    - label: "읽기+쓰기"
+      description: "파일 생성/수정 가능"
+    - label: "전체 권한"
+      description: "시스템 명령 포함"
+    - label: "샌드박스"
+      description: "격리된 환경에서만"
+
+- question: "자동화 범위를 선택해주세요"
+  header: "범위"
+  options:
+    - label: "단일 작업 (Recommended)"
+      description: "한 가지 목표만 수행"
+    - label: "반복 작업"
+      description: "루프/배치 처리"
+    - label: "조건부 분기"
+      description: "상황별 다른 처리"
+    - label: "전체 워크플로우"
+      description: "시작-끝 자동화"
+
+- question: "출력 형식을 선택해주세요"
+  header: "출력"
+  options:
+    - label: "구조화 JSON (Recommended)"
+      description: "파싱 용이한 형식"
+    - label: "Markdown 리포트"
+      description: "사람이 읽기 좋은 형식"
+    - label: "로그/스트림"
+      description: "실시간 진행 상황"
+    - label: "파일 저장"
+      description: "결과를 파일로 출력"
 ```
+
+---
+
+### Step 1.7: 중간 구조화 (조건부 실행)
+
+목적에 따라 프롬프트 생성 전 **중간 구조화 단계**를 수행합니다.
+
+#### 🎬 동영상: 스토리보드 생성
+
+**트리거**: 목적 = 동영상생성
+
+**자동 수행:**
+1. 사용자 요청을 분석하여 스토리보드 생성
+2. 시간순으로 장면 구성 (오프닝 → 전개 → 클라이막스)
+3. 각 장면별: 설명, 카메라 워크, 오디오 정의
+
+**스토리보드 출력 형식:**
+
+```markdown
+## 📋 스토리보드
+
+| 시간 | 장면 | 설명 | 카메라 | 오디오 |
+|------|------|------|--------|--------|
+| 0-3초 | 오프닝 | [장면 설명] | [카메라 워크] | [오디오] |
+| 3-6초 | 전개 | [장면 설명] | [카메라 워크] | [오디오] |
+| 6-10초 | 클라이막스 | [장면 설명] | [카메라 워크] | [오디오] |
+
+---
+
+✅ 이 스토리보드로 프롬프트를 생성할까요? (Y/수정 요청)
+```
+
+**사용자 확인 후 → Step 2: 시간초별 프롬프트 생성**
+
+#### ✍️ 글쓰기/리서치: 개요 생성
+
+**트리거**: 목적 = 글쓰기/창작 OR 분석/리서치
+
+**자동 수행:**
+1. 사용자 요청을 분석하여 개요(아웃라인) 생성
+2. 논리적 구조로 섹션 구성
+3. 각 섹션별: 목표, 핵심 포인트 정의
+
+**개요 출력 형식:**
+
+```markdown
+## 📋 개요
+
+### 글 구조
+
+1. **서론** - [핵심 메시지]
+   - 도입부 훅
+   - 배경 설명
+
+2. **본론 1** - [첫 번째 논점]
+   - 주요 내용
+   - 예시/근거
+
+3. **본론 2** - [두 번째 논점]
+   - 주요 내용
+   - 예시/근거
+
+4. **결론** - [정리 및 Call-to-Action]
+   - 요약
+   - 다음 단계 제안
+
+---
+
+✅ 이 개요로 프롬프트를 생성할까요? (Y/수정 요청)
+```
+
+**사용자 확인 후 → Step 2: 섹션별 프롬프트 생성**
 
 ---
 
@@ -293,6 +569,13 @@ AskUserQuestion 호출:
 | Claude Opus 4.5 | `<default_to_action>` |
 | Gemini 3 | Constraints 최상단 |
 | 이미지/동영상 | 주제/스타일/분위기 |
+
+**🖼️ 이미지/동영상 프롬프트 출력 형식 (CRITICAL)**
+
+이미지 또는 동영상 프롬프트 생성 시:
+1. **반드시 JSON 구조로 출력** (자연어 출력 금지)
+2. 본 파일의 "이미지 프롬프트 JSON 구조" 또는 "동영상 프롬프트 JSON 구조" 섹션 템플릿 사용
+3. `details` 필드만 자연어로 유연하게 작성
 
 **전문가 3인 토론 (간략 진행)**
 
@@ -329,8 +612,9 @@ AskUserQuestion 호출:
 2️⃣ **자동 개선** - AI가 자동으로 프롬프트 강화 → 수정된 프롬프트 출력 (실행 ❌)
 3️⃣ **직접 개선** - 제시되는 옵션 중 선택하여 수정 → 수정된 프롬프트 출력 (실행 ❌)
 4️⃣ **기타** - 다른 요청 또는 질문
+5️⃣ **에이전트 모드** - AI와 대화하며 프롬프트를 단계별로 완성 (최적의 결과물 도출)
 
-💬 **선택하세요** (예: "1", "2", "3", "4")
+💬 **선택하세요** (예: "1", "2", "3", "4", "5")
 ```
 
 **🎨 개선 옵션 (3번 선택 시에만 아래 옵션 표시)**
@@ -374,7 +658,7 @@ AskUserQuestion 호출:
    ↓
 수정된 프롬프트 출력
    ↓
-다시 4가지 선택지 제시 (Step 3으로 복귀)
+다시 5가지 선택지 제시 (Step 3으로 복귀)
 ```
 
 **수정 후 출력 형식:**
@@ -398,7 +682,57 @@ AskUserQuestion 호출:
 2️⃣ **자동 개선** - AI가 자동으로 프롬프트 강화
 3️⃣ **직접 개선** - 옵션 선택하여 추가 수정
 4️⃣ **기타** - 다른 요청 또는 질문
+5️⃣ **에이전트 모드** - AI와 대화하며 프롬프트를 단계별로 완성
 ```
+
+---
+
+### Step 5: 에이전트 모드 (5번 선택 시)
+
+AI와 대화하며 프롬프트를 단계별로 최적화합니다.
+
+**에이전트 모드 시작 출력:**
+
+```markdown
+🤖 **에이전트 모드 진입**
+
+현재 프롬프트를 분석했습니다. 다음 영역을 개선할 수 있습니다:
+
+1. **[영역1]**: [현재 상태] → [개선 가능한 방향]
+2. **[영역2]**: [현재 상태] → [개선 가능한 방향]
+3. **[영역3]**: [현재 상태] → [개선 가능한 방향]
+
+💬 어느 영역을 먼저 개선할까요? (번호 또는 질문을 입력하세요)
+```
+
+**에이전트 모드 워크플로우:**
+
+```
+사용자: 5번 선택
+   ↓
+AI: 현재 프롬프트 분석 + 개선 가능 영역 3-5개 제시
+   ↓
+사용자: 영역 선택 또는 질문
+   ↓
+AI: 해당 영역에 대한 세부 옵션 제시 또는 질문 응답
+   ↓
+(반복 - 사용자가 만족할 때까지)
+   ↓
+사용자: "완료" 또는 "이걸로 실행"
+   ↓
+AI: 최종 프롬프트 출력 + 5가지 선택지 (Step 3으로 복귀)
+```
+
+**에이전트 모드 개선 영역 예시:**
+
+| 목적 | 제안 영역 |
+|------|----------|
+| **이미지** | 피사체 디테일, 스타일 일관성, 조명/분위기, 구도 최적화, 네거티브 프롬프트 |
+| **동영상** | 동작 시퀀스, 카메라 워크, 오디오 레이어, 장면 전환, 타이밍 조절 |
+| **코딩** | 에러 핸들링, 성능 최적화, 테스트 케이스, 문서화, 확장성 |
+| **글쓰기** | 톤 조절, 구조 강화, 예시 추가, 청중 맞춤, 핵심 메시지 |
+| **분석** | 데이터 범위, 비교 기준, 시각화, 인사이트 깊이, 액션 아이템 |
+| **에이전트** | 도구 구성, 권한 설정, 에러 복구, 출력 형식, 체크포인트 |
 
 ---
 
@@ -454,7 +788,7 @@ AskUserQuestion 호출:
 }
 ```
 
-**다중 장면:**
+**다중 장면 (스토리보드 기반):**
 ```json
 {
   "shared_style": {
@@ -463,9 +797,11 @@ AskUserQuestion 호출:
     "aspect_ratio": "16:9"
   },
   "scenes": [
-    { "sequence": 1, "duration": "5초", "description": "첫 번째 장면 설명", "audio": "..." },
-    { "sequence": 2, "duration": "5초", "description": "두 번째 장면 설명", "audio": "..." }
-  ]
+    { "sequence": 1, "time_range": "0-3초", "duration": "3초", "description": "오프닝 장면 설명", "camera": "와이드샷", "audio": "환경음" },
+    { "sequence": 2, "time_range": "3-6초", "duration": "3초", "description": "전개 장면 설명", "camera": "패닝", "audio": "대화 포함" },
+    { "sequence": 3, "time_range": "6-10초", "duration": "4초", "description": "클라이막스 장면 설명", "camera": "클로즈업", "audio": "배경음악" }
+  ],
+  "total_duration": "10초"
 }
 ```
 
@@ -519,8 +855,19 @@ AskUserQuestion 호출:
 
 ## Metadata
 
-- **Version**: 1.5.2
+- **Version**: 1.7.0
 - **Updated**: 2026-01-01
+- **Changes v1.7.0**:
+  - **[MAJOR] 동영상 스토리보드 워크플로우 추가**: 동영상 생성 시 시간순 스토리보드 먼저 생성 후 프롬프트 생성
+  - **[MAJOR] 글쓰기/리서치 개요 워크플로우 추가**: 글쓰기/리서치 시 개요(아웃라인) 먼저 생성 후 섹션별 프롬프트 생성
+  - **Step 1.7 "중간 구조화" 단계 신설**: 목적별 구조화 단계 조건부 실행
+  - **동영상 JSON에 time_range, camera 필드 추가**: 시간초별 장면 관리
+- **Changes v1.6.0**:
+  - **[MAJOR] 명시적 요소 확장 규칙 추가**: 사용자 입력이 간략해도 AI가 누락된 요소를 상세하게 채움
+  - **[MAJOR] 에이전트 모드 옵션 추가**: 5번 옵션으로 AI와 대화하며 프롬프트를 단계별로 최적화
+  - **[MAJOR] AskUserQuestion 5가지 확대**: 모든 목적에서 최소 5가지 질문으로 확장
+  - **5가지 옵션 UI**: 기존 4가지에서 에이전트 모드 추가
+  - **에이전트 모드 워크플로우 섹션 추가**: Step 5로 에이전트 모드 상세 가이드
 - **Changes v1.5.2**:
   - **[MAJOR] AskUserQuestion 옵션 수집 복원**: 모든 프롬프트 생성 시 사용자에게 옵션을 클릭해서 선택하도록 Step 1.5 추가
   - **목적별 맞춤 질문**: 이미지, 동영상, 코딩, 글쓰기, 분석, 에이전트 각각에 최적화된 질문 세트 정의
