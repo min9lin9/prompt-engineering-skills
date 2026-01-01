@@ -30,7 +30,7 @@ source_credits:
 **핵심 이해사항:**
 - 이미지 생성 과정에서 **LLM과 Image Gen 두 모델**을 거침
 - 프롬프트는 여러 모델들(LLM/VLM 등)을 거쳐 **재해석(Recaption)**됨
-- ChatGPT의 경우: 사용자 입력 → GPT가 재구성 → DALL-E에 전달
+- ChatGPT의 경우: 사용자 입력 → GPT가 재구성 → gpt-image 모델에 전달
 
 ### 1.2 프롬프트 리라이트 (Recaption)
 
@@ -38,7 +38,7 @@ source_credits:
 ```
 사용자: "검은 아기고양이 그려줘"
       ↓ (LLM 재해석)
-DALL-E에 전달: "A cute black kitten sitting upright, looking directly
+gpt-image에 전달: "A cute black kitten sitting upright, looking directly
 at the viewer with large, curious yellow-green eyes..."
 ```
 
@@ -621,6 +621,7 @@ Create high-quality, vertical layout infographic
 ## Skill Metadata
 
 **Created**: 2025-12-28
-**Version**: 1.0.0
+**Version**: 1.0.1
 **Author**: Claude Code (공냥이(@specal1849)님 자료 기반)
-**Last Updated**: 2025-12-28
+**Last Updated**: 2026-01-01
+**Changes v1.0.1**: DALL-E를 gpt-image 모델로 수정 (정확한 모델명 반영)

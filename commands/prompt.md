@@ -1,6 +1,6 @@
 # /prompt - AI 프롬프트 생성기
 
-> **Version**: 4.2.0 | **Updated**: 2025-12-29
+> **Version**: 4.2.1 | **Updated**: 2026-01-01
 > **Model Rankings**: [LMArena Leaderboard](https://lmarena.ai) (2025년 12월 기준)
 
 AI 모델별로 최적화된 프롬프트를 생성합니다.
@@ -36,8 +36,8 @@ $ARGUMENTS
 | **종합/분석** | Gemini 3 Pro | Grok 4.1 | Claude Opus 4.5 |
 | **Hard Prompts** | Claude Opus 4.5 | Gemini 3 Pro | Grok 4.1 |
 | **비전/멀티모달** | Gemini 3 Pro | Gemini 3 Flash | GPT-5.1 |
-| **이미지 생성** | GPT Image 1.5 | Gemini 3 Pro Image | Flux 2 Max |
-| **이미지 편집** | ChatGPT Image | Gemini 3 Pro Image | Seedream 4.5 |
+| **이미지 생성** | gpt-image (GPT Image 1.5) | Gemini 3 Pro Image | Flux 2 Max |
+| **이미지 편집** | gpt-image (ChatGPT) | Gemini 3 Pro Image | Seedream 4.5 |
 | **Text-to-Video** | Veo 3.1 | Sora 2 Pro | Veo 3 |
 | **Image-to-Video** | Veo 3.1 | Wan 2.5 | Kling 2.6 Pro |
 | **웹 검색/리서치** | Gemini 3 Pro Grounding | GPT-5.2 Search | GPT-5.1 Search |
@@ -251,8 +251,10 @@ $ARGUMENTS
 
 ## Metadata
 
-- **Version**: 4.2.0
-- **Updated**: 2025-12-29
+- **Version**: 4.2.1
+- **Updated**: 2026-01-01
+- **Changes v4.2.1**:
+  - **이미지 모델명 수정**: ChatGPT 이미지 생성 모델을 gpt-image로 명시 (DALL-E → gpt-image)
 - **Changes v4.2.0**:
   - **research-prompt-guide.md 크레딧 추가**: 두부 @tofukyung 크레딧 추가
   - **image-prompt-guide.md 크레딧 추가**: 공냥이 @specal1849 크레딧 추가
