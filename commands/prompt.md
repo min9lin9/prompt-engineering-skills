@@ -1,6 +1,6 @@
 # /prompt - AI 프롬프트 생성기
 
-> **Version**: 1.5.0 | **Updated**: 2026-01-01
+> **Version**: 1.5.2 | **Updated**: 2026-01-01
 > **Model Rankings**: [LMArena Leaderboard](https://lmarena.ai) (2025년 12월 기준)
 
 AI 모델별로 최적화된 프롬프트를 생성합니다.
@@ -47,7 +47,7 @@ $ARGUMENTS
 
 ## 워크플로우
 
-### Step 1: 목적 자동 감지 + 즉시 프롬프트 생성
+### Step 1: 목적 감지 + 옵션 선택 (AskUserQuestion 활용)
 
 **$ARGUMENTS 처리 규칙:**
 
@@ -60,17 +60,13 @@ $ARGUMENTS
   ```
   📋 요청이 길어서 핵심만 추출했습니다: [핵심 요약]
   ```
-- **재연결 발생 시** → 짧은 키워드로 재시도 안내
 
-**자동 판단 항목:**
-- **목적**: 키워드 기반 자동 감지
-- **상세도**: 기본 "상세" (구조화된 프롬프트)
-- **출력 형식**: 아래 라우팅 테이블에 따라 자동 선택
+**목적 자동 감지 테이블:**
 
 | 키워드/패턴 | 자동 선택 목적 | 권장 출력 형식 |
 |------------|---------------|---------------|
-| 이미지, 그림, 사진, 그려줘 | 이미지생성 | **JSON 구조 기본** (유연한 부분만 자연어) |
-| 영상, 동영상, 비디오, 클립 | 동영상생성 | **JSON 구조 기본** (자연어 description 포함) |
+| 이미지, 그림, 사진, 그려줘 | 이미지생성 | **JSON 구조 기본** |
+| 영상, 동영상, 비디오, 클립 | 동영상생성 | **JSON 구조 기본** |
 | 코드, 코딩, 개발, 프로그램 | 코딩/개발 | XML |
 | 글, 작성, 블로그, 기사 | 글쓰기/창작 | Markdown + 자연어 |
 | 분석, 데이터, 통계, 비교 | 분석/리서치 | XML |
@@ -79,13 +75,193 @@ $ARGUMENTS
 | 조사, 리서치, 찾아줘 | 리서치/조사 | XML |
 | 수학, 계산, 풀이, 증명 | 수학/논리 | Markdown + 자연어 |
 
-**출력 형식 상세:**
+---
 
-| 출력 형식 | 적용 목적 | 이유 |
-|----------|----------|------|
-| **XML** | 코딩, 분석, 에이전트, 팩트체크, 리서치 | 섹션 구분, 제약조건 명시, GPT-5.2 최적화 |
-| **Markdown + 자연어** | 글쓰기/창작, 수학/논리 | 창의성 발현, 단계별 사고 |
-| **JSON 구조 기본** | 이미지/동영상 생성 | 일관성, 배치 처리, 속성 명확화 (유연한 부분만 자연어) |
+### Step 1.5: 🎯 AskUserQuestion으로 옵션 수집 (Claude Code 전용)
+
+**CRITICAL: Claude Code에서는 반드시 `AskUserQuestion` 도구를 사용하여 사용자에게 옵션을 물어봅니다.**
+
+목적이 감지되면, 해당 목적에 맞는 옵션을 `AskUserQuestion` 도구로 질문합니다.
+
+#### 🖼️ 이미지 생성 시 질문
+
+```
+AskUserQuestion 호출:
+- question: "이미지 스타일을 선택해주세요"
+  header: "스타일"
+  options:
+    - label: "사진풍 (Recommended)"
+      description: "실제 사진처럼 사실적인 이미지"
+    - label: "일러스트"
+      description: "만화/애니메이션 스타일"
+    - label: "3D 렌더링"
+      description: "3D 그래픽 스타일"
+    - label: "수채화/유화"
+      description: "전통 회화 스타일"
+
+- question: "이미지 비율을 선택해주세요"
+  header: "비율"
+  options:
+    - label: "1:1 (Recommended)"
+      description: "정사각형 - SNS, 프로필"
+    - label: "16:9"
+      description: "와이드 - 유튜브, 배너"
+    - label: "9:16"
+      description: "세로 - 스토리, 릴스"
+    - label: "4:3"
+      description: "표준 - PPT, 사진"
+
+- question: "조명 스타일을 선택해주세요"
+  header: "조명"
+  options:
+    - label: "자연광 (Recommended)"
+      description: "자연스러운 햇빛/실내광"
+    - label: "스튜디오"
+      description: "전문 촬영 조명"
+    - label: "골든아워"
+      description: "황금빛 일출/일몰"
+    - label: "네온/드라마틱"
+      description: "강렬한 색상 조명"
+```
+
+#### 🎬 동영상 생성 시 질문
+
+```
+AskUserQuestion 호출:
+- question: "동영상 스타일을 선택해주세요"
+  header: "스타일"
+  options:
+    - label: "시네마틱 (Recommended)"
+      description: "영화같은 고퀄리티 영상"
+    - label: "다큐멘터리"
+      description: "현실적인 다큐 스타일"
+    - label: "애니메이션"
+      description: "만화/애니 스타일"
+    - label: "뮤직비디오"
+      description: "빠른 컷, 역동적"
+
+- question: "동영상 길이를 선택해주세요"
+  header: "길이"
+  options:
+    - label: "5초 (Recommended)"
+      description: "짧은 클립, SNS용"
+    - label: "10초"
+      description: "중간 길이"
+    - label: "30초"
+      description: "긴 영상"
+
+- question: "카메라 워크를 선택해주세요"
+  header: "카메라"
+  options:
+    - label: "고정샷 (Recommended)"
+      description: "안정적인 고정 촬영"
+    - label: "패닝"
+      description: "좌우로 천천히 이동"
+    - label: "줌인/줌아웃"
+      description: "확대/축소 효과"
+    - label: "트래킹샷"
+      description: "피사체 따라 이동"
+```
+
+#### 💻 코딩/개발 시 질문
+
+```
+AskUserQuestion 호출:
+- question: "타겟 AI 모델을 선택해주세요"
+  header: "AI 모델"
+  options:
+    - label: "Claude Opus 4.5 (Recommended)"
+      description: "코딩 1위, 에이전트 최적"
+    - label: "GPT-5.2"
+      description: "수학/논리 강점"
+    - label: "Gemini 3 Pro"
+      description: "멀티모달 강점"
+
+- question: "프롬프트 상세도를 선택해주세요"
+  header: "상세도"
+  options:
+    - label: "상세 (Recommended)"
+      description: "구조화된 XML 프롬프트"
+    - label: "보통"
+      description: "1-2문단 수준"
+    - label: "간결"
+      description: "3-5문장 핵심만"
+```
+
+#### ✍️ 글쓰기/창작 시 질문
+
+```
+AskUserQuestion 호출:
+- question: "글쓰기 스타일을 선택해주세요"
+  header: "스타일"
+  options:
+    - label: "전문적/공식적 (Recommended)"
+      description: "비즈니스, 리포트용"
+    - label: "친근한/대화체"
+      description: "블로그, SNS용"
+    - label: "창의적/문학적"
+      description: "스토리, 에세이용"
+
+- question: "글 분량을 선택해주세요"
+  header: "분량"
+  options:
+    - label: "중간 (Recommended)"
+      description: "1-2문단, 500자 내외"
+    - label: "짧은"
+      description: "3-5문장"
+    - label: "긴"
+      description: "여러 문단, 1000자+"
+```
+
+#### 🔍 분석/리서치 시 질문
+
+```
+AskUserQuestion 호출:
+- question: "분석 깊이를 선택해주세요"
+  header: "깊이"
+  options:
+    - label: "심층 분석 (Recommended)"
+      description: "상세한 데이터 분석"
+    - label: "요약 분석"
+      description: "핵심만 빠르게"
+    - label: "비교 분석"
+      description: "여러 항목 비교"
+
+- question: "출력 형식을 선택해주세요"
+  header: "형식"
+  options:
+    - label: "표/테이블 (Recommended)"
+      description: "데이터 정리에 최적"
+    - label: "글머리 목록"
+      description: "항목별 나열"
+    - label: "서술형"
+      description: "문장으로 설명"
+```
+
+#### 🤖 에이전트/자동화 시 질문
+
+```
+AskUserQuestion 호출:
+- question: "에이전트 복잡도를 선택해주세요"
+  header: "복잡도"
+  options:
+    - label: "단일 에이전트 (Recommended)"
+      description: "하나의 작업에 집중"
+    - label: "멀티 에이전트"
+      description: "여러 에이전트 협업"
+    - label: "파이프라인"
+      description: "순차적 작업 흐름"
+
+- question: "도구 사용 범위를 선택해주세요"
+  header: "도구"
+  options:
+    - label: "기본 도구 (Recommended)"
+      description: "파일, 검색, 코드 실행"
+    - label: "확장 도구"
+      description: "MCP, API 연동"
+    - label: "최소 도구"
+      description: "텍스트 처리만"
+```
 
 ---
 
@@ -226,6 +402,80 @@ $ARGUMENTS
 
 ---
 
+## 이미지 프롬프트 JSON 구조 (기본 형식)
+
+**단일 이미지:**
+```json
+{
+  "subject": "주제 - 핵심 피사체 설명",
+  "style": "스타일 - 사진풍/일러스트/3D/수채화 등",
+  "mood": "분위기 - 색조, 감정, 톤",
+  "composition": "구도 - 앵글, 프레이밍",
+  "lighting": "조명 - 자연광/스튜디오/골든아워 등",
+  "details": "세부사항 - 추가 디테일 (자연어로 유연하게)",
+  "aspect_ratio": "16:9"
+}
+```
+
+**다중 이미지:**
+```json
+{
+  "shared_style": {
+    "art_style": "공통 스타일",
+    "color_palette": "공통 색상",
+    "aspect_ratio": "16:9"
+  },
+  "images": [
+    { "sequence": 1, "description": "첫 번째 이미지 설명" },
+    { "sequence": 2, "description": "두 번째 이미지 설명" }
+  ]
+}
+```
+
+---
+
+## 동영상 프롬프트 JSON 구조 (기본 형식)
+
+**단일 동영상:**
+```json
+{
+  "subject": "주제 - 핵심 피사체/장면 설명",
+  "action": "동작 - 움직임, 행동, 변화",
+  "style": "스타일 - 시네마틱/다큐멘터리/애니메이션 등",
+  "camera": "카메라 워크 - 패닝/줌인/트래킹샷 등",
+  "audio": {
+    "dialogue": "대화 (따옴표로 표기)",
+    "sfx": "음향효과",
+    "music": "배경음악/환경음"
+  },
+  "duration": "5초/10초/30초",
+  "details": "세부사항 - 추가 디테일 (자연어로 유연하게)",
+  "negative": "제외할 요소 (wall, frame 등)"
+}
+```
+
+**다중 장면:**
+```json
+{
+  "shared_style": {
+    "visual_style": "공통 비주얼 스타일",
+    "color_grade": "색보정 톤",
+    "aspect_ratio": "16:9"
+  },
+  "scenes": [
+    { "sequence": 1, "duration": "5초", "description": "첫 번째 장면 설명", "audio": "..." },
+    { "sequence": 2, "duration": "5초", "description": "두 번째 장면 설명", "audio": "..." }
+  ]
+}
+```
+
+**오디오 표기법:**
+- 대화: '따옴표' 사용 (예: 'Hello, how are you?')
+- 음향효과: 명시적 설명 (예: door creaking, footsteps on gravel)
+- 배경음: 환경 설명 (예: ambient city noise, gentle rain)
+
+---
+
 ## 이미지 비율 가이드
 
 | 비율 | 용도 | 권장 상황 |
@@ -269,8 +519,13 @@ $ARGUMENTS
 
 ## Metadata
 
-- **Version**: 1.5.0
+- **Version**: 1.5.2
 - **Updated**: 2026-01-01
+- **Changes v1.5.2**:
+  - **[MAJOR] AskUserQuestion 옵션 수집 복원**: 모든 프롬프트 생성 시 사용자에게 옵션을 클릭해서 선택하도록 Step 1.5 추가
+  - **목적별 맞춤 질문**: 이미지, 동영상, 코딩, 글쓰기, 분석, 에이전트 각각에 최적화된 질문 세트 정의
+- **Changes v1.5.1**:
+  - **이미지/동영상 JSON 구조 템플릿 추가**: command 파일에 JSON 구조 예시 직접 포함 (동영상 JSON 출력 누락 버그 수정)
 - **Changes v1.5.0**:
   - **[MAJOR] 동영상 프롬프트 JSON 구조화**: 이미지와 동일하게 JSON+자연어 형식 통일
   - **gpt-image 모델명 통일**: GPT Image 1.5/ChatGPT Image → gpt-image로 명칭 통일
