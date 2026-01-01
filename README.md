@@ -79,9 +79,42 @@ prompt-engineering-skills/
 
 ### Claude Code 사용자
 
-스킬 파일을 `.claude/skills/` 디렉토리에 복사:
+#### ⚡ 원클릭 글로벌 설치 (모든 프로젝트에서 사용)
+
+**macOS / Linux:**
+```bash
+git clone https://github.com/tofukyung/prompt-engineering-skills.git /tmp/pes && \
+mkdir -p ~/.claude/skills ~/.claude/commands && \
+cp /tmp/pes/skills/*.md ~/.claude/skills/ && \
+cp /tmp/pes/commands/*.md ~/.claude/commands/ && \
+rm -rf /tmp/pes && \
+echo "✅ 설치 완료! 이제 모든 프로젝트에서 /prompt 사용 가능"
+```
+
+**Windows PowerShell:**
+```powershell
+git clone https://github.com/tofukyung/prompt-engineering-skills.git $env:TEMP\pes; `
+New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.claude\skills", "$env:USERPROFILE\.claude\commands" | Out-Null; `
+Copy-Item "$env:TEMP\pes\skills\*.md" "$env:USERPROFILE\.claude\skills\"; `
+Copy-Item "$env:TEMP\pes\commands\*.md" "$env:USERPROFILE\.claude\commands\"; `
+Remove-Item -Recurse -Force "$env:TEMP\pes"; `
+Write-Host "✅ 설치 완료! 이제 모든 프로젝트에서 /prompt 사용 가능" -ForegroundColor Green
+```
+
+#### 📁 프로젝트별 설치 vs 글로벌 설치
+
+| 설치 위치 | 적용 범위 | 사용 시점 |
+|-----------|-----------|-----------|
+| `~/.claude/` (글로벌) | **모든 프로젝트**에서 사용 가능 | 개인용 도구로 항상 사용 |
+| `.claude/` (프로젝트 폴더) | **해당 프로젝트**에서만 사용 | 팀 공유, 프로젝트 특화 설정 |
+
+**주의**: repo를 포크/클론하면 해당 프로젝트에만 설치됩니다.
+모든 프로젝트에서 사용하려면 위의 **글로벌 설치** 명령어를 실행하세요.
+
+#### 수동 설치 (글로벌)
 
 ```bash
+# 글로벌 설치 (모든 프로젝트에서 사용)
 cp skills/*.md ~/.claude/skills/
 cp commands/*.md ~/.claude/commands/
 ```
@@ -297,9 +330,42 @@ prompt-engineering-skills/
 
 ### For Claude Code Users
 
-Copy skill files to your `.claude/skills/` directory:
+#### ⚡ One-Click Global Install (Use in All Projects)
+
+**macOS / Linux:**
+```bash
+git clone https://github.com/tofukyung/prompt-engineering-skills.git /tmp/pes && \
+mkdir -p ~/.claude/skills ~/.claude/commands && \
+cp /tmp/pes/skills/*.md ~/.claude/skills/ && \
+cp /tmp/pes/commands/*.md ~/.claude/commands/ && \
+rm -rf /tmp/pes && \
+echo "✅ Done! Now you can use /prompt in any project"
+```
+
+**Windows PowerShell:**
+```powershell
+git clone https://github.com/tofukyung/prompt-engineering-skills.git $env:TEMP\pes; `
+New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.claude\skills", "$env:USERPROFILE\.claude\commands" | Out-Null; `
+Copy-Item "$env:TEMP\pes\skills\*.md" "$env:USERPROFILE\.claude\skills\"; `
+Copy-Item "$env:TEMP\pes\commands\*.md" "$env:USERPROFILE\.claude\commands\"; `
+Remove-Item -Recurse -Force "$env:TEMP\pes"; `
+Write-Host "✅ Done! Now you can use /prompt in any project" -ForegroundColor Green
+```
+
+#### 📁 Project vs Global Install
+
+| Install Location | Scope | When to Use |
+|------------------|-------|-------------|
+| `~/.claude/` (global) | **All projects** | Personal tools, always available |
+| `.claude/` (project folder) | **This project only** | Team sharing, project-specific |
+
+**Note**: Forking/cloning the repo only installs to that project.
+Run the **global install** command above to use in all projects.
+
+#### Manual Install (Global)
 
 ```bash
+# Global install (use in all projects)
 cp skills/*.md ~/.claude/skills/
 cp commands/*.md ~/.claude/commands/
 ```
