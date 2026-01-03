@@ -1,8 +1,8 @@
 # Gemini 프롬프트 전략 통합 가이드
 
-> **Version**: 1.0.0 | **Created**: 2025-12-28
-> **Source**: Google AI 공식 문서
-> **Covers**: Gemini 3, Gemini Flash, Veo 3.1, Nano Banana (Pro)
+> **Version**: 1.1.0 | **Created**: 2025-12-28 | **Updated**: 2026-01-03
+> **Source**: Google AI 공식 문서 + @specal1849 Threads 꿀팁
+> **Covers**: Gemini 3, Gemini Flash, Veo 3.1, Nano Banana (Pro), 동적뷰, 노트북LM, 믹스보드
 
 ---
 
@@ -696,6 +696,123 @@ operation = client.models.generate_videos(
 
 ---
 
+## Part 5: 실전 활용 예시 (@specal1849)
+
+> **출처**: @specal1849 (패스트캠퍼스 제미나이 강의자)의 Threads 꿀팁 모음
+> **추가일**: 2026-01-03
+
+### 5.1 동적뷰 (Dynamic View)
+
+> Gemini 3 출시와 함께 공식 지원되는 동적뷰 기능. 간단한 입력만으로 인터랙티브한 결과물 생성.
+
+#### 사용 방법
+```
+제미나이 접속 → 도구 → 동적뷰 선택 → 프롬프트 입력
+```
+
+#### 바로 사용 가능한 프롬프트 3선
+
+**프롬프트 1: 여행 계획 (표 형식)**
+```
+후쿠오카 2박 3일 효도 여행 코스를 짜줘.
+부모님 체력을 고려해서 여유로운 일정으로 잡고,
+맛집과 관광지를 포함해서 시간대별로 표로 정리해줘
+```
+
+**프롬프트 2: 파이썬 데이터 시각화**
+```
+파이썬을 사용하여 2025년 가상의 월별 매출 데이터를 생성하고,
+이를 막대 그래프와 꺾은선 그래프로 시각화하는 대시보드 코드를 작성해줘.
+```
+
+**프롬프트 3: 블로그 글쓰기**
+```
+요즘 유행하는 '두바이 초콜릿' 먹어본 후기 블로그 글 써줘.
+서론-본론-결론으로 나누고, 사람들이 검색할 만한 해시태그도 달아줘.
+말투는 친근하고 재밌게.
+```
+
+> 💡 **Tip**: 1분이면 따라할 수 있어요! 파이썬 한글 폰트도 자동 처리됨
+
+### 5.2 노트북LM PPT 생성
+
+> NotebookLM에 공식적으로 **프레젠테이션과 인포그래픽** 기능 추가됨. 나노바나나2 기반으로 디자인과 가시성이 뛰어남.
+
+#### 슬라이드 맞춤설정 2가지
+
+| 유형 | 특징 | 용도 |
+|------|------|------|
+| **자세한 자료** (Detailed) | 전체 텍스트와 세부 정보 포함 | 이메일 공유, 단독 읽기용 |
+| **발표자 슬라이드** (Presenter) | 핵심 내용만 깔끔하게 | 임원 발표, IR 프레젠테이션 |
+
+#### 스타일 프롬프트 예시
+
+**강의용 슬라이드:**
+```
+단계별 안내에 중점을 둔 대담하고 재미있는 스타일의 초보자용 자료 만들어줘
+```
+
+**IR 발표용:**
+```
+임원발표용 IR 블루 스타일로 전문적이고 깔끔한 프레젠테이션 만들어줘
+```
+
+#### ⚠️ 한국어 깨짐 해결
+
+| 문제 | 원인 | 해결책 |
+|------|------|--------|
+| 한글 깨짐 | 나노바나나2 글자수 제한 | **200~300자 이하**로 유지 |
+| 장문 텍스트 오류 | 300자 초과 시 깨짐 | 짧은 문장으로 분리 |
+
+### 5.3 믹스보드 (Mixboard)
+
+> 구글 믹스보드가 한국에 상륙! 나노바나나 기반의 이미지 합성 및 스타일 변경 도구.
+
+#### 핵심 기능
+
+| 기능 | 설명 |
+|------|------|
+| **스타일 변경** | 다양한 아트 스타일 적용 |
+| **이미지 합성** | 나노바나나 기반 합성 |
+| **양산 가능** | PPT, 포스터 등 대량 제작 |
+
+> 💡 **Tip**: PPT 제작에 특히 유용. 고점이 높은 서비스 (숙련도에 따라 결과 차이)
+
+### 5.4 만화 제작 프롬프트
+
+> 나노바나나2로 AI 만화 제작 가능. 상세 내용은 **image-prompt-guide** 스킬 참조.
+
+#### 핵심 태그 요약
+
+```
+monochrome           → 흑백 톤
+manga style          → 일본 만화 스타일
+screentone           → 스크린톤 효과
+multiple panels      → 여러 패널 구성
+speech bubble        → 말풍선 포함
+action lines         → 액션 효과선
+```
+
+#### 4컷 만화 예시
+```
+A 4-panel manga comic, monochrome style with screentone,
+Panel 1: A cat waking up sleepily
+Panel 2: Cat sees empty food bowl, shocked expression
+Panel 3: Cat meowing loudly at owner
+Panel 4: Happy cat eating, speech bubble "Finally!"
+manga style, clean linework, expressive characters
+```
+
+### 5.5 AI 함수 (Google Sheets)
+
+> Gemini 3 출시와 함께 구글 Sheet에 AI 함수 공식 지원 (기존 워크스페이스 전용 → 일반 사용자)
+
+#### 활용 사례
+- **CS 답변 자동 생성**: 함수로 고객 문의 자동 응답
+- **데이터 기반 대시보드형 PPT**: 더미 데이터로 즉시 제작
+
+---
+
 ## 부록: 키워드 치트시트
 
 ### 분위기 (Mood)
@@ -739,11 +856,18 @@ operation = client.models.generate_videos(
 
 ## Metadata
 
-- **Version**: 1.0.0
+- **Version**: 1.1.0
 - **Created**: 2025-12-28
+- **Last Updated**: 2026-01-03
 - **Source Documents**:
   - Google-AI-Gemini-3-프롬프트-전략.md
   - Google-AI-Gemini-Flash-전략.md
   - Google-AI-Veo-프롬프트-전략.md
   - Google-AI-Nano-Banana-프롬프트-전략.md
+  - Gemini-활용법-총집편-specal1849-MOC-2026-01-03.md (NEW)
 - **Original Source**: Google AI 공식 문서 (ai.google.dev)
+- **Changes v1.1.0**:
+  - **[NEW] Part 5: 실전 활용 예시** 추가 (@specal1849 Threads 꿀팁)
+  - 동적뷰 프롬프트 3선 추가
+  - 노트북LM PPT 스타일 프롬프트 추가
+  - 믹스보드, 만화 제작, AI 함수 섹션 추가
