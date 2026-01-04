@@ -893,8 +893,10 @@ AI: 최종 프롬프트 출력 + 5가지 선택지 (Step 3으로 복귀)
 
 ## Metadata
 
-- **Version**: 1.8.0
-- **Updated**: 2026-01-01
+- **Version**: 1.8.1
+- **Updated**: 2026-01-03
+- **Changes v1.8.1**:
+  - **스킬 파일 업데이트 반영**: gemini-prompt-strategies.md v1.1.0 (Gemini 실제 사용 예시 @specal1849), image-prompt-guide.md v1.6.0 (만화/코믹 스타일 추가)
 - **Changes v1.8.0**:
   - **[MAJOR] 동영상 모델 선택 기능 추가**: Veo 3.1, Sora 2, Sora 2 Pro 중 선택 (AskQuestion 첫 번째 질문)
   - **동영상 모델별 생성 길이 비교 테이블 추가**: 기본 길이(확장 미사용), 최대 길이(확장 사용), 해상도 정보
