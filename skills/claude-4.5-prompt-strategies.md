@@ -1,6 +1,6 @@
 # Claude 4.5 프롬프트 전략
 
-> **Version**: 1.0.0 | **Created**: 2025-12-28
+> **Version**: 1.1.0 | **Updated**: 2026-01-05
 > **Source**: Anthropic 공식 문서 (platform.claude.com)
 > **Covers**: Opus 4.5, Sonnet 4.5, Haiku 4.5
 
@@ -385,7 +385,72 @@ Think outside the box! Vary between light/dark themes, different fonts.
 
 ---
 
-## 부록: 핵심 XML 블록 모음
+## Part 12: XML 프롬프트 구조 가이드 (프롬프트 생성용)
+
+> **용도**: 코딩, 에이전트, 분석, 팩트체크 프롬프트 생성 시 참조
+
+### 12.1 기본 XML 구조
+
+```xml
+<system_prompt>
+  <role>역할/페르소나 정의</role>
+
+  <core_instructions>
+    핵심 작업 지시사항
+  </core_instructions>
+
+  <behavior_rules>
+    행동 규칙 및 제약사항
+  </behavior_rules>
+
+  <output_format>
+    출력 형식 지정
+  </output_format>
+</system_prompt>
+```
+
+### 12.2 권장 XML 블록 패턴
+
+| 태그 | 용도 | 사용 상황 |
+|------|------|----------|
+| `<default_to_action>` | 기본 실행 모드 | 에이전트가 적극적으로 행동해야 할 때 |
+| `<do_not_act_before_instructions>` | 보수적 모드 | 정보 수집 후 확인 필요 시 |
+| `<investigate_before_answering>` | 환각 방지 | 코드 분석, 파일 검토 필수 시 |
+| `<use_parallel_tool_calls>` | 병렬 실행 | 독립적 도구 호출 최적화 |
+| `<avoid_excessive_markdown>` | 포맷 제어 | 산문 형태 출력 필요 시 |
+| `<frontend_aesthetics>` | UI 디자인 | 프론트엔드 코드 생성 시 |
+| `<avoid_overengineering>` | 간결함 유지 | 과잉 구현 방지 필요 시 |
+
+### 12.3 코딩/에이전트 XML 예시
+
+```xml
+<system_prompt>
+  <role>전문 소프트웨어 개발자</role>
+
+  <core_instructions>
+    사용자 요청에 따라 코드를 작성하고 개선합니다.
+  </core_instructions>
+
+  <investigate_before_answering>
+    코드를 수정하기 전 반드시 관련 파일을 읽고 이해합니다.
+    확인하지 않은 코드에 대해 추측하지 않습니다.
+  </investigate_before_answering>
+
+  <default_to_action>
+    변경 제안보다 직접 구현을 기본으로 합니다.
+    사용자 의도가 불명확하면 가장 유용한 행동을 추론하여 진행합니다.
+  </default_to_action>
+
+  <output_format>
+    수정된 코드를 코드블록으로 출력합니다.
+    변경 사항을 간략히 요약합니다.
+  </output_format>
+</system_prompt>
+```
+
+---
+
+## 부록: 핵심 XML 블록 전체 목록
 
 ### 적극적 행동 설정
 ```xml
@@ -394,6 +459,15 @@ By default, implement changes rather than only suggesting them.
 If the user's intent is unclear, infer the most useful likely action
 and proceed, using tools to discover any missing details instead of guessing.
 </default_to_action>
+```
+
+### 보수적 행동 설정
+```xml
+<do_not_act_before_instructions>
+Do not jump into implementation unless clearly instructed to make changes.
+When the user's intent is ambiguous, default to providing information,
+doing research, and providing recommendations rather than taking action.
+</do_not_act_before_instructions>
 ```
 
 ### 병렬 도구 호출
@@ -427,12 +501,32 @@ The right amount of complexity is the minimum needed for the current task.
 </avoid_overengineering>
 ```
 
+### 마크다운 제어
+```xml
+<avoid_excessive_markdown>
+When writing reports or long-form content, write in clear, flowing prose.
+Use paragraph breaks for organization. Reserve markdown for inline code,
+code blocks, and simple headings. Avoid **bold**, *italics*, and excessive lists.
+</avoid_excessive_markdown>
+```
+
+### 프론트엔드 미학
+```xml
+<frontend_aesthetics>
+Avoid generic "AI slop" aesthetic. Make creative, distinctive frontends.
+Focus on: Typography, Color & Theme, Motion, Backgrounds.
+Avoid: Overused fonts (Inter, Roboto), clichéd color schemes, predictable layouts.
+</frontend_aesthetics>
+```
+
 ---
 
 ## Metadata
 
-- **Version**: 1.0.0
+- **Version**: 1.1.0
 - **Created**: 2025-12-28
+- **Updated**: 2026-01-05
+- **Changes v1.1.0**: Part 12 "XML 프롬프트 구조 가이드" 섹션 추가, 부록에 보수적 행동/마크다운/프론트엔드 블록 추가
 - **Source Documents**:
   - Claude-4.5-프롬프트-전략.md
 - **Original Source**: Anthropic 공식 문서 (platform.claude.com)

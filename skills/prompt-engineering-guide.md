@@ -59,6 +59,11 @@ GPT-5.2에서 자주 사용하는 XML 태그들:
 | `<uncertainty_and_ambiguity>` | 불확실할 때 행동 규칙 | 분석/리서치 |
 | `<tool_usage_rules>` | 도구 사용 규칙 | 에이전트/자동화 |
 | `<default_to_action>` | 질문 대신 행동 우선 | Claude 에이전트 |
+| `<investigate_before_answering>` | 환각 방지 (코드 탐색 필수) | Claude 코딩/분석 |
+| `<avoid_overengineering>` | 과잉 구현 방지 | Claude 에이전트 |
+| `<frontend_aesthetics>` | UI 디자인 가이드 | Claude 프론트엔드 |
+
+> **Claude 4.5 XML 구조 상세**: `claude-4.5-prompt-strategies.md` 스킬의 Part 12 참조
 
 ---
 
@@ -1524,6 +1529,7 @@ operation = client.models.generate_videos(
 | `ce-context-fundamentals` | 기본 원칙 (시스템 프롬프트 구조화) |
 | `ce-context-optimization` | 최적화 기법 (토큰 효율성) |
 | `gpt-5.2-prompt-enhancement` | GPT-5.2 전용 XML 패턴 상세 |
+| `claude-4.5-prompt-strategies` | Claude 4.5 XML 구조 가이드 (Part 12) |
 | `image-prompt-guide` | 이미지 생성 프롬프트 가이드 (공냥이 @specal1849 자료 기반) |
 | `research-prompt-guide` | 팩트체크/리서치 프롬프트 가이드 (IFCN 원칙 기반) |
 

@@ -113,6 +113,7 @@ at the viewer with large, curious yellow-green eyes..."
   "composition": "구도 - 앵글, 프레이밍",
   "lighting": "조명 - 자연광/스튜디오/골든아워 등",
   "details": "세부사항 - 추가 디테일 (자연어로 유연하게)",
+  "text_language": "Korean",
   "aspect_ratio": "16:9"
 }
 ```
@@ -143,9 +144,35 @@ at the viewer with large, curious yellow-green eyes..."
 
 **유연한 자연어 부분:**
 - `details` 필드: 복잡한 설명, 스토리, 감정 표현에 자연어 사용
-- `description` 필드: 각 이미지별 고유한 장면 설명
+- `prompt` 필드: 각 이미지별 완전한 생성 프롬프트
 
-### 3.4 Markdown 프롬프트 예시
+### 3.4 다중 이미지 JSON 구조
+
+> **필수**: `generation_instruction` 필드로 순차 생성 지시 포함
+
+```json
+{
+  "generation_instruction": "아래 images 배열의 이미지들을 [1/N], [2/N] 형식으로 순차 생성해주세요.",
+  "shared_style": {
+    "art_style": "공통 스타일",
+    "color_palette": "공통 색상",
+    "text_language": "Korean",
+    "aspect_ratio": "16:9"
+  },
+  "images": [
+    { "sequence": 1, "prompt": "완전한 이미지 생성 프롬프트" },
+    { "sequence": 2, "prompt": "완전한 이미지 생성 프롬프트" }
+  ]
+}
+```
+
+**다중 이미지 생성 규칙:**
+- `generation_instruction`: 최상단에 순차 생성 지시 포함 (필수)
+- `shared_style`: 모든 이미지에 적용될 공통 스타일
+- `images[].prompt`: 각 이미지별 완전한 생성 프롬프트 (영어 권장)
+- 순서 표기: [1/4], [2/4], ... 형식으로 진행상황 표시
+
+### 3.5 Markdown 프롬프트 예시
 
 ```markdown
 Create high-quality, vertical layout infographic
@@ -671,6 +698,7 @@ Create high-quality, vertical layout infographic
   "shared_style": {
     "visual_style": "공통 비주얼 스타일",
     "color_grade": "색보정 톤",
+    "text_language": "Korean",
     "aspect_ratio": "16:9"
   },
   "scenes": [
@@ -751,9 +779,11 @@ Create high-quality, vertical layout infographic
 ## Skill Metadata
 
 **Created**: 2025-12-28
-**Version**: 1.6.0
+**Version**: 1.7.0
 **Author**: Claude Code (공냥이(@specal1849)님 자료 기반)
-**Last Updated**: 2026-01-03
+**Last Updated**: 2026-01-05
+**Changes v1.7.0**:
+- **[NEW] 다중 이미지 JSON 구조 추가** (섹션 3.4): `generation_instruction` 필드로 순차 생성 지시 포함, `description`→`prompt` 변경
 **Changes v1.6.0**:
 - **[NEW] 만화/코믹 스타일 섹션 추가** (섹션 7.7): @specal1849 나노바나나2 만화 제작 가이드 통합
 - **만화 제작 태그 추가**: monochrome, screentone, multiple panels, speech bubble, action lines 등

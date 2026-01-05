@@ -250,17 +250,22 @@ AI와 대화하며 프롬프트를 단계별로 최적화합니다.
   "composition": "구도 - 앵글, 프레이밍",
   "lighting": "조명 - 자연광/스튜디오/골든아워 등",
   "details": "세부사항 - 추가 디테일",
+  "text_language": "Korean",
   "aspect_ratio": "16:9"
 }
 ```
 
 **다중 이미지:**
+
+> **필수**: `generation_instruction` 필드로 순차 생성 지시 포함
+
 ```json
 {
-  "shared_style": { "art_style": "공통 스타일", "color_palette": "공통 색상", "aspect_ratio": "16:9" },
+  "generation_instruction": "아래 images 배열의 이미지들을 [1/N], [2/N] 형식으로 순차 생성해주세요.",
+  "shared_style": { "art_style": "공통 스타일", "color_palette": "공통 색상", "text_language": "Korean", "aspect_ratio": "16:9" },
   "images": [
-    { "sequence": 1, "description": "첫 번째 이미지 설명" },
-    { "sequence": 2, "description": "두 번째 이미지 설명" }
+    { "sequence": 1, "prompt": "완전한 이미지 생성 프롬프트" },
+    { "sequence": 2, "prompt": "완전한 이미지 생성 프롬프트" }
   ]
 }
 ```
@@ -277,6 +282,7 @@ AI와 대화하며 프롬프트를 단계별로 최적화합니다.
   "shared_style": {
     "visual_style": "스타일 (cinematic, animation, realistic 등)",
     "color_grade": "색보정 톤",
+    "text_language": "Korean",
     "aspect_ratio": "16:9"
   },
   "scenes": [
@@ -302,13 +308,21 @@ AI와 대화하며 프롬프트를 단계별로 최적화합니다.
 
 ---
 
+## XML 프롬프트 (코딩/에이전트/분석용)
+
+> **적용**: 코딩, 에이전트, 분석, 팩트체크 시 XML 구조 사용
+> **상세 가이드**: `claude-4.5-prompt-strategies.md` 스킬 파일 참조
+
+---
+
 ## ⛔ FINAL REMINDER (최하단 반복 - Lost-in-Middle 방지)
 
 **절대 금지:** 프롬프트 출력 없이 **모든 작업** 바로 실행 금지. 이미지, 동영상, 코드, 글쓰기 등 모든 유형에서 반드시 프롬프트를 코드블록으로 출력 후 선택지 제시. **1번 선택 전까지 작업 실행 금지.**
 
 ---
 
-**Version**: 1.8.1 | **Updated**: 2026-01-03
+**Version**: 1.8.2 | **Updated**: 2026-01-05
+**Changes v1.8.2**: 다중 이미지 JSON 구조 개선 - generation_instruction 필드 추가, description→prompt 변경
 **Changes v1.8.1**: 스킬 파일 업데이트 반영 - gemini-prompt-strategies.md v1.1.0 (Gemini 실제 사용 예시 @specal1849), image-prompt-guide.md v1.6.0 (만화/코믹 스타일 추가)
 **Changes v1.8.0**: 동영상 모델 선택 기능 추가 (Sora 2/Pro/Veo 3.1), 모델별 길이 비교 테이블
 **Changes v1.7.0**: 동영상 스토리보드 워크플로우, 글쓰기 개요 워크플로우, Step 1.7 신설
