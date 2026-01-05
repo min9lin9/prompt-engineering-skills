@@ -524,7 +524,7 @@ AI와 대화하며 프롬프트를 단계별로 최적화합니다.
 
 ```json
 {
-  "generation_instruction": "Generate images ONE AT A TIME in sequence. After completing each image, proceed to the next. Format: [1/N] → generate → [2/N] → generate → ... until all N images are done.",
+  "generation_instruction": "Generate ONLY ONE image per call. Do NOT combine multiple images into one frame. Call the image generator separately for each image: [1/N] → generate single image → [2/N] → generate single image → ...",
   "shared_style": { "art_style": "...", "color_palette": "...", "text_language": "Korean", "aspect_ratio": "16:9" },
   "images": [
     { "sequence": 1, "prompt": "완전한 이미지 생성 프롬프트" },
@@ -559,7 +559,7 @@ AI와 대화하며 프롬프트를 단계별로 최적화합니다.
 
 ```json
 {
-  "generation_instruction": "Generate images ONE AT A TIME in sequence. After completing each image, proceed to the next. Format: [1/N] → generate → [2/N] → generate → ... until all N images are done.",
+  "generation_instruction": "Generate ONLY ONE image per call. Do NOT combine multiple images into one frame. Call the image generator separately for each image: [1/N] → generate single image → [2/N] → generate single image → ...",
   "shared_style": {
     "art_style": "공통 스타일",
     "color_palette": "공통 색상",
@@ -670,7 +670,8 @@ AI와 대화하며 프롬프트를 단계별로 최적화합니다.
 
 ---
 
-**Version**: 1.8.4 | **Updated**: 2026-01-06
+**Version**: 1.8.5 | **Updated**: 2026-01-06
+**Changes v1.8.5**: generation_instruction 명확화 - "ONLY ONE image per call", "Do NOT combine" 명시로 다중 이미지 합성 방지
 **Changes v1.8.3**: 다중 이미지 순차 생성 프로세스 강화 - FINAL REMINDER에 나노바나나2 N회 순차 호출 필수 규칙 추가
 **Changes v1.8.2**: 다중 이미지 JSON 구조 개선 - generation_instruction 필드 추가, description→prompt 변경
 **Changes v1.8.1**: 스킬 파일 업데이트 반영 - gemini-prompt-strategies.md v1.1.0 (Gemini 실제 사용 예시 @specal1849), image-prompt-guide.md v1.6.0 (만화/코믹 스타일 추가)

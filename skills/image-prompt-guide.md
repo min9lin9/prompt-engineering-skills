@@ -152,7 +152,7 @@ at the viewer with large, curious yellow-green eyes..."
 
 ```json
 {
-  "generation_instruction": "Generate images ONE AT A TIME in sequence. After completing each image, proceed to the next. Format: [1/N] → generate → [2/N] → generate → ... until all N images are done.",
+  "generation_instruction": "Generate ONLY ONE image per call. Do NOT combine multiple images into one frame. Call the image generator separately for each image: [1/N] → generate single image → [2/N] → generate single image → ...",
   "shared_style": {
     "art_style": "공통 스타일",
     "color_palette": "공통 색상",
@@ -779,9 +779,11 @@ Create high-quality, vertical layout infographic
 ## Skill Metadata
 
 **Created**: 2025-12-28
-**Version**: 1.7.1
+**Version**: 1.7.2
 **Author**: Claude Code (공냥이(@specal1849)님 자료 기반)
 **Last Updated**: 2026-01-06
+**Changes v1.7.2**:
+- **[FIX] generation_instruction 명확화**: "ONLY ONE image per call", "Do NOT combine multiple images" 명시로 다중 이미지 합성 방지
 **Changes v1.7.1**:
 - **[FIX] generation_instruction 영어로 변환**: 나노바나나 프로 다중 이미지 순차 생성 문제 해결 - "ONE AT A TIME", "in sequence" 명시
 **Changes v1.7.0**:
