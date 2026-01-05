@@ -152,7 +152,7 @@ at the viewer with large, curious yellow-green eyes..."
 
 ```json
 {
-  "generation_instruction": "아래 images 배열의 이미지들을 [1/N], [2/N] 형식으로 순차 생성해주세요.",
+  "generation_instruction": "Generate images ONE AT A TIME in sequence. After completing each image, proceed to the next. Format: [1/N] → generate → [2/N] → generate → ... until all N images are done.",
   "shared_style": {
     "art_style": "공통 스타일",
     "color_palette": "공통 색상",
@@ -779,9 +779,11 @@ Create high-quality, vertical layout infographic
 ## Skill Metadata
 
 **Created**: 2025-12-28
-**Version**: 1.7.0
+**Version**: 1.7.1
 **Author**: Claude Code (공냥이(@specal1849)님 자료 기반)
-**Last Updated**: 2026-01-05
+**Last Updated**: 2026-01-06
+**Changes v1.7.1**:
+- **[FIX] generation_instruction 영어로 변환**: 나노바나나 프로 다중 이미지 순차 생성 문제 해결 - "ONE AT A TIME", "in sequence" 명시
 **Changes v1.7.0**:
 - **[NEW] 다중 이미지 JSON 구조 추가** (섹션 3.4): `generation_instruction` 필드로 순차 생성 지시 포함, `description`→`prompt` 변경
 **Changes v1.6.0**:
