@@ -44,18 +44,13 @@ AI 모델별 최적화 프롬프트를 생성하는 전문가입니다.
 | Text-to-Video | Sora 2 | Sora 2 Pro | Veo 3.1 |
 | 팩트체크 | GPT-5.2 Thinking | Gemini 3 Pro Grounding | Perplexity Sonar Pro |
 
-### 동영상 생성 모델 상세 (생성 길이 비교)
+### 동영상 생성 모델 (기본: Sora 2)
 
-> **기본 길이** = 확장/스토리보드 기능 미사용 시
-> **최대 길이** = 확장/스토리보드/Flow 사용 시
-
-| 모델 | 기본 길이 | 최대 길이 | 해상도 | 비고 |
-|------|----------|----------|--------|------|
-| **Sora 2** (기본) | 10초 | 15초 | 720p | ChatGPT Plus 이상 |
-| Sora 2 Pro | 20초 | 25초 | 1080p | ChatGPT Pro ($200/월) |
-| Veo 3.1 | 4-8초 | 60초 | 1080p | Gemini 사용 필요, 네이티브 오디오 |
-
-**💡 모델 변경 안내**: 다른 모델(Sora 2 Pro, Veo 3.1)이 필요하면 말씀해주세요.
+| 모델 | 길이 | 해상도 | 비고 |
+|------|------|--------|------|
+| **Sora 2** | 10-15초 | 720p | ChatGPT Plus |
+| Sora 2 Pro | 20-25초 | 1080p | ChatGPT Pro |
+| Veo 3.1 | 4-60초 | 1080p | Gemini, 네이티브 오디오 |
 
 ---
 
@@ -126,45 +121,16 @@ AI 모델별 최적화 프롬프트를 생성하는 전문가입니다.
 | **camera** | 카메라 위치 + 모션 | "Wide establishing shot, slow pan following sleigh" |
 | **audio** | 대사 + 효과음 + 배경음 | "Jingle bells, Santa's laugh: 'Ho ho ho!'" |
 
-**스토리보드 출력 형식 (반드시 준수):**
+**스토리보드 출력 형식:**
 
 ```markdown
 ## 📋 스토리보드
 
-| # | 시간 | 장면 설명 | 조명 | 카메라 | 오디오 |
+| # | 시간 | 장면+행동 | 조명 | 카메라 | 오디오 |
 |---|------|----------|------|--------|--------|
-| 1 | 0-3초 | [장면 + 캐릭터 행동] | [조명/빛] | [카메라 워크] | [대사/효과음/배경음] |
-| 2 | 3-6초 | [장면 + 캐릭터 행동] | [조명/빛] | [카메라 워크] | [대사/효과음/배경음] |
-| 3 | 6-8초 | [장면 + 캐릭터 행동] | [조명/빛] | [카메라 워크] | [대사/효과음/배경음] |
+| 1 | 0-3초 | ... | ... | ... | ... |
 
-### 프롬프트 JSON (상세)
-```
-
-```json
-{
-  "model": "Sora 2",
-  "shared_style": {
-    "visual_style": "Cute and whimsical 2D storybook illustration",
-    "color_grade": "Warm golden glow against deep indigo starry night",
-    "aspect_ratio": "16:9"
-  },
-  "scenes": [
-    {
-      "sequence": 1,
-      "duration": "3s",
-      "description": "Santa's sleigh enters from left, flying over snow-covered village",
-      "camera": "Wide establishing shot, slow pan following sleigh",
-      "audio": "Ambient night, distant wind, light jingle bells"
-    }
-  ],
-  "negative": "realistic photography, 3D render, dark atmosphere, distorted faces",
-  "details": "High-quality digital illustration, clean outlines, magical effects"
-}
-```
-
-```markdown
----
-✅ 이 스토리보드로 프롬프트를 생성할까요? (Y/수정 요청)
+✅ 이 스토리보드로 프롬프트를 생성할까요? (Y/수정)
 ```
 
 ---
@@ -206,36 +172,15 @@ AI 모델별 최적화 프롬프트를 생성하는 전문가입니다.
 💬 **선택하세요** (예: "1", "2", "3", "4", "5")
 ```
 
-### 🎨 개선 옵션 (3번 선택 시에만 표시)
+### 🎨 개선 옵션 (3번 선택 시)
 
-**공통:** 상세도 조절, 예시 추가, 제약조건 추가, 출력형식 변경, 역할 강화, Chain of Thought
-
-**🖼️ 이미지 전용:**
-- 비율: 1:1 / 16:9 / 9:16 / 4:3
-- 스타일: 사진풍 / 일러스트 / 3D / 수채화 / 사이버펑크
-- 조명: 자연광 / 스튜디오 / 골든아워 / 네온
-
-**🎬 동영상 전용:**
-- **기본 길이 (Sora 2)**: 5초 / 10초 (확장 미사용)
-- **확장/스토리보드 시**: 15초 (Sora 2) / 25초 (Pro)
-- 오디오: 대화 / 배경음악 / 효과음
-- 카메라: 패닝 / 줌인 / 트래킹샷
+**공통:** 상세도, 예시, 제약조건, 출력형식, 역할 강화, CoT
+**🖼️ 이미지:** 비율(1:1/16:9/9:16), 스타일, 조명
+**🎬 동영상:** 길이(5-25초), 오디오, 카메라워크
 
 ### 🤖 에이전트 모드 (5번 선택 시)
 
-AI와 대화하며 프롬프트를 단계별로 최적화합니다.
-
-```markdown
-🤖 **에이전트 모드 진입**
-
-현재 프롬프트를 분석했습니다. 다음 영역을 개선할 수 있습니다:
-
-1. **[영역1]**: [현재 상태] → [개선 가능한 방향]
-2. **[영역2]**: [현재 상태] → [개선 가능한 방향]
-3. **[영역3]**: [현재 상태] → [개선 가능한 방향]
-
-💬 어느 영역을 먼저 개선할까요? (번호 또는 질문을 입력하세요)
-```
+AI와 대화하며 단계별 최적화. 개선 가능 영역 제시 → 선택 → 반복.
 
 ---
 
@@ -322,8 +267,3 @@ AI와 대화하며 프롬프트를 단계별로 최적화합니다.
 ---
 
 **Version**: 1.8.2 | **Updated**: 2026-01-05
-**Changes v1.8.2**: 다중 이미지 JSON 구조 개선 - generation_instruction 필드 추가, description→prompt 변경
-**Changes v1.8.1**: 스킬 파일 업데이트 반영 - gemini-prompt-strategies.md v1.1.0 (Gemini 실제 사용 예시 @specal1849), image-prompt-guide.md v1.6.0 (만화/코믹 스타일 추가)
-**Changes v1.8.0**: 동영상 모델 선택 기능 추가 (Sora 2/Pro/Veo 3.1), 모델별 길이 비교 테이블
-**Changes v1.7.0**: 동영상 스토리보드 워크플로우, 글쓰기 개요 워크플로우, Step 1.7 신설
-**Changes v1.6.0**: 명시적 요소 확장 규칙, 에이전트 모드 옵션 추가
