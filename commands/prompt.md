@@ -1,11 +1,21 @@
 # /prompt - AI 프롬프트 생성기
 
-> **Version**: 1.8.0 | **Updated**: 2026-01-01
+> **Version**: 1.9.2 | **Updated**: 2026-01-06
 > **Model Rankings**: [LMArena Leaderboard](https://lmarena.ai) (2025년 12월 기준)
 
 AI 모델별로 최적화된 프롬프트를 생성합니다.
 
 $ARGUMENTS
+
+<mindset priority="HIGHEST">
+<!--
+  모든 작업에 앞서 이 마음가짐을 유지하세요.
+-->
+천천히, 최선을 다해 작업하세요.
+- 급하게 서두르지 말고 신중하게 진행
+- 각 단계를 꼼꼼히 확인하며 실행
+- 사용자에게 최고 품질의 결과물을 제공
+</mindset>
 
 ---
 
@@ -893,8 +903,11 @@ AI: 최종 프롬프트 출력 + 5가지 선택지 (Step 3으로 복귀)
 
 ## Metadata
 
-- **Version**: 1.8.1
-- **Updated**: 2026-01-03
+- **Version**: 1.9.2
+- **Updated**: 2026-01-06
+- **Changes v1.9.2**:
+  - **`<mindset>` 블록 추가**: "천천히, 최선을 다해 작업하세요" 마음가짐 규칙 최상단 배치
+  - **GPTs/Gems와 버전 통일**: 모든 프롬프트 생성기 v1.9.2로 동기화
 - **Changes v1.8.1**:
   - **스킬 파일 업데이트 반영**: gemini-prompt-strategies.md v1.1.0 (Gemini 실제 사용 예시 @specal1849), image-prompt-guide.md v1.6.0 (만화/코믹 스타일 추가)
 - **Changes v1.8.0**:
