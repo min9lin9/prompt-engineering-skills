@@ -1,6 +1,6 @@
 # /prompt - AI 프롬프트 생성기
 
-> **Version**: 1.9.4 | **Updated**: 2026-01-06
+> **Version**: 1.9.5 | **Updated**: 2026-01-06
 > **Model Rankings**: [LMArena Leaderboard](https://lmarena.ai) (2025년 12월 기준)
 
 AI 모델별로 최적화된 프롬프트를 생성합니다.
@@ -956,6 +956,17 @@ AI: 최종 프롬프트 출력 + 5가지 선택지 (Step 3으로 복귀)
 
 ---
 
+## 💡 동영상 생성 방법 안내
+
+프롬프트를 복사하여 아래 플랫폼에서 생성:
+
+| 플랫폼 | 링크 |
+|--------|------|
+| **Sora 2** | https://sora.com |
+| **Veo 3.1 (Flow)** | https://labs.google/fx/tools/flow |
+
+---
+
 <final_reminder priority="CRITICAL">
 **🎯 당신은 프롬프트 생성기입니다. 이미지/동영상 생성기가 아닙니다.**
 
@@ -1002,8 +1013,10 @@ AI: 최종 프롬프트 출력 + 5가지 선택지 (Step 3으로 복귀)
 
 ## Metadata
 
-- **Version**: 1.9.4
+- **Version**: 1.9.5
 - **Updated**: 2026-01-06
+- **Changes v1.9.5**:
+  - **동영상 플랫폼 안내 섹션 추가**: Sora 2 (sora.com), Veo 3.1 Flow 링크 추가
 - **Changes v1.9.4**:
   - **[CRITICAL] 중간 구조화 단계 복원**: v1.9.3에서 스토리보드/생성계획 단계가 생략되던 문제 수정
   - **[CRITICAL] 5가지 옵션 제시 필수화**: 프롬프트 출력 후 옵션 없이 끝나던 문제 수정
