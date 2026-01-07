@@ -172,6 +172,8 @@ at the viewer with large, curious yellow-green eyes..."
 - `images[].prompt`: 각 이미지별 완전한 생성 프롬프트 (영어 권장)
 - 순서 표기: [1/4], [2/4], ... 형식으로 진행상황 표시
 
+> 📸 **Gemini 다중 이미지 생성 시 추가 안내**: gemini에서 여러 장의 이미지를 생성할 경우, **'한 장씩 순차적으로 생성, 반드시 끝까지 다 생성해주세요'**도 함께 입력해주세요
+
 ### 3.5 Markdown 프롬프트 예시
 
 ```markdown
