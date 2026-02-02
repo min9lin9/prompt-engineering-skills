@@ -778,12 +778,86 @@ Create high-quality, vertical layout infographic
 
 ---
 
+## 17. 슬라이드 이미지 생성
+
+프레젠테이션 슬라이드를 AI 이미지로 생성할 때의 가이드.
+
+> **상세 가이드**: `slide-prompt-guide.md` 스킬 파일 참조
+
+### 17.1 슬라이드 이미지 필수 규칙
+
+| 규칙 | 설명 |
+|------|------|
+| **16:9 비율 필수** | 모든 슬라이드는 와이드스크린 비율 |
+| **shared_style** | 전체 덱에 일관된 스타일 적용 (색상, 타이포, 배경) |
+| **session_id** | 같은 세션 ID로 일관성 유지 |
+| **폰트명 금지** | 시각적 외형으로 설명 ("둥근 산세리프", "굵은 기하학적") |
+| **텍스트 최소화** | 슬라이드당 1 메시지 원칙 |
+| **자체 설명** | 구두 설명 없이 이해 가능하게 |
+
+### 17.2 슬라이드 전용 JSON 구조
+
+```json
+{
+  "generation_instruction": "Generate slide images [1/N], [2/N] in sequence. ONLY ONE image per call.",
+  "shared_style": {
+    "art_style": "[전체 스타일]",
+    "color_palette": "[색상 팔레트 - Hex 코드 포함]",
+    "typography": "[시각적 폰트 설명]",
+    "background": "[배경 텍스처/색상]",
+    "text_language": "Korean",
+    "aspect_ratio": "16:9"
+  },
+  "slides": [
+    {
+      "sequence": 1,
+      "type": "cover",
+      "headline": "[타이틀]",
+      "prompt": "[완전한 이미지 프롬프트 - 배경, 레이아웃, 텍스트 배치, 분위기]"
+    }
+  ]
+}
+```
+
+### 17.3 슬라이드 유형별 이미지 구성
+
+| 유형 | 비주얼 비중 | 텍스트 비중 | 구성 요소 |
+|------|-----------|-----------|----------|
+| Cover | 80% | 20% | 강렬한 비주얼 + 큰 타이틀 |
+| Context | 70% | 30% | 배경 일러스트 + 핵심 질문 |
+| Content | 60% | 40% | 도표/아이콘 + 핵심 포인트 |
+| Data | 50% | 50% | 차트/그래프 + 강조 숫자 |
+| Closing | 75% | 25% | 기억될 이미지 + CTA |
+
+### 17.4 STYLE_INSTRUCTIONS 블록
+
+슬라이드 덱의 비주얼 일관성을 위한 스타일 정의 블록:
+
+```markdown
+<STYLE_INSTRUCTIONS>
+Design Aesthetic: [2-3문장 전체 비주얼 방향]
+Background: [색상 + 텍스처]
+Typography: [시각적 외형 - 폰트명 사용 금지]
+Color Palette: [Primary, Accent 1, Accent 2 - Hex 포함]
+Visual Elements: [그래픽 요소 + 렌더링 가이드]
+Style Rules: Do [가이드라인] / Don't [안티패턴]
+</STYLE_INSTRUCTIONS>
+```
+
+> **27개 비주얼 스타일과 7개 내러티브 모드 상세**: `slide-prompt-guide.md` 참조
+
+---
+
 ## Skill Metadata
 
 **Created**: 2025-12-28
-**Version**: 1.7.2
+**Version**: 1.8.0
 **Author**: Claude Code (공냥이(@specal1849)님 자료 기반)
-**Last Updated**: 2026-01-06
+**Last Updated**: 2026-02-02
+**Changes v1.8.0**:
+- **[NEW] 슬라이드 이미지 생성 섹션 추가** (섹션 17): 16:9 필수, shared_style, session_id, STYLE_INSTRUCTIONS 블록
+- **슬라이드 전용 JSON 구조 추가**: cover/context/content/data/closing 유형별 구성
+- **slide-prompt-guide.md 참조 연결**: 27개 스타일, 7개 내러티브 모드
 **Changes v1.7.2**:
 - **[FIX] generation_instruction 명확화**: "ONLY ONE image per call", "Do NOT combine multiple images" 명시로 다중 이미지 합성 방지
 **Changes v1.7.1**:

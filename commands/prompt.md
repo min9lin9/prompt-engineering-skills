@@ -1,6 +1,6 @@
 # /prompt - AI 프롬프트 생성기
 
-> **Version**: 1.9.6 | **Updated**: 2026-01-06
+> **Version**: 2.0.0 | **Updated**: 2026-02-02
 > **Model Rankings**: [LMArena Leaderboard](https://lmarena.ai) (2025년 12월 기준)
 
 AI 모델별로 최적화된 프롬프트를 생성합니다.
@@ -150,6 +150,7 @@ $ARGUMENTS
 | 팩트체크, 사실 확인, 검증 | 팩트체크 | XML |
 | 조사, 리서치, 찾아줘 | 리서치/조사 | XML |
 | 수학, 계산, 풀이, 증명 | 수학/논리 | Markdown + 자연어 |
+| 슬라이드, PPT, 발표, 프레젠테이션 | 슬라이드생성 | Markdown + JSON |
 
 ---
 
@@ -530,6 +531,60 @@ AskUserQuestion 호출:
       description: "결과를 파일로 출력"
 ```
 
+#### 📊 슬라이드/PPT 생성 시 질문 (4가지)
+
+```
+AskUserQuestion 호출 (questions 배열에 4개 질문):
+[
+  {
+    "question": "슬라이드 비주얼 스타일을 선택해주세요",
+    "header": "스타일",
+    "multiSelect": false,
+    "options": [
+      {"label": "sketch-notes (Recommended)", "description": "손그림 스타일, 교육/튜토리얼에 최적"},
+      {"label": "corporate", "description": "네이비/골드, 투자자 덱/제안서"},
+      {"label": "bold-editorial", "description": "매거진 커버풍, 제품 런칭/키노트"},
+      {"label": "minimal", "description": "울트라 클린, 경영진 브리핑/프리미엄"}
+    ]
+  },
+  {
+    "question": "내러티브 모드를 선택해주세요",
+    "header": "내러티브",
+    "multiSelect": false,
+    "options": [
+      {"label": "없음 (Recommended)", "description": "기본 구조, 대부분의 발표에 적합"},
+      {"label": "one-more-thing", "description": "스티브 잡스 스타일 - 슬라이드당 1메시지"},
+      {"label": "logic-tree", "description": "맥킨지 MECE 구조 - B2B/투자자 덱"},
+      {"label": "toss-direct", "description": "토스 스타일 - 3불릿 이하, 즉각 행동 유도"}
+    ]
+  },
+  {
+    "question": "슬라이드 수를 선택해주세요",
+    "header": "슬라이드 수",
+    "multiSelect": false,
+    "options": [
+      {"label": "8-12장 (Recommended)", "description": "표준 발표, 15-20분 분량"},
+      {"label": "5-8장", "description": "짧은 발표, 엘리베이터 피치"},
+      {"label": "12-20장", "description": "상세 발표, 30분+ 분량"},
+      {"label": "자동 결정", "description": "콘텐츠 분량에 맞게 AI가 결정"}
+    ]
+  },
+  {
+    "question": "대상 청중을 선택해주세요",
+    "header": "청중",
+    "multiSelect": false,
+    "options": [
+      {"label": "일반 대중 (Recommended)", "description": "비전문가, 넓은 청중"},
+      {"label": "경영진/투자자", "description": "C-Level, 의사결정권자"},
+      {"label": "기술팀/개발자", "description": "엔지니어, 기술 전문가"},
+      {"label": "교육/학생", "description": "학습자, 입문자"}
+    ]
+  }
+]
+```
+
+> **참고**: 27개 스타일 전체 목록은 `slide-prompt-guide.md` 참조. "기타"에서 blueprint, chalkboard, dark-tech 등 추가 스타일 지정 가능
+
 ---
 
 ### Step 1.7: 중간 구조화 (필수 - 생략 금지)
@@ -547,6 +602,7 @@ AskUserQuestion 호출:
 | **동영상** | 스토리보드 | ❌ 금지 | 시간순 장면 테이블 + JSON |
 | **다중 이미지** | 생성 계획 (PRD 스타일) | ❌ 금지 | 이미지별 구성 테이블 |
 | **글쓰기/리서치** | 개요 | ❌ 금지 | 섹션별 목록 |
+| **슬라이드/PPT** | 아웃라인 + 이미지 프롬프트 | ❌ 금지 | 슬라이드 테이블 + JSON |
 | **단일 이미지** | (해당 없음) | ✅ 바로 진행 | - |
 | **코딩** | (해당 없음) | ✅ 바로 진행 | - |
 
@@ -612,6 +668,98 @@ AskUserQuestion 호출:
 ```
 
 **사용자 확인 후 → Step 2: 이미지별 프롬프트 생성**
+
+#### 📊 슬라이드/PPT: 아웃라인 + 이미지 프롬프트 생성 (MANDATORY)
+
+**트리거**: 목적 = 슬라이드생성 → **반드시 실행**
+
+> baoyu-slide-deck 워크프로세스 기반 + 기존 prompt skills 강점 결합
+> 상세 스타일/내러티브 정보: `slide-prompt-guide.md` 참조
+
+**자동 수행 (생략 금지):**
+
+**Phase A: 콘텐츠 분석** (baoyu analysis-framework 기반)
+1. 핵심 메시지 1문장 도출 (15자 이내)
+2. 지지 포인트 3-5개 우선순위화
+3. CTA 정의 (청중이 해야 할 것)
+4. 청중 결정 매트릭스 (AskUserQuestion 결과 반영)
+5. 콘텐츠-시각화 매핑 (어떤 내용이 도표/일러스트/아이콘에 적합한지)
+
+**Phase B: 아웃라인 생성** (baoyu outline-template 기반)
+- 커버: 훅 + 부제
+- 컨텍스트: 왜 중요한가 (배경/문제 제기)
+- 본론 1-N: 각각 NARRATIVE GOAL + KEY CONTENT + VISUAL + LAYOUT
+- 클로징: CTA + 기억될 메시지
+
+**Phase C: 스타일 지시 생성** (STYLE_INSTRUCTIONS 패턴)
+- 선택된 스타일의 Design Aesthetic, Color Palette, Typography 외형 설명
+- 내러티브 모드 적용 (선택 시)
+
+**Phase D: 슬라이드별 이미지 프롬프트 JSON 생성**
+- `shared_style` + 개별 slide prompt
+- 16:9 비율 필수, `session_id`로 스타일 일관성 유지
+- 폰트명 사용 금지 → 시각적 외형으로 설명
+
+**기존 prompt skills 강점 적용:**
+- 전문가 3인 토론: 프레젠테이션 전문가 관점으로 아웃라인 검토 (expert-domain-priming.md 참조)
+- CE 체크리스트: U자형 배치 (커버/클로징에 핵심 메시지), 핵심 반복
+- 5가지 선택지: 아웃라인 확인 후 실행/수정/에이전트 모드 선택
+
+**아웃라인 출력 형식:**
+
+```markdown
+## 📋 슬라이드 아웃라인
+
+### 콘텐츠 분석
+- **핵심 메시지**: [1문장]
+- **지지 포인트**: [3-5개]
+- **CTA**: [청중 행동]
+- **스타일**: [선택된 스타일] | **내러티브**: [선택된 모드]
+
+### 슬라이드 구성
+
+| # | 유형 | 헤드라인 | 핵심 내용 | 시각 요소 | 레이아웃 |
+|---|------|---------|----------|----------|---------|
+| 1 | Cover | [훅] | [부제] | [비주얼] | [구도] |
+| 2 | Context | [왜 중요한가] | [배경] | [아이콘/차트] | [구도] |
+| 3 | Content | [메시지1] | [포인트 3개] | [도표/일러스트] | [구도] |
+| ... | Content | [메시지N] | [포인트 3개] | [도표/일러스트] | [구도] |
+| N | Closing | [CTA] | [요약] | [기억될 이미지] | [구도] |
+
+### STYLE_INSTRUCTIONS
+<STYLE_INSTRUCTIONS>
+[Design Aesthetic, Color Palette, Typography 외형, Layout Rules]
+</STYLE_INSTRUCTIONS>
+
+---
+✅ 이 아웃라인으로 이미지 프롬프트를 생성할까요? (Y/수정)
+```
+
+**사용자 확인 후 → Step 2: 슬라이드별 이미지 프롬프트 JSON 생성**
+
+**이미지 프롬프트 JSON 출력 형식:**
+
+```json
+{
+  "session_id": "slides-{topic-slug}-{timestamp}",
+  "shared_style": {
+    "art_style": "[스타일명] - [Design Aesthetic 설명]",
+    "color_palette": "[Color Palette]",
+    "typography_appearance": "[글자 외형 설명 - 폰트명 사용 금지]",
+    "aspect_ratio": "16:9"
+  },
+  "slides": [
+    {
+      "sequence": 1,
+      "type": "cover",
+      "headline": "[훅]",
+      "visual": "[비주얼 설명]",
+      "layout": "[구도]",
+      "prompt": "[완전한 이미지 생성 프롬프트]"
+    }
+  ]
+}
+```
 
 #### ✍️ 글쓰기/리서치: 개요 생성
 
@@ -692,12 +840,13 @@ AskUserQuestion 호출:
 
 **전문가 3인 토론 (간략 진행)**
 
+> `expert-domain-priming.md` 참조하여 **실존 전문가 관점**으로 검토
 > 내부 토론 후 **핵심 결정만 1줄로 표시**: "💡 [적용된 주요 개선점]"
 
 | 역할 | 검토 초점 |
 |------|----------|
 | Expert 1 | CE 원칙, 토큰 효율 |
-| Expert 2 | 내용 정확성, 완전성 |
+| Expert 2 | 해당 도메인 실존 전문가 관점으로 내용 정확성, 전문 용어 검증 |
 | Expert 3 | 최종 결정, 조율 |
 
 ---
@@ -965,6 +1114,8 @@ AI: 최종 프롬프트 출력 + 5가지 선택지 (Step 3으로 복귀)
 | 5 | `gemini-prompt-strategies.md` | Gemini 3, Flash, Veo, Nano Banana 전략 | Gemini 시 |
 | 6 | `image-prompt-guide.md` | 이미지/동영상 생성 가이드 (공냥이 @specal1849) | 이미지/동영상 시 |
 | 7 | `research-prompt-guide.md` | 리서치/팩트체크 가이드 (두부 @tofukyung) | 팩트체크/리서치 시 |
+| 8 | `expert-domain-priming.md` | 전문가 도메인 프라이밍 DB (12도메인, 60+명) | 전문가 활용 시 ✅ |
+| 9 | `slide-prompt-guide.md` | 슬라이드/PPT 프롬프트 가이드 (baoyu 패턴 통합) | 슬라이드 시 ✅ |
 
 ---
 
@@ -1025,8 +1176,15 @@ AI: 최종 프롬프트 출력 + 5가지 선택지 (Step 3으로 복귀)
 
 ## Metadata
 
-- **Version**: 1.9.6
-- **Updated**: 2026-01-06
+- **Version**: 2.0.0
+- **Updated**: 2026-02-02
+- **Changes v2.0.0**:
+  - **[MAJOR] 전문가 도메인 프라이밍 통합**: expert-domain-priming.md 참조, 실존 전문가 관점으로 프롬프트 검토
+  - **[MAJOR] 슬라이드/PPT 생성 워크플로우 추가**: baoyu-slide-deck 패턴 기반 아웃라인 먼저 → 이미지 프롬프트 JSON 생성
+  - **슬라이드 AskUserQuestion 추가**: 비주얼 스타일, 내러티브 모드, 슬라이드 수, 대상 청중 4가지 질문
+  - **Step 1.7 슬라이드 섹션 추가**: 콘텐츠 분석 → 아웃라인 → STYLE_INSTRUCTIONS → 이미지 프롬프트 JSON (4단계)
+  - **참조 스킬 추가**: expert-domain-priming.md (#8), slide-prompt-guide.md (#9)
+  - **전문가 토론 강화**: Expert 2가 실존 전문가 관점으로 도메인 전문 용어 검증
 - **Changes v1.9.6**:
   - **[FIX] Step 3 출력 템플릿에 이미지/동영상 안내 통합**: "💬 선택하세요" 바로 아래에 안내 표시
   - **플랫폼별 안내 명확화**: ChatGPT(gpt-image 자동) / Gemini(좌측 하단 도구)

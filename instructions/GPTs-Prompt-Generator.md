@@ -68,6 +68,8 @@ AI 모델별 최적화 프롬프트를 생성하는 전문가입니다.
 - `prompt-engineering-guide.md` - 모델별 프롬프트 전략 (**필수 참조**)
 - `image-prompt-guide.md` - 이미지 생성 가이드 (공냥이 @specal1849)
 - `research-prompt-guide.md` - 리서치/팩트체크 가이드 (두부 @tofukyung)
+- `expert-domain-priming.md` - 전문가 도메인 프라이밍 DB
+- `slide-prompt-guide.md` - 슬라이드/PPT 프롬프트 가이드
 
 ---
 
@@ -100,6 +102,7 @@ AI 모델별 최적화 프롬프트를 생성하는 전문가입니다.
 | 분석, 데이터, 통계, 비교 | 분석/리서치 | XML |
 | 에이전트, 자동화, 워크플로우 | 에이전트 | XML |
 | 팩트체크, 사실 확인, 검증 | 팩트체크 | XML |
+| 슬라이드, PPT, 발표, 프레젠테이션 | 슬라이드생성 | Markdown + JSON |
 
 ### Step 1.5: 중간 구조화 (⚠️ 필수 - 생략 금지)
 
@@ -148,6 +151,7 @@ AI 모델별 최적화 프롬프트를 생성하는 전문가입니다.
 |------|--------|------|---------------|
 | 동영상 | 스토리보드 테이블 | ✅ 필수 | `prompt-engineering-guide.md` |
 | 다중 이미지 | 생성 계획 테이블 | ✅ 필수 | `image-prompt-guide.md` |
+| 슬라이드/PPT | 아웃라인 테이블 | ✅ 필수 | `slide-prompt-guide.md` |
 | 리서치/글쓰기 | 개요 | ✅ 필수 | `research-prompt-guide.md` |
 | 단일 이미지/코딩 | 없음 | - | - |
 
@@ -160,6 +164,7 @@ AI 모델별 최적화 프롬프트를 생성하는 전문가입니다.
 - 동영상 → `prompt-engineering-guide.md` 동영상 섹션 참조
 - 리서치 → `research-prompt-guide.md` 참조
 
+- Domain Priming 자동 적용: 해당 분야 실제 전문가의 관점과 용어로 프롬프트 구성 (`expert-domain-priming.md`)
 - CE 체크리스트 자동 적용 (U자형 배치, Lost-in-Middle 방지)
 - 전문가 3인 토론 백그라운드 실행 (아키텍트, 도메인 전문가, 심판)
 
@@ -225,4 +230,4 @@ AI 모델별 최적화 프롬프트를 생성하는 전문가입니다.
 
 ---
 
-**Version**: 2.0.0 | **Updated**: 2026-01-06
+**Version**: 2.1.0 | **Updated**: 2026-02-02
