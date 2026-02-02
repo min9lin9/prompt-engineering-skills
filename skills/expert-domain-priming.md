@@ -107,7 +107,7 @@ Godin → Purple Cow, Permission Marketing, Tribe
 ### Step 4: 역할(Role)에 전문가 직접 지명 (CRITICAL)
 
 > **핵심 원칙**: 프롬프트의 `<role>` 블록에 실존 전문가를 직접 지명한다.
-> "~철학을 체화한 전문가" 같은 간접 표현이 아닌, 전문가 본인으로 역할을 설정한다.
+> 간접 표현(예: "~에 정통한 전문가") 대신, 전문가 본인으로 역할을 설정한다.
 
 **정규 패턴:**
 
@@ -130,7 +130,7 @@ Godin → Purple Cow, Permission Marketing, Tribe
 
 **왜 직접 지명이 효과적인가:**
 - 간접 참조보다 **더 강한 잠재 공간 활성화** (MoE 라우팅 시그널이 직접적)
-- **토큰 효율 향상** ("~철학을 체화한 15년 경력의..." vs "당신은 X입니다")
+- **토큰 효율 향상** ("~에 정통한 15년 경력의..." vs "당신은 X입니다")
 - 업계에서 널리 사용되는 검증된 기법
 
 **복수 전문가 조합 (선택):**
@@ -325,19 +325,171 @@ B2B SaaS 시장의 포지셔닝 전략 보고서를 작성하라.
 | **Virginia Satir** | 시스템 치료 | Self-Other-Context, Communication Stances, Congruence |
 | **W. Timothy Gallwey** | 이너 게임 | Self 1/Self 2, Non-judgmental Awareness, Performance Coaching |
 
+### 4.13 공학/엔지니어링
+
+| 전문가 | 전문 분야 | 핵심 용어/프레임워크 |
+|--------|----------|---------------------|
+| **Rodney Brooks** | 로봇공학 | Behavior-Based Robotics, Subsumption Architecture, iRobot, Rethink Robotics |
+| **Sebastian Thrun** | 자율주행/AI 로봇 | Probabilistic Robotics, Google Self-Driving Car, Udacity, SLAM |
+| **Henry Petroski** | 공학 설계/실패 분석 | To Engineer Is Human, Design Paradigm, Success Through Failure |
+| **Frances Arnold** | 유도 진화/화학공학 | Directed Evolution, Nobel Prize Chemistry 2018, Enzyme Engineering |
+| **Burt Rutan** | 항공우주 설계 | SpaceShipOne, Composite Aircraft, Voyager, Private Spaceflight |
+| **Donella Meadows** | 시스템 공학/환경 | Limits to Growth, Systems Thinking, Leverage Points, System Dynamics |
+
+### 4.14 음악/공연예술
+
+| 전문가 | 전문 분야 | 핵심 용어/프레임워크 |
+|--------|----------|---------------------|
+| **Leonard Bernstein** | 지휘/작곡/음악교육 | West Side Story, Young People's Concerts, Musical Pedagogy |
+| **Quincy Jones** | 음악 프로듀싱 | Thriller, Off The Wall, Jazz-Pop Crossover, Film Scoring |
+| **Hans Zimmer** | 영화 음악 작곡 | The Dark Knight, Inception, Interstellar, Orchestral-Electronic Fusion |
+| **Rick Rubin** | 음반 프로듀싱 | Def Jam, Stripped-Down Production, Genre-Crossing, The Creative Act |
+| **Nadia Boulanger** | 음악 교육/작곡 | Pedagogy of Composition, Fontainebleau, Copland/Glass/Jones 멘토 |
+
+### 4.15 시각예술/사진
+
+| 전문가 | 전문 분야 | 핵심 용어/프레임워크 |
+|--------|----------|---------------------|
+| **Annie Leibovitz** | 초상 사진 | Celebrity Portrait, Rolling Stone, Vanity Fair, Theatrical Staging |
+| **Ansel Adams** | 풍경 사진 | Zone System, Large Format, National Parks, Environmental Photography |
+| **David Hockney** | 현대 미술 | Hockney–Falco Thesis, iPad Art, Photomontage, Swimming Pool Series |
+| **Hans Ulrich Obrist** | 현대 미술 큐레이팅 | Serpentine Galleries, Marathon Interviews, Curatorial Practice |
+| **John Berger** | 미술 비평 | Ways of Seeing, Visual Culture Theory, Gaze Critique |
+
+### 4.16 영화/방송/미디어
+
+| 전문가 | 전문 분야 | 핵심 용어/프레임워크 |
+|--------|----------|---------------------|
+| **Walter Murch** | 영화 편집/사운드 디자인 | In the Blink of an Eye, Rule of Six, Sound Design, Apocalypse Now |
+| **Roger Deakins** | 촬영 감독 | Blade Runner 2049, 1917, Digital Color Correction, Natural Lighting |
+| **Syd Field** | 시나리오 작법 | Screenplay, Three-Act Structure, Plot Points, Paradigm |
+| **Sidney Lumet** | 영화 연출 | Making Movies, 12 Angry Men, Character-Driven Direction |
+| **Casey Neistat** | 디지털 콘텐츠 크리에이터 | Vlogging, YouTube Creator, Visual Storytelling, Creator Economy |
+
+### 4.17 요리/식음료
+
+| 전문가 | 전문 분야 | 핵심 용어/프레임워크 |
+|--------|----------|---------------------|
+| **Auguste Escoffier** | 클래식 프랑스 요리 | Le Guide Culinaire, Brigade System, Five Mother Sauces |
+| **Ferran Adrià** | 분자 요리 | El Bulli, Spherification, Culinary Foam, Deconstructivism |
+| **Jiro Ono** | 스시/장인 정신 | Shokunin, Jiro Dreams of Sushi, Perfection Through Repetition |
+| **James Hoffmann** | 커피/바리스타 | World Barista Champion, The World Atlas of Coffee, Specialty Coffee |
+| **Jancis Robinson** | 와인/소믈리에 | The Oxford Companion to Wine, Master of Wine, Wine Education |
+
+### 4.18 스포츠/피트니스
+
+| 전문가 | 전문 분야 | 핵심 용어/프레임워크 |
+|--------|----------|---------------------|
+| **Phil Jackson** | 농구 코칭/리더십 | Triangle Offense, Zen Master, Eleven Rings, Mindful Leadership |
+| **Tim Grover** | 엘리트 트레이닝 | Relentless, Attack Athletics, Mental Toughness, Jordan/Kobe Trainer |
+| **Pep Guardiola** | 축구 전술 | Tiki-Taka, Positional Play, Total Football, Tactical Innovation |
+| **Mark Rippetoe** | 근력 트레이닝 | Starting Strength, Barbell Training, Linear Progression, Compound Lifts |
+| **Tudor Bompa** | 주기화 이론 | Periodization, Macrocycle/Mesocycle/Microcycle, Training Science |
+
+### 4.19 패션/뷰티
+
+| 전문가 | 전문 분야 | 핵심 용어/프레임워크 |
+|--------|----------|---------------------|
+| **Coco Chanel** | 패션 디자인 | Little Black Dress, Chanel No.5, Modernist Fashion, Women's Liberation |
+| **Karl Lagerfeld** | 패션 디자인/브랜딩 | Chanel Creative Director, Fendi, Brand Reinvention, Fashion Sketch |
+| **Bobbi Brown** | 메이크업/뷰티 | Natural Beauty, Bobbi Brown Cosmetics, Jones Road, Beauty Philosophy |
+| **Tim Gunn** | 패션 멘토링/교육 | Project Runway, Make It Work, Fashion Therapy, Parsons |
+| **Diana Vreeland** | 패션 저널리즘/큐레이팅 | Vogue, Harper's Bazaar, "The Eye Has to Travel", Fashion Exhibition |
+
+### 4.20 항공/운송/여행
+
+| 전문가 | 전문 분야 | 핵심 용어/프레임워크 |
+|--------|----------|---------------------|
+| **Chesley Sullenberger** | 항공 안전 | Hudson River Landing, Crew Resource Management, Safety Reliability |
+| **Patrick Smith** | 항공 커뮤니케이션 | Ask the Pilot, Aviation Myth-Busting, Commercial Aviation |
+| **James Reason** | 인적 오류/안전 | Swiss Cheese Model, Human Error, Just Culture, Organizational Accidents |
+| **Rick Steves** | 여행/관광 | Europe Through the Back Door, Cultural Travel, Budget Travel |
+| **Tony Wheeler** | 여행 가이드 | Lonely Planet, Independent Travel, Backpacking Culture |
+
+### 4.21 공공행정/치안/군사
+
+| 전문가 | 전문 분야 | 핵심 용어/프레임워크 |
+|--------|----------|---------------------|
+| **Carl von Clausewitz** | 전쟁 이론 | On War, Fog of War, Friction, Center of Gravity |
+| **Sun Tzu** | 군사 전략 | Art of War, Know Your Enemy, Strategic Advantage, Deception |
+| **David Kilcullen** | 현대 대반란전 | Counterinsurgency, Twenty-Eight Articles, Accidental Guerrilla |
+| **James Mattis** | 군사 리더십 | Call Sign Chaos, Strategic Leadership, Civil-Military Relations |
+| **Robert Peel** | 근대 경찰학 | Peelian Principles, Modern Policing, Policing by Consent |
+
+### 4.22 사회복지/상담/돌봄
+
+| 전문가 | 전문 분야 | 핵심 용어/프레임워크 |
+|--------|----------|---------------------|
+| **Carl Rogers** | 인간중심 상담 | Person-Centered Therapy, Unconditional Positive Regard, Empathy |
+| **Irvin Yalom** | 실존주의 심리치료 | Existential Psychotherapy, Group Therapy, Staring at the Sun |
+| **Jane Addams** | 사회복지/지역사회 | Hull House, Settlement Movement, Nobel Peace Prize, Social Reform |
+| **Brené Brown** | 취약성/회복탄력성 | Daring Greatly, Vulnerability, Shame Resilience, Wholehearted Living |
+| **Marshall Rosenberg** | 비폭력 대화 | Nonviolent Communication (NVC), Compassionate Communication, Needs-Based |
+
+### 4.23 농업/축산/환경
+
+| 전문가 | 전문 분야 | 핵심 용어/프레임워크 |
+|--------|----------|---------------------|
+| **Temple Grandin** | 동물 행동/축산 | Animal Welfare, Livestock Handling, Visual Thinking, Humane Design |
+| **Wes Jackson** | 지속가능 농업 | Land Institute, Perennial Polyculture, New Roots for Agriculture |
+| **Masanobu Fukuoka** | 자연 농법 | One-Straw Revolution, Natural Farming, No-Till, Do-Nothing Farming |
+| **Allan Savory** | 총체적 관리 | Holistic Management, Planned Grazing, Desertification Reversal |
+| **Rachel Carson** | 환경과학 | Silent Spring, Environmental Movement, Pesticide Critique, Ecology |
+
+### 4.24 건축/인테리어/부동산
+
+| 전문가 | 전문 분야 | 핵심 용어/프레임워크 |
+|--------|----------|---------------------|
+| **Frank Lloyd Wright** | 유기적 건축 | Organic Architecture, Fallingwater, Usonian Houses, Prairie Style |
+| **Tadao Ando** | 미니멀리즘 건축 | Church of Light, Concrete, Critical Regionalism, Natural Light |
+| **Christopher Alexander** | 패턴 언어 | A Pattern Language, Timeless Way of Building, Human-Centered Design |
+| **Zaha Hadid** | 해체주의 건축 | Parametric Design, Fluid Forms, Deconstructivism, MAXXI |
+| **Kelly Wearstler** | 인테리어 디자인 | Maximalist Design, Material Honesty, Hotel Design, Texture Layering |
+
+### 4.25 언어/통번역
+
+| 전문가 | 전문 분야 | 핵심 용어/프레임워크 |
+|--------|----------|---------------------|
+| **Noam Chomsky** | 언어학 이론 | Generative Grammar, Universal Grammar, Deep/Surface Structure |
+| **Eugene Nida** | 번역 이론 | Dynamic Equivalence, Functional Equivalence, Bible Translation |
+| **Lawrence Venuti** | 번역학/문화 | Foreignization, Domestication, Translator's Invisibility |
+| **David Crystal** | 영어학/언어 | Cambridge Encyclopedia of Language, Language Death, Internet Linguistics |
+| **Mona Baker** | 번역학 | In Other Words, Translation Universals, Narrative Theory in Translation |
+
+### 4.26 인사/조직관리
+
+| 전문가 | 전문 분야 | 핵심 용어/프레임워크 |
+|--------|----------|---------------------|
+| **Dave Ulrich** | HR 전략 | HR Business Partner, HR Competencies, Victory Through Organization |
+| **Patty McCord** | 조직문화 | Netflix Culture Deck, Freedom & Responsibility, Powerful |
+| **Laszlo Bock** | 데이터 기반 HR | Work Rules!, People Analytics, Google People Operations |
+| **Edgar Schein** | 조직문화 이론 | Three Levels of Culture, Psychological Safety, Humble Inquiry |
+| **Marcus Buckingham** | 강점 기반 관리 | StrengthsFinder, First Break All the Rules, Strength-Based Management |
+
+### 4.27 물류/무역/관세
+
+| 전문가 | 전문 분야 | 핵심 용어/프레임워크 |
+|--------|----------|---------------------|
+| **Yossi Sheffi** | 공급망 회복력 | MIT CTL, Resilient Enterprise, Logistics Clusters, Supply Chain Risk |
+| **Hau Lee** | 공급망 관리 | Bullwhip Effect, Triple-A Supply Chain, Stanford Global SCM Forum |
+| **Martin Christopher** | 물류학 | Logistics & Supply Chain Management, Agile Supply Chain, Cranfield |
+| **David Simchi-Levi** | 공급망 최적화 | Operations Rules, Supply Chain Design, MIT Operations Research |
+| **Eli Goldratt** | 제약 이론/생산 | Theory of Constraints, The Goal, Critical Chain, Throughput Accounting |
+
 ---
 
 ## 5. 전문가 없을 때 폴백 메커니즘
 
-> **CRITICAL**: DB에 해당 분야 전문가가 없더라도, 반드시 실존 전문가를 찾아서
+> **CRITICAL**: DB에 해당 분야 전문가가 없더라도, **되도록 웹 검색하여** 실존 전문가를 찾아
 > `<role>` 블록에 직접 지명해야 한다. "일반 전문가" 역할로 대체하지 않는다.
+> (일부 일상적 작업은 전문가 특정이 어려울 수 있으나, 그래도 시도할 것)
 
 데이터베이스에 해당 분야 전문가가 없을 경우:
 
-### 방법 1: AI가 전문가를 탐색하여 역할에 적용
+### 방법 1: 되도록 검색하여 전문가를 찾아 역할에 적용
 
 1. 사용자의 작업/입력 프롬프트에서 도메인 식별
-2. 해당 분야의 가장 영향력 있는 전문가 1-2명 탐색
+2. **되도록 웹 검색하여** 해당 분야의 가장 영향력 있는 전문가 1-2명 탐색
 3. 핵심 프레임워크/저서 확인
 4. `<role>당신은 [찾은 전문가]입니다. [프레임워크]에 입각하여 [행동]합니다.</role>` 형식으로 적용
 
