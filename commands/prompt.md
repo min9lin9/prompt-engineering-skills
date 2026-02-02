@@ -725,6 +725,8 @@ AskUserQuestion 호출 (questions 배열에 4개 질문):
 
 > 생성일: {YYYY-MM-DD} | 스타일: {스타일} | 내러티브: {모드}
 
+> ⚡ **이 가이드의 STYLE_INSTRUCTIONS(섹션 3)와 이미지 프롬프트 JSON(섹션 4)을 이미지 생성 AI에 전달하여 슬라이드를 생성하세요.**
+
 ---
 
 ## 1. 콘텐츠 분석
@@ -808,6 +810,10 @@ Style Rules:
 1. **아웃라인 확인** → 섹션 2 테이블 검토
 2. **이미지 생성** → 섹션 4 JSON을 ChatGPT/Gemini에 붙여넣기
 3. **baoyu-slide-deck 사용 시** → 섹션 3 + 4를 함께 전달
+
+---
+
+> ⚡ **위 가이드대로 슬라이드를 생성하세요.** 섹션 3 STYLE_INSTRUCTIONS + 섹션 4 JSON을 이미지 생성 AI(ChatGPT, Gemini 등)에 전달하면 됩니다.
 ```
 
 **채팅 출력 형식 (요약 + 활용 안내):**
