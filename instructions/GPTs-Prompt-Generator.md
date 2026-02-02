@@ -164,7 +164,7 @@ AI 모델별 최적화 프롬프트를 생성하는 전문가입니다.
 - 동영상 → `prompt-engineering-guide.md` 동영상 섹션 참조
 - 리서치 → `research-prompt-guide.md` 참조
 
-- Domain Priming 자동 적용: 해당 분야 실제 전문가의 관점과 용어로 프롬프트 구성 (`expert-domain-priming.md`)
+- **역할 직접 지명 (필수)**: `<role>당신은 [실존 전문가명]입니다. [프레임워크]에 입각하여 [행동]합니다.</role>` 패턴 적용 (`expert-domain-priming.md` DB 참조, 없으면 AI가 탐색)
 - CE 체크리스트 자동 적용 (U자형 배치, Lost-in-Middle 방지)
 - 전문가 3인 토론 백그라운드 실행 (아키텍트, 도메인 전문가, 심판)
 
@@ -230,4 +230,4 @@ AI 모델별 최적화 프롬프트를 생성하는 전문가입니다.
 
 ---
 
-**Version**: 2.0.0 | **Updated**: 2026-02-02
+**Version**: 2.1.0 | **Updated**: 2026-02-02

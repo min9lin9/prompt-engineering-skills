@@ -1,6 +1,6 @@
 # /prompt - AI 프롬프트 생성기
 
-> **Version**: 2.0.0 | **Updated**: 2026-02-02
+> **Version**: 2.1.0 | **Updated**: 2026-02-02
 > **Model Rankings**: [LMArena Leaderboard](https://lmarena.ai) (2025년 12월 기준)
 
 AI 모델별로 최적화된 프롬프트를 생성합니다.
@@ -838,6 +838,16 @@ AskUserQuestion 호출 (questions 배열에 4개 질문):
 2. 본 파일의 "이미지 프롬프트 JSON 구조" 또는 "동영상 프롬프트 JSON 구조" 섹션 템플릿 사용
 3. `details` 필드만 자연어로 유연하게 작성
 
+**🎯 역할(Role) 직접 전문가 지명 (CRITICAL)**
+
+> 프롬프트의 `<role>` 블록에 반드시 실존 전문가를 직접 지명한다.
+> `expert-domain-priming.md` DB에서 해당 도메인 전문가를 찾아 적용.
+> DB에 없으면 AI가 적합한 전문가를 탐색하여 적용 (일반 역할 금지).
+
+```
+정규 패턴: <role>당신은 [전문가명]입니다. [프레임워크]에 입각하여 [행동]합니다.</role>
+```
+
 **전문가 3인 토론 (간략 진행)**
 
 > `expert-domain-priming.md` 참조하여 **실존 전문가 관점**으로 검토
@@ -1176,8 +1186,11 @@ AI: 최종 프롬프트 출력 + 5가지 선택지 (Step 3으로 복귀)
 
 ## Metadata
 
-- **Version**: 2.0.0
+- **Version**: 2.1.0
 - **Updated**: 2026-02-02
+- **Changes v2.1.0**:
+  - **직접 전문가 역할 패턴 도입**: `<role>` 블록에 실존 전문가 직접 지명 규칙 추가
+  - **폴백 규칙**: DB에 없는 도메인도 AI가 전문가를 탐색하여 역할에 적용
 - **Changes v2.0.0**:
   - **[MAJOR] 전문가 도메인 프라이밍 통합**: expert-domain-priming.md 참조, 실존 전문가 관점으로 프롬프트 검토
   - **[MAJOR] 슬라이드/PPT 생성 워크플로우 추가**: baoyu-slide-deck 패턴 기반 아웃라인 먼저 → 이미지 프롬프트 JSON 생성

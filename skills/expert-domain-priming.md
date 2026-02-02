@@ -4,12 +4,12 @@ description: 전문가 도메인 프라이밍 가이드. 실제 전문가 지명
 references:
   - prompt-engineering-guide
   - context-engineering-collection
-version: 1.0.0
+version: 1.1.0
 created: 2026-02-02
 author: Claude Code
 source_credits:
-  - name: 최승준 소장
-    context: "Master Class - 원리를 생각하는 프롬프팅"
+  - name: 최승준 소장님, 노정석
+    context: "Master Class - 원리를 생각하는 프롬프팅", https://erucipe.notion.site/2e3d5c9e7e598053ae93e9ff5951dcaa , https://www.youtube.com/watch?v=Q43tbLNx21A&t=1107s
   - name: 공냥이(@specal1849)
     context: "프롬프트 쿠튀르: 전문가의 AI 활용법"
   - name: erucipe (Notion A-Z)
@@ -104,7 +104,45 @@ Kotler → STP(Segmentation-Targeting-Positioning), Marketing Mix(4P→7P), CLV
 Godin → Purple Cow, Permission Marketing, Tribe
 ```
 
-### Step 4: 프롬프트에 전문가명 + 용어 삽입
+### Step 4: 역할(Role)에 전문가 직접 지명 (CRITICAL)
+
+> **핵심 원칙**: 프롬프트의 `<role>` 블록에 실존 전문가를 직접 지명한다.
+> "~철학을 체화한 전문가" 같은 간접 표현이 아닌, 전문가 본인으로 역할을 설정한다.
+
+**정규 패턴:**
+
+```
+<role>
+  당신은 [실존 전문가명]입니다.
+  [핵심 프레임워크/저서]에 입각하여 [구체적 행동]합니다.
+</role>
+```
+
+**적용 예시:**
+
+| 도메인 | 역할 예시 |
+|--------|----------|
+| 코딩 | `당신은 Robert C. Martin입니다. SOLID 원칙과 Clean Architecture에 입각하여 코드를 리뷰합니다.` |
+| 마케팅 | `당신은 Philip Kotler입니다. STP 프레임워크와 Marketing Mix에 입각하여 시장 전략을 수립합니다.` |
+| UX | `당신은 Don Norman입니다. Human-Centered Design과 Affordance 이론에 입각하여 사용성을 평가합니다.` |
+| 데이터 | `당신은 Edward Tufte입니다. Data-Ink Ratio와 Analytical Design 원칙에 입각하여 시각화를 설계합니다.` |
+| 글쓰기 | `당신은 William Zinsser입니다. On Writing Well의 원칙에 입각하여 간결하고 명료한 글을 작성합니다.` |
+
+**왜 직접 지명이 효과적인가:**
+- 간접 참조보다 **더 강한 잠재 공간 활성화** (MoE 라우팅 시그널이 직접적)
+- **토큰 효율 향상** ("~철학을 체화한 15년 경력의..." vs "당신은 X입니다")
+- 업계에서 널리 사용되는 검증된 기법
+
+**복수 전문가 조합 (선택):**
+
+```
+<role>
+  당신은 Martin Fowler와 Robert C. Martin의 관점을 결합한 소프트웨어 아키텍트입니다.
+  Refactoring과 Clean Architecture 원칙에 입각하여 시스템을 설계합니다.
+</role>
+```
+
+**본문에 전문 용어 삽입 (Step 4 보완):**
 
 ```markdown
 ❌ Before: "마케팅 전략 보고서를 잘 써줘"
@@ -291,9 +329,26 @@ B2B SaaS 시장의 포지셔닝 전략 보고서를 작성하라.
 
 ## 5. 전문가 없을 때 폴백 메커니즘
 
+> **CRITICAL**: DB에 해당 분야 전문가가 없더라도, 반드시 실존 전문가를 찾아서
+> `<role>` 블록에 직접 지명해야 한다. "일반 전문가" 역할로 대체하지 않는다.
+
 데이터베이스에 해당 분야 전문가가 없을 경우:
 
-### 방법 1: AI에게 전문가 탐색 요청
+### 방법 1: AI가 전문가를 탐색하여 역할에 적용
+
+1. 사용자의 작업/입력 프롬프트에서 도메인 식별
+2. 해당 분야의 가장 영향력 있는 전문가 1-2명 탐색
+3. 핵심 프레임워크/저서 확인
+4. `<role>당신은 [찾은 전문가]입니다. [프레임워크]에 입각하여 [행동]합니다.</role>` 형식으로 적용
+
+```
+예시: 사용자가 "음향 엔지니어링" 관련 프롬프트 요청
+→ DB에 음향 전문가 없음
+→ AI 탐색: Bob Katz (Mastering Audio), Bobby Owsinski (Mix Engineer's Handbook)
+→ role: "당신은 Bob Katz입니다. Mastering Audio의 원칙에 입각하여..."
+```
+
+**탐색 프롬프트 (내부용):**
 
 ```markdown
 "[특정 분야]의 가장 영향력 있는 연구자/실무가 3명을 추천하라.
@@ -389,7 +444,7 @@ B2B SaaS 시장의 포지셔닝 전략 보고서를 작성하라.
 프롬프트 작성 전 자문:
 
 ```
-□ 전문가 지명: 해당 분야 실제 전문가 1-3명을 지명했는가?
+□ 역할 직접 지명: <role> 블록에 실존 전문가를 직접 지명했는가? (간접 참조 금지)
 □ 전문 용어: 전문가의 프레임워크/이론/용어를 사용했는가?
 □ 범위 지정: 탐색 범위가 명확한가? (도메인, 세부 분야)
 □ 목적 고정: 성공 조건이 정의되어 있는가?
@@ -428,8 +483,12 @@ B2B SaaS 시장의 포지셔닝 전략 보고서를 작성하라.
 
 ## Metadata
 
-- **Version**: 1.0.0
+- **Version**: 1.1.0
 - **Created**: 2026-02-02
+- **Changes v1.1.0**: 직접 전문가 역할 패턴 도입
+  - Step 4: 프롬프트 본문 삽입 → `<role>` 블록 직접 지명으로 강화
+  - 폴백 메커니즘: DB에 없는 도메인도 반드시 전문가 탐색 후 역할에 적용
+  - 체크리스트: 역할 직접 지명 확인 항목 강화
 - **Changes v1.0.0**: 초기 생성
   - 핵심 원칙 (잠재 공간 활성화, 5가지 역할, 금지어 6개)
   - 도메인 프라이밍 5단계 적용법
