@@ -1,6 +1,6 @@
 # /prompt - AI 프롬프트 생성기
 
-> **Version**: 2.1.0 | **Updated**: 2026-02-02
+> **Version**: 2.0.0 | **Updated**: 2026-02-02
 > **Model Rankings**: [LMArena Leaderboard](https://lmarena.ai) (2025년 12월 기준)
 
 AI 모델별로 최적화된 프롬프트를 생성합니다.
@@ -1186,12 +1186,11 @@ AI: 최종 프롬프트 출력 + 5가지 선택지 (Step 3으로 복귀)
 
 ## Metadata
 
-- **Version**: 2.1.0
+- **Version**: 2.0.0
 - **Updated**: 2026-02-02
-- **Changes v2.1.0**:
+- **Changes v2.0.0**:
   - **직접 전문가 역할 패턴 도입**: `<role>` 블록에 실존 전문가 직접 지명 규칙 추가
   - **폴백 규칙**: DB에 없는 도메인도 AI가 전문가를 탐색하여 역할에 적용
-- **Changes v2.0.0**:
   - **[MAJOR] 전문가 도메인 프라이밍 통합**: expert-domain-priming.md 참조, 실존 전문가 관점으로 프롬프트 검토
   - **[MAJOR] 슬라이드/PPT 생성 워크플로우 추가**: baoyu-slide-deck 패턴 기반 아웃라인 먼저 → 이미지 프롬프트 JSON 생성
   - **슬라이드 AskUserQuestion 추가**: 비주얼 스타일, 내러티브 모드, 슬라이드 수, 대상 청중 4가지 질문

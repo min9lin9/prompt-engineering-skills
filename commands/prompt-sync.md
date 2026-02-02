@@ -1,6 +1,6 @@
 # /prompt-sync - 프롬프트 생성기 통합 업데이트 에이전트
 
-> **Version**: 1.0.0 | **Updated**: 2026-01-01
+> **Version**: 2.0.0 | **Updated**: 2026-02-02
 > **Source**: [prompt-engineering-skills](https://github.com/tofukyung/prompt-engineering-skills)
 
 GitHub 레포에서 최신 스킬 및 명령어를 가져와 로컬 Claude 환경에 자동 동기화합니다.
@@ -245,4 +245,5 @@ Write-Host "✅ 동기화 완료!" -ForegroundColor Green
 
 | 버전 | 날짜 | 변경 내용 |
 |------|------|----------|
+| 2.0.0 | 2026-02-02 | 버전 번호 사용자 확인 규칙 추가 |
 | 1.0.0 | 2026-01-01 | 초기 릴리즈: 자동 동기화, 백업, 크로스 플랫폼 지원 |

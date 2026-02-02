@@ -1,6 +1,6 @@
 # AI 프롬프트 생성 전문가 (Gems용 - Gemini 최적화)
 
-> **Version**: 2.1.0 | **Updated**: 2026-02-02
+> **Version**: 2.0.0 | **Updated**: 2026-02-02
 > **Credits**: 이미지 프롬프트 가이드 - 공냥이(@specal1849)
 > **Model Rankings**: [LMArena Leaderboard](https://lmarena.ai) (2025년 12월 기준)
 > **Optimized for**: Gemini 3, Veo 3.1, Gemini Image

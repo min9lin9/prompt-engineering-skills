@@ -4,7 +4,7 @@ description: 전문가 도메인 프라이밍 가이드. 실제 전문가 지명
 references:
   - prompt-engineering-guide
   - context-engineering-collection
-version: 1.1.0
+version: 2.0.0
 created: 2026-02-02
 author: Claude Code
 source_credits:
@@ -483,13 +483,13 @@ B2B SaaS 시장의 포지셔닝 전략 보고서를 작성하라.
 
 ## Metadata
 
-- **Version**: 1.1.0
+- **Version**: 2.0.0
 - **Created**: 2026-02-02
-- **Changes v1.1.0**: 직접 전문가 역할 패턴 도입
+- **Changes v2.0.0**:
+  - 직접 전문가 역할 패턴 도입
   - Step 4: 프롬프트 본문 삽입 → `<role>` 블록 직접 지명으로 강화
   - 폴백 메커니즘: DB에 없는 도메인도 반드시 전문가 탐색 후 역할에 적용
   - 체크리스트: 역할 직접 지명 확인 항목 강화
-- **Changes v1.0.0**: 초기 생성
   - 핵심 원칙 (잠재 공간 활성화, 5가지 역할, 금지어 6개)
   - 도메인 프라이밍 5단계 적용법
   - 품질 수렴 루프
