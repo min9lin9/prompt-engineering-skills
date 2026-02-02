@@ -715,6 +715,9 @@ AskUserQuestion 호출 (questions 배열에 4개 질문):
 2. **파일 경로**: `slide-prompt-{주제슬러그}-{YYYYMMDD}.md` (현재 작업 디렉토리)
 3. **채팅에는 요약만 표시** + 파일 경로 안내
 
+> ⛔ **필수**: 섹션 3 STYLE_INSTRUCTIONS (Hex 색상, 타이포그래피 외형, 비주얼 요소 포함) + 섹션 4 이미지 프롬프트 JSON (슬라이드별 완전한 프롬프트)이 **반드시 포함**되어야 함.
+> 아웃라인만 있고 디자인 가이드/이미지 프롬프트가 없는 파일은 **불완전**.
+
 **Write 도구로 생성할 md 파일 구조:**
 
 ```markdown
@@ -747,7 +750,29 @@ AskUserQuestion 호출 (questions 배열에 4개 질문):
 ## 3. STYLE_INSTRUCTIONS
 
 <STYLE_INSTRUCTIONS>
-[Design Aesthetic, Color Palette, Typography 외형, Layout Rules]
+Design Aesthetic: [2-3문장 전체 비주얼 방향]
+
+Background:
+  Color: [이름] ([Hex])
+  Texture: [설명]
+
+Typography:
+  Primary: [시각적 외형 설명 - 폰트명 사용 금지]
+  Secondary: [시각적 외형 설명]
+
+Color Palette:
+  Primary Text: [이름] ([Hex]) - [용도]
+  Background: [이름] ([Hex]) - [용도]
+  Accent 1: [이름] ([Hex]) - [용도]
+  Accent 2: [이름] ([Hex]) - [용도]
+
+Visual Elements:
+  - [요소 1 + 렌더링 가이드]
+  - [요소 2 + 렌더링 가이드]
+
+Style Rules:
+  Do: [가이드라인]
+  Don't: [안티패턴]
 </STYLE_INSTRUCTIONS>
 
 ---
