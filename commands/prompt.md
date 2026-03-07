@@ -1,7 +1,7 @@
 # /prompt - AI 프롬프트 생성기
 
-> **Version**: 2.0.0 | **Updated**: 2026-02-02
-> **Model Rankings**: [LMArena Leaderboard](https://lmarena.ai) (2025년 12월 기준)
+> **Version**: 2.1.0 | **Updated**: 2026-03-08
+> **Model Rankings**: [LMArena Leaderboard](https://lmarena.ai) (2026년 3월 기준)
 
 AI 모델별로 최적화된 프롬프트를 생성합니다.
 
@@ -90,13 +90,13 @@ $ARGUMENTS
 
 | 목적 | 1순위 | 2순위 | 3순위 |
 |------|-------|-------|-------|
-| **코딩/개발** | Claude Opus 4.5 | GPT-5.2 | Gemini 3 Pro |
-| **수학/논리** | GPT-5.2 | Gemini 3 Flash | Claude Opus 4.5 |
-| **글쓰기/창작** | Gemini 3 Pro | Gemini 3 Flash | Claude Opus 4.5 |
-| **종합/분석** | Gemini 3 Pro | Grok 4.1 | Claude Opus 4.5 |
-| **Hard Prompts** | Claude Opus 4.5 | Gemini 3 Pro | Grok 4.1 |
+| **코딩/개발** | Claude Opus 4.6 | GPT-5.2 | Gemini 3 Pro |
+| **수학/논리** | GPT-5.2 | Gemini 3 Flash | Claude Opus 4.6 |
+| **글쓰기/창작** | Gemini 3 Pro | Gemini 3 Flash | Claude Opus 4.6 |
+| **종합/분석** | Gemini 3 Pro | Grok 4.1 | Claude Opus 4.6 |
+| **Hard Prompts** | Claude Opus 4.6 | Gemini 3 Pro | Grok 4.1 |
 | **비전/멀티모달** | Gemini 3 Pro | Gemini 3 Flash | GPT-5.1 |
-| **이미지 생성** | gpt-image (GPT Image 1.5) | Gemini 3 Pro Image | Flux 2 Max |
+| **이미지 생성** | gpt-image (GPT Image 1.5) | Gemini 3.1 Flash Image (NB2) | Gemini 3 Pro Image |
 | **이미지 편집** | gpt-image (ChatGPT) | Gemini 3 Pro Image | Seedream 4.5 |
 | **Text-to-Video** | Veo 3.1 | Sora 2 | Sora 2 Pro |
 | **Image-to-Video** | Veo 3.1 | Wan 2.5 | Kling 2.6 Pro |
@@ -294,7 +294,7 @@ AskUserQuestion 호출 (questions 배열에 4개 질문):
     "header": "AI 모델",
     "multiSelect": false,
     "options": [
-      {"label": "Claude Opus 4.5 (Recommended)", "description": "코딩 1위, 에이전트 최적"},
+      {"label": "Claude Opus 4.6 (Recommended)", "description": "코딩 1위, Adaptive Thinking, 128K output"},
       {"label": "GPT-5.2", "description": "수학/논리 강점"},
       {"label": "Gemini 3 Pro", "description": "멀티모달 강점"}
     ]
@@ -906,8 +906,8 @@ Style Rules:
 
 | 모델 | 필수 블록 |
 |------|----------|
-| GPT-5.2 | `<output_verbosity_spec>` |
-| Claude Opus 4.5 | `<default_to_action>` |
+| GPT-5.2/5.4 | `<output_verbosity_spec>`, `<output_contract>` |
+| Claude Opus 4.6 | `<default_to_action>` (Adaptive Thinking 자동) |
 | Gemini 3 | Constraints 최상단 |
 | 이미지/동영상 | 주제/스타일/분위기 |
 
@@ -1200,9 +1200,9 @@ AI: 최종 프롬프트 출력 + 5가지 선택지 (Step 3으로 복귀)
 |---|--------|------|----------|
 | 1 | `prompt-engineering-guide.md` | 모델별 프롬프트 전략 총괄 | ✅ 필수 |
 | 2 | `context-engineering-collection.md` | CE 원칙 | ✅ 권장 |
-| 3 | `gpt-5.2-prompt-enhancement.md` | GPT-5.2 전용 XML 패턴 | GPT 시 |
-| 4 | `claude-4.5-prompt-strategies.md` | Claude 4.5 에이전트/코딩 전략 | Claude 시 |
-| 5 | `gemini-prompt-strategies.md` | Gemini 3, Flash, Veo, Nano Banana 전략 | Gemini 시 |
+| 3 | `gpt-5.4-prompt-enhancement.md` | GPT-5.2 전용 XML 패턴 | GPT 시 |
+| 4 | `claude-4.6-prompt-strategies.md` | Claude 4.5/4.6 프롬프트 전략 | Claude 시 |
+| 5 | `gemini-3.1-prompt-strategies.md` | Gemini 3, Flash, Veo, Nano Banana 전략 | Gemini 시 |
 | 6 | `image-prompt-guide.md` | 이미지/동영상 생성 가이드 (공냥이 @specal1849) | 이미지/동영상 시 |
 | 7 | `research-prompt-guide.md` | 리서치/팩트체크 가이드 (두부 @tofukyung) | 팩트체크/리서치 시 |
 | 8 | `expert-domain-priming.md` | 전문가 도메인 프라이밍 DB (12도메인, 60+명) | 전문가 활용 시 ✅ |
@@ -1257,7 +1257,7 @@ AI: 최종 프롬프트 출력 + 5가지 선택지 (Step 3으로 복귀)
 → $ARGUMENTS 분석 후 즉시 프롬프트 생성 + 개선 옵션 제시
 
 /prompt Claude로 블로그 글 작성용 프롬프트 만들어줘
-→ Claude Opus 4.5 + 글쓰기 목적으로 즉시 생성 + 개선 옵션 제시
+→ Claude Opus 4.6 + 글쓰기 목적으로 즉시 생성 + 개선 옵션 제시
 
 /prompt 코딩용 프롬프트 만들어줘
 → LMArena 순위 기반 최적 모델로 즉시 생성 + 개선 옵션 제시
@@ -1267,8 +1267,11 @@ AI: 최종 프롬프트 출력 + 5가지 선택지 (Step 3으로 복귀)
 
 ## Metadata
 
-- **Version**: 2.0.0
-- **Updated**: 2026-02-02
+- **Version**: 2.1.0
+- **Updated**: 2026-03-08
+- **Changes v2.1.0**:
+  - **[HIGH] 이미지 생성 모델 순위 업데이트**: NB2 (Gemini 3.1 Flash Image) 2위 추가
+  - **[MEDIUM] 참조 스킬 테이블 업데이트**: Claude 4.5/4.6 설명 반영
 - **Changes v2.0.0**:
   - **직접 전문가 역할 패턴 도입**: `<role>` 블록에 실존 전문가 직접 지명 규칙 추가
   - **폴백 규칙**: DB에 없는 도메인도 AI가 전문가를 탐색하여 역할에 적용
@@ -1296,7 +1299,7 @@ AI: 최종 프롬프트 출력 + 5가지 선택지 (Step 3으로 복귀)
   - **`<mindset>` 블록 추가**: "천천히, 최선을 다해 작업하세요" 마음가짐 규칙 최상단 배치
   - **GPTs/Gems와 버전 통일**: 모든 프롬프트 생성기 v1.9.2로 동기화
 - **Changes v1.8.1**:
-  - **스킬 파일 업데이트 반영**: gemini-prompt-strategies.md v1.1.0 (Gemini 실제 사용 예시 @specal1849), image-prompt-guide.md v1.6.0 (만화/코믹 스타일 추가)
+  - **스킬 파일 업데이트 반영**: gemini-3.1-prompt-strategies.md v1.1.0 (Gemini 실제 사용 예시 @specal1849), image-prompt-guide.md v1.6.0 (만화/코믹 스타일 추가)
 - **Changes v1.8.0**:
   - **[MAJOR] 동영상 모델 선택 기능 추가**: Veo 3.1, Sora 2, Sora 2 Pro 중 선택 (AskQuestion 첫 번째 질문)
   - **동영상 모델별 생성 길이 비교 테이블 추가**: 기본 길이(확장 미사용), 최대 길이(확장 사용), 해상도 정보

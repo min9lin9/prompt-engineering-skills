@@ -851,9 +851,14 @@ Style Rules: Do [가이드라인] / Don't [안티패턴]
 ## Skill Metadata
 
 **Created**: 2025-12-28
-**Version**: 1.8.0
+**Version**: 1.9.0
 **Author**: Claude Code (공냥이(@specal1849)님 자료 기반)
-**Last Updated**: 2026-02-02
+**Last Updated**: 2026-03-08
+**Changes v1.9.0**:
+- **[NEW] NanoBanana2 (Gemini 3.1 Flash Image) 섹션 추가** (섹션 18): NB Pro vs NB2 비교, 서술형 프롬프트 전략, 5요소 프레임워크
+- **NB2 CJK 텍스트 렌더링 팁 추가**: 한국어 텍스트 200-300자 제한
+- **14종 종횡비 테이블 추가**: 극단 비율 포함
+- **Web Search Grounding 활용법 추가**: Google Search 연동 이미지 생성
 **Changes v1.8.0**:
 - **[NEW] 슬라이드 이미지 생성 섹션 추가** (섹션 17): 16:9 필수, shared_style, session_id, STYLE_INSTRUCTIONS 블록
 - **슬라이드 전용 JSON 구조 추가**: cover/context/content/data/closing 유형별 구성

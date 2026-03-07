@@ -1,8 +1,8 @@
 # Gemini 프롬프트 전략 통합 가이드
 
-> **Version**: 1.1.0 | **Created**: 2025-12-28 | **Updated**: 2026-01-03
+> **Version**: 2.0.0 | **Created**: 2025-12-28 | **Updated**: 2026-03-08
 > **Source**: Google AI 공식 문서 + @specal1849 Threads 꿀팁
-> **Covers**: Gemini 3, Gemini Flash, Veo 3.1, Nano Banana (Pro), 동적뷰, 노트북LM, 믹스보드
+> **Covers**: Gemini 3, Gemini Flash, Veo 3.1, Nano Banana (Pro), NanoBanana2 (Gemini 3.1 Flash Image), 동적뷰, 노트북LM, 믹스보드
 
 ---
 
@@ -813,6 +813,159 @@ manga style, clean linework, expressive characters
 
 ---
 
+## Part 6: NanoBanana2 (Gemini 3.1 Flash Image) 프롬프트 전략
+
+> NanoBanana2(NB2)는 Gemini 3.1 Flash 기반의 차세대 이미지 생성 모델로, NB Pro 대비 3-5배 빠르고 37% 저렴합니다. **서술형(narrative) 프롬프트**에 최적화되어 있습니다.
+
+### 6.1 NB2 모델 개요
+
+#### 모델 정보
+- **정식 명칭**: Gemini 3.1 Flash Image (일명 NanoBanana2)
+- **모델 코드**: `gemini-3.1-flash-image-preview`
+- **아키텍처**: Gemini 3.1 Flash 기반 네이티브 이미지 생성
+
+#### NB Pro vs NB2 비교
+
+| 항목 | NB Pro (Gemini 2.5 Flash Image) | NB2 (Gemini 3.1 Flash Image) |
+|------|------|------|
+| **모델 ID** | `gemini-2.5-flash-image` | `gemini-3.1-flash-image-preview` |
+| **속도 (1K)** | 15-20초 | **4-6초** (3-5배 빠름) |
+| **가격 (4K)** | $0.240 | **$0.151** (37% 저렴) |
+| **CJK 텍스트** | 기본 지원 | **우수** (Pro 대비 향상) |
+| **Thinking Mode** | 미지원 | **3단계 조절** |
+| **Web Grounding** | 미지원 | **Google Search 연동** |
+| **종횡비** | 기본 비율 | **14종** (극단 비율 포함) |
+| **참조 이미지** | 제한적 | **최대 14장** |
+| **워터마크** | 기본 | **SynthID + C2PA** |
+
+### 6.2 서술형 프롬프트 전략 (NB2 핵심)
+
+> **NB2의 핵심 차이**: 태그 나열형 프롬프트보다 **서술형(narrative) 프롬프트**가 더 효과적입니다.
+
+```
+❌ NB Pro 스타일 (태그 나열):
+"cat, black, fluffy, sitting, yellow sofa, natural light, bokeh"
+
+✅ NB2 스타일 (서술형):
+"A fluffy black cat sits gracefully on a bright yellow sofa,
+gazing directly at the camera with curious green eyes.
+Soft natural light streams through a nearby window,
+creating a warm, cozy atmosphere with gentle bokeh
+in the background."
+```
+
+### 6.3 5요소 프레임워크 (5-Element Framework)
+
+NB2 프롬프트 작성 시 다음 5요소를 서술형으로 구성:
+
+| 요소 | 설명 | 예시 |
+|------|------|------|
+| **Subject** | 주요 피사체 | "검은 고양이가" |
+| **Action** | 행동/동작 | "노란 소파에 앉아" |
+| **Environment** | 환경/배경 | "창가 옆 거실에서" |
+| **Mood** | 분위기/감정 | "따뜻하고 아늑한 분위기" |
+| **Camera** | 촬영 기법 | "부드러운 자연광, 얕은 심도" |
+
+```
+5요소 조합 예시:
+"A golden retriever puppy (Subject) leaps joyfully through
+a field of wildflowers (Action + Environment), bathed in
+warm golden hour light that creates a dreamy, nostalgic mood (Mood),
+captured with a 85mm portrait lens at f/1.8 creating
+beautiful bokeh (Camera)."
+```
+
+### 6.4 Thinking Mode (3단계)
+
+NB2의 사고 모드를 조절하여 이미지 품질/속도 트레이드오프 제어:
+
+| 모드 | 설명 | 용도 |
+|------|------|------|
+| **Off** | 사고 없이 즉시 생성 | 빠른 반복, 프로토타이핑 |
+| **Balanced** | 기본 사고 | 일반적 사용 (기본값) |
+| **Deep** | 깊은 사고 | 복잡한 구도, 정밀한 텍스트 |
+
+### 6.5 Web Search Grounding
+
+Google Search와 연동하여 최신 정보 기반 이미지 생성:
+
+```
+"2026년 현재 서울 강남역 거리 풍경을 사실적으로 그려줘"
+→ NB2가 Google Search로 최신 정보 조회 후 이미지 생성
+```
+
+### 6.6 CJK 텍스트 렌더링
+
+NB2는 한국어/중국어/일본어 텍스트 렌더링이 Pro 대비 크게 향상:
+
+```
+# 한국어 텍스트 포함 이미지
+"카페 메뉴판. 상단에 '오늘의 커피' 텍스트, 아래에 3가지 음료 목록.
+깔끔한 손글씨 스타일, 크래프트 종이 배경"
+```
+
+**팁**: 텍스트는 200-300자 이하로 유지 (300자 초과 시 깨짐 가능)
+
+### 6.7 14종 종횡비
+
+NB2는 극단적 비율을 포함한 14종 종횡비 지원:
+
+| 비율 | 용도 | 비율 | 용도 |
+|------|------|------|------|
+| 1:1 | 정사각형, SNS | 9:16 | 세로 스토리 |
+| 16:9 | 와이드, 유튜브 | 3:4 | 세로 사진 |
+| 4:3 | 표준 사진 | 2:3 | 포트레이트 |
+| 3:2 | 35mm 필름 | 21:9 | 시네마 와이드 |
+| 4:5 | 인스타그램 | 1:2 | 극세로 |
+| 5:4 | 중형 카메라 | 2:1 | 극와이드 |
+| 9:21 | 극세로 배너 | 1:3 | 북마크 |
+
+### 6.8 참조 이미지 활용 (최대 14장)
+
+NB2는 최대 14장의 참조 이미지를 사용하여 스타일/콘텐츠 안내 가능:
+
+```python
+from google import genai
+
+client = genai.Client()
+
+# NB2로 참조 이미지 기반 생성
+response = client.models.generate_content(
+    model="gemini-3.1-flash-image-preview",
+    contents=[
+        "이 참조 이미지의 스타일로 새로운 풍경 그려줘",
+        reference_image_1,
+        reference_image_2,
+    ],
+    config={"response_modalities": ["IMAGE"]}
+)
+```
+
+### 6.9 NB2 API 통합
+
+```python
+from google import genai
+
+client = genai.Client()
+
+# NB2 기본 사용
+image = client.models.generate_content(
+    model="gemini-3.1-flash-image-preview",
+    contents="서울 남산타워가 보이는 야경, 시네마틱 분위기의 와이드 샷",
+    config={"response_modalities": ["IMAGE"]}
+)
+```
+
+### 6.10 NB2 프롬프트 체크리스트
+
+- [ ] 서술형(narrative)으로 작성했는가? (태그 나열 ❌)
+- [ ] 5요소(Subject/Action/Environment/Mood/Camera)가 포함되었는가?
+- [ ] 한국어 텍스트는 200-300자 이하인가?
+- [ ] 적절한 종횡비가 지정되었는가?
+- [ ] Thinking Mode가 작업에 맞게 설정되었는가?
+
+---
+
 ## 부록: 키워드 치트시트
 
 ### 분위기 (Mood)
@@ -856,16 +1009,28 @@ manga style, clean linework, expressive characters
 
 ## Metadata
 
-- **Version**: 1.1.0
+- **Version**: 2.0.0
 - **Created**: 2025-12-28
-- **Last Updated**: 2026-01-03
+- **Last Updated**: 2026-03-08
 - **Source Documents**:
   - Google-AI-Gemini-3-프롬프트-전략.md
   - Google-AI-Gemini-Flash-전략.md
   - Google-AI-Veo-프롬프트-전략.md
   - Google-AI-Nano-Banana-프롬프트-전략.md
-  - Gemini-활용법-총집편-specal1849-MOC-2026-01-03.md (NEW)
+  - Gemini-활용법-총집편-specal1849-MOC-2026-01-03.md
+  - NanoBanana2 Guide (2026-03)
 - **Original Source**: Google AI 공식 문서 (ai.google.dev)
+- **Changes v2.0.0**:
+  - **[CRITICAL] Part 6: NanoBanana2 전용 섹션 추가**: `gemini-3.1-flash-image-preview` 모델
+  - **[HIGH] 서술형 프롬프트 전략**: 태그 나열 → narrative 방식 전환
+  - **[HIGH] 5요소 프레임워크**: Subject/Action/Environment/Mood/Camera
+  - **[HIGH] NB Pro vs NB2 비교 테이블**: 속도, 가격, 기능 7대 차이
+  - **[MEDIUM] Thinking Mode**: 3단계 조절 (Off/Balanced/Deep)
+  - **[MEDIUM] Web Search Grounding**: Google Search 연동 이미지 생성
+  - **[MEDIUM] CJK 텍스트 렌더링**: Pro 대비 향상, 200-300자 제한
+  - **[MEDIUM] 14종 종횡비**: 극단 비율 포함
+  - **[MEDIUM] 참조 이미지**: 최대 14장 지원
+  - **[MEDIUM] API 통합 코드**: SDK 예시
 - **Changes v1.1.0**:
   - **[NEW] Part 5: 실전 활용 예시** 추가 (@specal1849 Threads 꿀팁)
   - 동적뷰 프롬프트 3선 추가

@@ -55,9 +55,9 @@ prompt-engineering-skills/
 ├── skills/                             # 핵심 스킬 파일
 │   ├── prompt-engineering-guide.md     # 모델별 프롬프트 전략
 │   ├── image-prompt-guide.md           # 이미지 생성 가이드
-│   ├── gpt-5.2-prompt-enhancement.md   # GPT-5.2 전용 패턴
-│   ├── claude-4.5-prompt-strategies.md # Claude 4.5 전용 전략
-│   ├── gemini-prompt-strategies.md     # Gemini/Veo/Nano Banana 전략
+│   ├── gpt-5.4-prompt-enhancement.md   # GPT-5.2 전용 패턴
+│   ├── claude-4.6-prompt-strategies.md # Claude 4.5 전용 전략
+│   ├── gemini-3.1-prompt-strategies.md     # Gemini/Veo/Nano Banana 전략
 │   └── context-engineering-collection.md  # CE 원칙
 │
 ├── commands/                           # Claude Code 커맨드
@@ -352,9 +352,9 @@ prompt-engineering-skills/
 ├── skills/                             # Core skill files
 │   ├── prompt-engineering-guide.md     # Multi-model prompt strategies
 │   ├── image-prompt-guide.md           # Image generation guide
-│   ├── gpt-5.2-prompt-enhancement.md   # GPT-5.2 specific patterns
-│   ├── claude-4.5-prompt-strategies.md # Claude 4.5 specific strategies
-│   ├── gemini-prompt-strategies.md     # Gemini/Veo/Nano Banana strategies
+│   ├── gpt-5.4-prompt-enhancement.md   # GPT-5.2 specific patterns
+│   ├── claude-4.6-prompt-strategies.md # Claude 4.5 specific strategies
+│   ├── gemini-3.1-prompt-strategies.md     # Gemini/Veo/Nano Banana strategies
 │   └── context-engineering-collection.md  # CE principles
 │
 ├── commands/                           # Claude Code commands

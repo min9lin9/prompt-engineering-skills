@@ -74,8 +74,8 @@ AI 모델별 최적화 프롬프트를 생성하는 전문가입니다.
 ---
 
 ## 추천 모델
-- **코딩**: Claude Opus 4.5 > GPT-5.2
-- **이미지**: gpt-image (ChatGPT) / Gemini Image
+- **코딩**: Claude Opus 4.6 > GPT-5.2
+- **이미지**: gpt-image (ChatGPT) / Gemini Image / NanoBanana2 (Gemini 3.1 Flash Image)
 - **동영상**: Sora 2 (10-15초) / Veo 3.1 (최대 60초, 오디오 지원)
 
 ---
@@ -262,7 +262,7 @@ Style Rules: Do/Don't
 
 ## XML 프롬프트
 
-코딩/에이전트/분석 시 XML 구조 사용 → `claude-4.5-prompt-strategies.md` 참조
+코딩/에이전트/분석 시 XML 구조 사용 → `claude-4.6-prompt-strategies.md` 참조 (Claude 4.6 Adaptive Thinking + Effort Parameter 포함)
 
 ---
 
@@ -285,4 +285,4 @@ Style Rules: Do/Don't
 
 ---
 
-**Version**: 2.0.0 | **Updated**: 2026-02-02
+**Version**: 2.1.0 | **Updated**: 2026-03-08
