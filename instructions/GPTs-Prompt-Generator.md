@@ -74,9 +74,9 @@ AI 모델별 최적화 프롬프트를 생성하는 전문가입니다.
 ---
 
 ## 추천 모델
-- **코딩**: Claude Opus 4.6 > GPT-5.2
-- **이미지**: gpt-image (ChatGPT) / Gemini Image / NanoBanana2 (Gemini 3.1 Flash Image)
-- **동영상**: Sora 2 (10-15초) / Veo 3.1 (최대 60초, 오디오 지원)
+- **코딩**: Claude Opus 4.6 > GPT-5.4 > Gemini 3.1 Pro
+- **이미지**: NanoBanana2 (Gemini 3.1 Flash Image) / GPT Image 1.5 / gpt-image (ChatGPT)
+- **동영상**: Kling 3.0 (1위) / Grok Imagine Video / Veo 3 / Veo 3.1 (오디오 지원)
 
 ---
 
@@ -285,4 +285,4 @@ Style Rules: Do/Don't
 
 ---
 
-**Version**: 2.1.0 | **Updated**: 2026-03-08
+**Version**: 2.2.0 | **Updated**: 2026-03-08
