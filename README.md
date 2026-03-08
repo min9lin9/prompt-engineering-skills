@@ -55,10 +55,13 @@ prompt-engineering-skills/
 ├── skills/                             # 핵심 스킬 파일
 │   ├── prompt-engineering-guide.md     # 모델별 프롬프트 전략
 │   ├── image-prompt-guide.md           # 이미지 생성 가이드
-│   ├── gpt-5.4-prompt-enhancement.md   # GPT-5.2 전용 패턴
-│   ├── claude-4.6-prompt-strategies.md # Claude 4.5 전용 전략
-│   ├── gemini-3.1-prompt-strategies.md     # Gemini/Veo/Nano Banana 전략
-│   └── context-engineering-collection.md  # CE 원칙
+│   ├── gpt-5.4-prompt-enhancement.md   # GPT-5.4 전용 패턴
+│   ├── claude-4.6-prompt-strategies.md # Claude 4.6 전용 전략
+│   ├── gemini-3.1-prompt-strategies.md # Gemini/Veo/Nano Banana 전략
+│   ├── context-engineering-collection.md  # CE 원칙
+│   ├── expert-domain-priming.md        # 전문 도메인 프라이밍
+│   ├── research-prompt-guide.md        # 검색/리서치 프롬프트 가이드
+│   └── slide-prompt-guide.md           # 슬라이드 프롬프트 가이드
 │
 ├── commands/                           # Claude Code 커맨드
 │   ├── prompt.md                       # /prompt 커맨드
@@ -69,7 +72,7 @@ prompt-engineering-skills/
 │   └── Gems-Prompt-Generator.md        # Gemini Gems용
 │
 └── examples/                           # 사용 예시
-    ├── gpt-5.2-examples.md
+    ├── gpt-5.4-examples.md
     ├── claude-4.5-examples.md
     └── image-generation-examples.md
 ```
@@ -361,8 +364,11 @@ prompt-engineering-skills/
 │   ├── image-prompt-guide.md           # Image generation guide
 │   ├── gpt-5.4-prompt-enhancement.md   # GPT-5.4 specific patterns
 │   ├── claude-4.6-prompt-strategies.md # Claude 4.6 specific strategies
-│   ├── gemini-3.1-prompt-strategies.md     # Gemini/Veo/Nano Banana strategies
-│   └── context-engineering-collection.md  # CE principles
+│   ├── gemini-3.1-prompt-strategies.md # Gemini/Veo/Nano Banana strategies
+│   ├── context-engineering-collection.md  # CE principles
+│   ├── expert-domain-priming.md        # Expert domain priming
+│   ├── research-prompt-guide.md        # Search/research prompt guide
+│   └── slide-prompt-guide.md           # Slide prompt guide
 │
 ├── commands/                           # Claude Code commands
 │   ├── prompt.md                       # /prompt command
@@ -373,7 +379,7 @@ prompt-engineering-skills/
 │   └── Gems-Prompt-Generator.md        # For Gemini Gems
 │
 └── examples/                           # Usage examples
-    ├── gpt-5.2-examples.md
+    ├── gpt-5.4-examples.md
     ├── claude-4.5-examples.md
     └── image-generation-examples.md
 ```
