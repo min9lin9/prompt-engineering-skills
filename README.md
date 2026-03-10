@@ -87,7 +87,7 @@ prompt-engineering-skills/
 
 **macOS / Linux:**
 ```bash
-git clone https://github.com/tofukyung/prompt-engineering-skills.git /tmp/pes && \
+git clone https://github.com/treylom/prompt-engineering-skills.git /tmp/pes && \
 mkdir -p ~/.claude/skills ~/.claude/commands && \
 cp /tmp/pes/skills/*.md ~/.claude/skills/ && \
 cp /tmp/pes/commands/*.md ~/.claude/commands/ && \
@@ -97,7 +97,7 @@ echo "✅ 설치 완료! 이제 모든 프로젝트에서 /prompt 사용 가능"
 
 **Windows PowerShell:**
 ```powershell
-git clone https://github.com/tofukyung/prompt-engineering-skills.git $env:TEMP\pes; `
+git clone https://github.com/treylom/prompt-engineering-skills.git $env:TEMP\pes; `
 New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.claude\skills", "$env:USERPROFILE\.claude\commands" | Out-Null; `
 Copy-Item "$env:TEMP\pes\skills\*.md" "$env:USERPROFILE\.claude\skills\"; `
 Copy-Item "$env:TEMP\pes\commands\*.md" "$env:USERPROFILE\.claude\commands\"; `
@@ -137,7 +137,7 @@ cp commands/*.md ~/.claude/commands/
 
 **macOS / Linux:**
 ```bash
-git clone --depth 1 https://github.com/tofukyung/prompt-engineering-skills.git /tmp/pes-sync && \
+git clone --depth 1 https://github.com/treylom/prompt-engineering-skills.git /tmp/pes-sync && \
 cp /tmp/pes-sync/skills/*.md ~/.claude/skills/ && \
 cp /tmp/pes-sync/commands/*.md ~/.claude/commands/ && \
 rm -rf /tmp/pes-sync && echo "✅ 동기화 완료!"
@@ -145,7 +145,7 @@ rm -rf /tmp/pes-sync && echo "✅ 동기화 완료!"
 
 **Windows PowerShell:**
 ```powershell
-git clone --depth 1 https://github.com/tofukyung/prompt-engineering-skills.git $env:TEMP\pes-sync; `
+git clone --depth 1 https://github.com/treylom/prompt-engineering-skills.git $env:TEMP\pes-sync; `
 Copy-Item "$env:TEMP\pes-sync\skills\*.md" "$env:USERPROFILE\.claude\skills\"; `
 Copy-Item "$env:TEMP\pes-sync\commands\*.md" "$env:USERPROFILE\.claude\commands\"; `
 Remove-Item -Recurse -Force "$env:TEMP\pes-sync"; `
@@ -394,7 +394,7 @@ prompt-engineering-skills/
 
 **macOS / Linux:**
 ```bash
-git clone https://github.com/tofukyung/prompt-engineering-skills.git /tmp/pes && \
+git clone https://github.com/treylom/prompt-engineering-skills.git /tmp/pes && \
 mkdir -p ~/.claude/skills ~/.claude/commands && \
 cp /tmp/pes/skills/*.md ~/.claude/skills/ && \
 cp /tmp/pes/commands/*.md ~/.claude/commands/ && \
@@ -404,7 +404,7 @@ echo "✅ Done! Now you can use /prompt in any project"
 
 **Windows PowerShell:**
 ```powershell
-git clone https://github.com/tofukyung/prompt-engineering-skills.git $env:TEMP\pes; `
+git clone https://github.com/treylom/prompt-engineering-skills.git $env:TEMP\pes; `
 New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.claude\skills", "$env:USERPROFILE\.claude\commands" | Out-Null; `
 Copy-Item "$env:TEMP\pes\skills\*.md" "$env:USERPROFILE\.claude\skills\"; `
 Copy-Item "$env:TEMP\pes\commands\*.md" "$env:USERPROFILE\.claude\commands\"; `
@@ -444,7 +444,7 @@ Or one-click sync:
 
 **macOS / Linux:**
 ```bash
-git clone --depth 1 https://github.com/tofukyung/prompt-engineering-skills.git /tmp/pes-sync && \
+git clone --depth 1 https://github.com/treylom/prompt-engineering-skills.git /tmp/pes-sync && \
 cp /tmp/pes-sync/skills/*.md ~/.claude/skills/ && \
 cp /tmp/pes-sync/commands/*.md ~/.claude/commands/ && \
 rm -rf /tmp/pes-sync && echo "✅ Sync complete!"
@@ -452,7 +452,7 @@ rm -rf /tmp/pes-sync && echo "✅ Sync complete!"
 
 **Windows PowerShell:**
 ```powershell
-git clone --depth 1 https://github.com/tofukyung/prompt-engineering-skills.git $env:TEMP\pes-sync; `
+git clone --depth 1 https://github.com/treylom/prompt-engineering-skills.git $env:TEMP\pes-sync; `
 Copy-Item "$env:TEMP\pes-sync\skills\*.md" "$env:USERPROFILE\.claude\skills\"; `
 Copy-Item "$env:TEMP\pes-sync\commands\*.md" "$env:USERPROFILE\.claude\commands\"; `
 Remove-Item -Recurse -Force "$env:TEMP\pes-sync"; `
