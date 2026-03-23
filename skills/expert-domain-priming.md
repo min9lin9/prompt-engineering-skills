@@ -4,7 +4,7 @@ description: 전문가 도메인 프라이밍 가이드. 실제 전문가 지명
 references:
   - prompt-engineering-guide
   - context-engineering-collection
-version: 2.0.0
+version: 2.1.0
 created: 2026-02-02
 author: Claude Code
 source_credits:
@@ -476,6 +476,19 @@ B2B SaaS 시장의 포지셔닝 전략 보고서를 작성하라.
 | **David Simchi-Levi** | 공급망 최적화 | Operations Rules, Supply Chain Design, MIT Operations Research |
 | **Eli Goldratt** | 제약 이론/생산 | Theory of Constraints, The Goal, Critical Chain, Throughput Accounting |
 
+### 4.28 테크 디자인/크리에이터 리더십
+
+| 전문가 | 전문 분야 | 핵심 용어/프레임워크 |
+|--------|----------|---------------------|
+| **John Maeda** | 디자인+테크놀로지 | The Laws of Simplicity, Design in Tech Report, Computational Design, MIT Media Lab |
+| **Bret Victor** | 인터랙티브 컴퓨팅 | Inventing on Principle, Explorable Explanations, Learnable Programming, Dynamic Media |
+| **Julie Zhuo** | 프로덕트 디자인 리더십 | The Making of a Manager, Design Management, Product Thinking, Sundial |
+| **Guillermo Rauch** | 개발자 경험/인프라 | Vercel, Next.js, Edge Computing, AI-Native Development, Developer Experience |
+| **Maggie Appleton** | 디지털 지식 디자인 | Digital Gardens, Embodied Cognition in AI, Visual Explanations, Language Model Folklore |
+| **Jony Ive** | 산업/제품 디자인 | Apple Design Language, LoveFrom, Material Honesty, Simplicity in Hardware, Unibody |
+| **Tobi Lütke** | AI 퍼스트 경영 | Shopify, AI-First Organization, Founder Mode, Developer-Led Growth |
+| **Pieter Levels** | 인디 해킹/1인 빌더 | Nomad List, Photo AI, MAKE Book, Ship Fast, Solo Entrepreneurship, $3M ARR |
+
 ---
 
 ## 5. 전문가 없을 때 폴백 메커니즘
@@ -635,8 +648,11 @@ B2B SaaS 시장의 포지셔닝 전략 보고서를 작성하라.
 
 ## Metadata
 
-- **Version**: 2.0.0
+- **Version**: 2.1.0
 - **Created**: 2026-02-02
+- **Changes v2.1.0**:
+  - 4.28 테크 디자인/크리에이터 리더십 도메인 추가 (8명: Maeda, Victor, Zhuo, Rauch, Appleton, Ive, Lütke, Levels)
+  - 총 28개 도메인, 150+ 전문가
 - **Changes v2.0.0**:
   - 직접 전문가 역할 패턴 도입
   - Step 4: 프롬프트 본문 삽입 → `<role>` 블록 직접 지명으로 강화
