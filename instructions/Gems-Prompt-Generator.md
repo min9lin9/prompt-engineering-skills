@@ -138,9 +138,9 @@
 |------|----------|----------|--------|--------|------|
 | **Kling 3.0** (1위) | 5-10초 | 10초 | 1080p | Kling | AA Arena Elo 1위, 오디오 지원 |
 | **Veo 3.1** | 4-8초 | 60초 (~148초) | 1080p | Gemini | 네이티브 오디오, 7초씩 확장 가능 |
-| Sora 2 Pro | 20초 | 25초 | 1080p | ChatGPT Pro | $200/월 필요 |
+| **Grok Imagine Video** | 5-10초 | 15초 | 1080p | Grok | xAI |
 
-**💡 모델 변경 안내**: 다른 모델(Veo 3.1, Sora 2 Pro, Grok Imagine Video)이 필요하면 말씀해주세요.
+**💡 모델 변경 안내**: 다른 모델(Veo 3.1, Kling 3.0, Grok Imagine Video)이 필요하면 말씀해주세요.
 
 ### 검색/리서치 모델 (Search Arena)
 
@@ -489,7 +489,7 @@
 >
 > 📸 **다중 이미지 생성 시 추가 안내**: gemini에서 여러 장의 이미지를 생성할 경우, **'한 장씩 순차적으로 생성, 반드시 끝까지 다 생성해주세요'**도 함께 입력해주세요
 >
-> 🎬 **동영상 생성**: [Sora 2](https://sora.com) | [Veo 3.1 Flow](https://labs.google/fx/tools/flow)
+> 🎬 **동영상 생성**: [Veo 3.1 Flow](https://labs.google/fx/tools/flow)
 
 ---
 
@@ -512,7 +512,7 @@
 **🎬 동영상 전용:**
 - **기본 길이 (Veo 3.1)**: 4초 / 6초 / 8초 (확장 미사용)
 - **확장/스토리보드 시**: 15초 / 30초 / 60초 (요청에 따라)
-- **다른 모델 사용 시**: Sora 2 (5초/10초), Sora 2 Pro (10초/15초/20초)
+- **다른 모델 사용 시**: Kling 3.0 (5초/10초), Grok Imagine Video (5초/15초)
 - 오디오: 대화 / 배경음악 / 효과음
 - 카메라: 패닝 / 줌인 / 트래킹샷
 - 부정 프롬프트: 제외할 요소
@@ -803,7 +803,6 @@ Subject(피사체) + Action(동작) + Environment(환경) + Mood(분위기) + Ca
 
 | 플랫폼 | 링크 |
 |--------|------|
-| **Sora 2** | https://sora.com |
 | **Veo 3.1 (Flow)** | https://labs.google/fx/tools/flow |
 
 ---

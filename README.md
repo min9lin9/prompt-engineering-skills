@@ -55,13 +55,10 @@ prompt-engineering-skills/
 ├── skills/                             # 핵심 스킬 파일
 │   ├── prompt-engineering-guide.md     # 모델별 프롬프트 전략
 │   ├── image-prompt-guide.md           # 이미지 생성 가이드
-│   ├── gpt-5.4-prompt-enhancement.md   # GPT-5.4 전용 패턴
-│   ├── claude-4.6-prompt-strategies.md # Claude 4.6 전용 전략
-│   ├── gemini-3.1-prompt-strategies.md # Gemini/Veo/Nano Banana 전략
-│   ├── context-engineering-collection.md  # CE 원칙
-│   ├── expert-domain-priming.md        # 전문 도메인 프라이밍
-│   ├── research-prompt-guide.md        # 검색/리서치 프롬프트 가이드
-│   └── slide-prompt-guide.md           # 슬라이드 프롬프트 가이드
+│   ├── gpt-5.4-prompt-enhancement.md   # GPT-5.2 전용 패턴
+│   ├── claude-4.6-prompt-strategies.md # Claude 4.5 전용 전략
+│   ├── gemini-3.1-prompt-strategies.md     # Gemini/Veo/Nano Banana 전략
+│   └── context-engineering-collection.md  # CE 원칙
 │
 ├── commands/                           # Claude Code 커맨드
 │   ├── prompt.md                       # /prompt 커맨드
@@ -72,7 +69,7 @@ prompt-engineering-skills/
 │   └── Gems-Prompt-Generator.md        # Gemini Gems용
 │
 └── examples/                           # 사용 예시
-    ├── gpt-5.4-examples.md
+    ├── gpt-5.2-examples.md
     ├── claude-4.5-examples.md
     └── image-generation-examples.md
 ```
@@ -87,7 +84,7 @@ prompt-engineering-skills/
 
 **macOS / Linux:**
 ```bash
-git clone https://github.com/treylom/prompt-engineering-skills.git /tmp/pes && \
+git clone https://github.com/tofukyung/prompt-engineering-skills.git /tmp/pes && \
 mkdir -p ~/.claude/skills ~/.claude/commands && \
 cp /tmp/pes/skills/*.md ~/.claude/skills/ && \
 cp /tmp/pes/commands/*.md ~/.claude/commands/ && \
@@ -97,7 +94,7 @@ echo "✅ 설치 완료! 이제 모든 프로젝트에서 /prompt 사용 가능"
 
 **Windows PowerShell:**
 ```powershell
-git clone https://github.com/treylom/prompt-engineering-skills.git $env:TEMP\pes; `
+git clone https://github.com/tofukyung/prompt-engineering-skills.git $env:TEMP\pes; `
 New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.claude\skills", "$env:USERPROFILE\.claude\commands" | Out-Null; `
 Copy-Item "$env:TEMP\pes\skills\*.md" "$env:USERPROFILE\.claude\skills\"; `
 Copy-Item "$env:TEMP\pes\commands\*.md" "$env:USERPROFILE\.claude\commands\"; `
@@ -137,7 +134,7 @@ cp commands/*.md ~/.claude/commands/
 
 **macOS / Linux:**
 ```bash
-git clone --depth 1 https://github.com/treylom/prompt-engineering-skills.git /tmp/pes-sync && \
+git clone --depth 1 https://github.com/tofukyung/prompt-engineering-skills.git /tmp/pes-sync && \
 cp /tmp/pes-sync/skills/*.md ~/.claude/skills/ && \
 cp /tmp/pes-sync/commands/*.md ~/.claude/commands/ && \
 rm -rf /tmp/pes-sync && echo "✅ 동기화 완료!"
@@ -145,7 +142,7 @@ rm -rf /tmp/pes-sync && echo "✅ 동기화 완료!"
 
 **Windows PowerShell:**
 ```powershell
-git clone --depth 1 https://github.com/treylom/prompt-engineering-skills.git $env:TEMP\pes-sync; `
+git clone --depth 1 https://github.com/tofukyung/prompt-engineering-skills.git $env:TEMP\pes-sync; `
 Copy-Item "$env:TEMP\pes-sync\skills\*.md" "$env:USERPROFILE\.claude\skills\"; `
 Copy-Item "$env:TEMP\pes-sync\commands\*.md" "$env:USERPROFILE\.claude\commands\"; `
 Remove-Item -Recurse -Force "$env:TEMP\pes-sync"; `
@@ -364,11 +361,8 @@ prompt-engineering-skills/
 │   ├── image-prompt-guide.md           # Image generation guide
 │   ├── gpt-5.4-prompt-enhancement.md   # GPT-5.4 specific patterns
 │   ├── claude-4.6-prompt-strategies.md # Claude 4.6 specific strategies
-│   ├── gemini-3.1-prompt-strategies.md # Gemini/Veo/Nano Banana strategies
-│   ├── context-engineering-collection.md  # CE principles
-│   ├── expert-domain-priming.md        # Expert domain priming
-│   ├── research-prompt-guide.md        # Search/research prompt guide
-│   └── slide-prompt-guide.md           # Slide prompt guide
+│   ├── gemini-3.1-prompt-strategies.md     # Gemini/Veo/Nano Banana strategies
+│   └── context-engineering-collection.md  # CE principles
 │
 ├── commands/                           # Claude Code commands
 │   ├── prompt.md                       # /prompt command
@@ -379,7 +373,7 @@ prompt-engineering-skills/
 │   └── Gems-Prompt-Generator.md        # For Gemini Gems
 │
 └── examples/                           # Usage examples
-    ├── gpt-5.4-examples.md
+    ├── gpt-5.2-examples.md
     ├── claude-4.5-examples.md
     └── image-generation-examples.md
 ```
@@ -394,7 +388,7 @@ prompt-engineering-skills/
 
 **macOS / Linux:**
 ```bash
-git clone https://github.com/treylom/prompt-engineering-skills.git /tmp/pes && \
+git clone https://github.com/tofukyung/prompt-engineering-skills.git /tmp/pes && \
 mkdir -p ~/.claude/skills ~/.claude/commands && \
 cp /tmp/pes/skills/*.md ~/.claude/skills/ && \
 cp /tmp/pes/commands/*.md ~/.claude/commands/ && \
@@ -404,7 +398,7 @@ echo "✅ Done! Now you can use /prompt in any project"
 
 **Windows PowerShell:**
 ```powershell
-git clone https://github.com/treylom/prompt-engineering-skills.git $env:TEMP\pes; `
+git clone https://github.com/tofukyung/prompt-engineering-skills.git $env:TEMP\pes; `
 New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.claude\skills", "$env:USERPROFILE\.claude\commands" | Out-Null; `
 Copy-Item "$env:TEMP\pes\skills\*.md" "$env:USERPROFILE\.claude\skills\"; `
 Copy-Item "$env:TEMP\pes\commands\*.md" "$env:USERPROFILE\.claude\commands\"; `
@@ -444,7 +438,7 @@ Or one-click sync:
 
 **macOS / Linux:**
 ```bash
-git clone --depth 1 https://github.com/treylom/prompt-engineering-skills.git /tmp/pes-sync && \
+git clone --depth 1 https://github.com/tofukyung/prompt-engineering-skills.git /tmp/pes-sync && \
 cp /tmp/pes-sync/skills/*.md ~/.claude/skills/ && \
 cp /tmp/pes-sync/commands/*.md ~/.claude/commands/ && \
 rm -rf /tmp/pes-sync && echo "✅ Sync complete!"
@@ -452,7 +446,7 @@ rm -rf /tmp/pes-sync && echo "✅ Sync complete!"
 
 **Windows PowerShell:**
 ```powershell
-git clone --depth 1 https://github.com/treylom/prompt-engineering-skills.git $env:TEMP\pes-sync; `
+git clone --depth 1 https://github.com/tofukyung/prompt-engineering-skills.git $env:TEMP\pes-sync; `
 Copy-Item "$env:TEMP\pes-sync\skills\*.md" "$env:USERPROFILE\.claude\skills\"; `
 Copy-Item "$env:TEMP\pes-sync\commands\*.md" "$env:USERPROFILE\.claude\commands\"; `
 Remove-Item -Recurse -Force "$env:TEMP\pes-sync"; `

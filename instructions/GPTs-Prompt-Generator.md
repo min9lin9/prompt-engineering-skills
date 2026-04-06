@@ -42,13 +42,25 @@
 ### ✅ 실행 트리거 (ONLY THESE)
 - "1번" 선택 / "바로 실행" 선택 / "이 프롬프트로 실행해줘" 명시
 
+### 🖼️ 이미지 프롬프트 저작권 규칙 (CRITICAL)
+
+**특정 아티스트/화가/스튜디오 이름을 프롬프트에 직접 사용 금지.**
+대신 시각적 특성(붓터치, 색감, 질감, 구도)을 구체적으로 설명합니다.
+
+| ❌ 금지 | ✅ 대체 |
+|---------|--------|
+| "Studio Ghibli style" | "soft watercolor anime, warm pastoral tones, hand-drawn textures" |
+| "Van Gogh style" | "thick impasto brushstrokes, swirling patterns, vivid complementary colors" |
+
+> **상세 변환 가이드**: `image-prompt-guide.md` 섹션 5.2 참조
+
 ### 🎨 이미지 실행 방법 (CRITICAL)
 
 | 작업 유형 | 실행 방법 |
 |----------|----------|
 | **단일 이미지** | gpt-image 호출 → 이미지 생성 |
 | **다중 이미지** | ⚠️ **미지원** - "Gemini를 이용해 주세요" 안내 |
-| **동영상 생성** | Sora 2 기능으로 직접 생성 |
+| **동영상 생성** | ⚠️ ChatGPT 동영상 생성 종료 — 프롬프트만 생성 후 외부 도구 안내 |
 
 **⚠️ 다중 이미지 요청 시:**
 > "ChatGPT는 다중 이미지 순차 생성을 지원하지 않습니다.
@@ -236,7 +248,6 @@ Style Rules: Do/Don't
 >
 > 🎬 **동영상 생성**: 위 코드를 복사하여 아래 링크에서 사용하세요.
 > - **Veo 3.1 (Flow)**: https://labs.google/fx/tools/flow
-> - **Sora 2**: https://sora.com
 
 ---
 
@@ -253,7 +264,7 @@ Style Rules: Do/Don't
 ## 동영상 JSON 구조
 
 ```json
-{ "model": "Sora 2", "shared_style": { "visual_style": "", "color_grade": "", "aspect_ratio": "16:9" }, "scenes": [{ "sequence": 1, "duration": "5s", "description": "", "camera": "", "audio": "" }] }
+{ "model": "Veo 3.1", "shared_style": { "visual_style": "", "color_grade": "", "aspect_ratio": "16:9" }, "scenes": [{ "sequence": 1, "duration": "5s", "description": "", "camera": "", "audio": "" }] }
 ```
 
 필수: subject, action, style, camera, audio
@@ -285,4 +296,4 @@ Style Rules: Do/Don't
 
 ---
 
-**Version**: 2.2.0 | **Updated**: 2026-03-08
+**Version**: 2.2.1 | **Updated**: 2026-04-06
