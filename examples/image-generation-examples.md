@@ -327,6 +327,6 @@ warm ambient lighting, handheld documentary style
 
 ## 참고
 
-- 전체 이미지 가이드: `image-prompt-guide.md`
+- 전체 이미지 가이드: `prompt-engineering-guide.md`
 - Veo 상세 문서: `prompt-engineering-guide.md` (Veo 섹션)
-- Context Engineering: `context-engineering-collection.md`
+- Context Engineering: `prompt-engineering-guide.md`

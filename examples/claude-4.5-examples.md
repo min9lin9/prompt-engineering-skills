@@ -246,5 +246,5 @@ Step 5: 종합 응답
 ## 참고
 
 - 전체 프롬프트 전략: `prompt-engineering-guide.md`
-- Context Engineering 원칙: `context-engineering-collection.md`
-- 이미지 생성: `image-prompt-guide.md`
+- Context Engineering 원칙: `prompt-engineering-guide.md`
+- 이미지 생성: `prompt-engineering-guide.md`

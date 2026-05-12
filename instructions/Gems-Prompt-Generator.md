@@ -5,7 +5,7 @@
 > **Model Rankings**: [LMArena Leaderboard](https://lmarena.ai) (2026년 4월 기준)
 > **Optimized for**: Gemini 3, Veo 3.1, Gemini Image
 > **Opus 4.7 / 4.6 공식 소스**: [platform.claude.com — Claude 4 best practices](https://platform.claude.com/docs/en/docs/build-with-claude/prompt-engineering/claude-4-best-practices) + [Migration](https://platform.claude.com/docs/en/docs/about-claude/models/migrating-to-claude-4) — **Opus 4.7과 4.6 모두 first-class** (사용자 명시 시 4.6 패턴 적용)
-> **GPT-5.5 공식 가이드 (2026-04)**: [Prompt guidance for GPT-5.5](https://developers.openai.com/api/docs/guides/prompt-guidance?model=gpt-5.5) — XML 12블록 stack 대신 **outcome-first markdown 6섹션** 권장. 5.4 legacy XML stack은 명시 요청 시만 fallback. 상세 스킬: `gpt-5.5-prompt-enhancement.md`
+> **GPT-5.5 공식 가이드 (2026-04)**: [Prompt guidance for GPT-5.5](https://developers.openai.com/api/docs/guides/prompt-guidance?model=gpt-5.5) — XML 12블록 stack 대신 **outcome-first markdown 6섹션** 권장. 5.4 legacy XML stack은 명시 요청 시만 fallback. 상세 스킬: `prompt-engineering-guide.md`
 
 ---
 
@@ -92,15 +92,8 @@
 **Gemini 생태계(Gemini 3, Veo 3.1, Gemini Image)에 특화**되어 있으며,
 다른 모델(**Claude Opus 4.7**, **GPT-5.5/5.4**)도 지원합니다.
 
-업로드된 스킬 파일을 기본 지식으로 활용합니다:
-- `prompt-engineering-guide.md` - 모델별 프롬프트 전략
-- `gemini-3.1-prompt-strategies.md` - Gemini 전용 전략
-- `claude-4.7-prompt-strategies.md` - Claude 4.x 전략 (Opus 4.5/4.6/4.7 + Sonnet 4.5/4.6 + Haiku 4.5) (Opus 4.7: adaptive + effort=xhigh, budget_tokens 제거, prefill 금지)
-- `context-engineering-collection.md` - Context Engineering 원칙
-- `image-prompt-guide.md` - 이미지 생성 가이드 (공냥이 @specal1849)
-- `research-prompt-guide.md` - 리서치/팩트체크 가이드 (두부 @tofukyung)
-- `expert-domain-priming.md` - 전문가 도메인 프라이밍 DB (12도메인, 60+명)
-- `slide-prompt-guide.md` - 슬라이드/PPT 프롬프트 가이드
+업로드된 단일 스킬 파일을 기본 지식으로 활용합니다:
+- `prompt-engineering-guide.md` — Gemini, Claude, GPT, 이미지/동영상, 리서치/팩트체크, 슬라이드, 전문가 프라이밍, Context Engineering 전체 포함
 
 ---
 
@@ -216,7 +209,7 @@
 
 **전문가 토론에서 활용:**
 - Step 2 전문가 토론에서 **실존 전문가 관점으로 검토**
-- 상세 전문가 DB (12도메인, 60+명): `expert-domain-priming.md` 참조
+- 상세 전문가 DB (12도메인, 60+명): `prompt-engineering-guide.md` 참조
 
 ---
 
@@ -376,7 +369,7 @@
 
 #### 📊 슬라이드/PPT 아웃라인 (MANDATORY)
 
-**슬라이드 요청 시 반드시 먼저 아웃라인 생성 (`slide-prompt-guide.md` 참조):**
+**슬라이드 요청 시 반드시 먼저 아웃라인 생성 (`prompt-engineering-guide.md` 참조):**
 
 1. 콘텐츠 분석: 핵심 메시지 1문장 + 지지 포인트 3-5개 + CTA
 2. 아웃라인 테이블:
@@ -423,19 +416,19 @@
 | **Gemini 3 Pro/Flash** | Constraints 최상단, 구조화된 출력 | ✅ |
 | **Veo 3.1** | 주제/동작/스타일, 오디오 프롬프트 | ✅ |
 | **Gemini Image** | 주제/스타일/분위기, 시그널 강화 | ✅ |
-| **GPT-5.5** (outcome-first) | Markdown 6섹션: `Role` / `# Personality` / `# Goal` / `# Success Criteria` / `# Constraints` / `# Output` / `# Stop Rules`. 도구 워크플로면 Preamble 1줄. 상세: `gpt-5.5-prompt-enhancement.md` | |
-| GPT-5.4 / 5.2 (legacy XML) | `<output_verbosity_spec>`, `<output_contract>`, `<completeness_contract>`, `<tool_persistence>`. 상세: `gpt-5.5-prompt-enhancement.md` 하단 "Legacy GPT-5.2/5.4 XML Stack" 섹션 | |
+| **GPT-5.5** (outcome-first) | Markdown 6섹션: `Role` / `# Personality` / `# Goal` / `# Success Criteria` / `# Constraints` / `# Output` / `# Stop Rules`. 도구 워크플로면 Preamble 1줄. 상세: `prompt-engineering-guide.md` | |
+| GPT-5.4 / 5.2 (legacy XML) | `<output_verbosity_spec>`, `<output_contract>`, `<completeness_contract>`, `<tool_persistence>`. 상세: `prompt-engineering-guide.md` 하단 "Legacy GPT-5.2/5.4 XML Stack" 섹션 | |
 | **Claude Opus 4.7** (디폴트) | `<use_parallel_tool_calls>`, `<investigate_before_answering>`, `<explicit_scope>` (리터럴 해석), `thinking: adaptive` + `effort=xhigh`. **Breaking**: budget_tokens/temperature/prefill 금지 | |
 | **Claude Opus 4.6** (명시 시 first-class) | 명시적 지시, `<default_to_action>`, Adaptive Thinking. `budget_tokens`/`temperature`/`top_p`/prefill **사용 가능** (4.7 제약 없음). 200K context, $5/$25 per MTok | |
 
 **GPT 모델 라우팅**: 사용자가 `GPT-5.5` 명시 또는 일반 GPT 작업이면 outcome-first(5.5) 디폴트. `GPT-5.4` / `5.2` / `legacy XML` 명시 시에만 XML stack 적용.
 
-**Opus 모델 라우팅**: 사용자가 "Opus 4.6"·"이전 Opus"·"비용 절감 Opus" 명시 시 4.6 패턴 (4.7 마이그레이션 강요 금지). 미지정/최신 → 4.7 디폴트. 4.6→4.7 전환 전 회귀 매트릭스(`claude-4.7-prompt-strategies.md` Part 0.5) 통과 필수.
+**Opus 모델 라우팅**: 사용자가 "Opus 4.6"·"이전 Opus"·"비용 절감 Opus" 명시 시 4.6 패턴 (4.7 마이그레이션 강요 금지). 미지정/최신 → 4.7 디폴트. 4.6→4.7 전환 전 회귀 매트릭스(`prompt-engineering-guide.md` Part 0.5) 통과 필수.
 
 **🎯 역할(Role) 직접 전문가 지명 (CRITICAL)**
 
 프롬프트의 `<role>` 블록에 반드시 실존 전문가를 직접 지명합니다:
-- `expert-domain-priming.md` DB에서 해당 도메인 전문가 조회
+- `prompt-engineering-guide.md` DB에서 해당 도메인 전문가 조회
 - DB에 없으면 **되도록 웹 검색하여** 해당 분야 실존 전문가를 찾아 적용 (일부 일상적 작업은 전문가 특정이 어려울 수 있음)
 - 일반적 역할 설명("15년 경력의 전문가") 대신 직접 지명 사용
 - ⛔ "체화", "~철학을 체화한" 등 간접 표현 절대 금지
@@ -451,7 +444,7 @@
 | 역할 | 검토 초점 |
 |------|----------|
 | Expert 1: 프롬프트 아키텍트 | CE 원칙, 모델 블록, 토큰 효율 |
-| Expert 2: 도메인 전문가 | 실존 전문가 관점으로 내용 정확성, 완전성, 누락 요소 검토 (`expert-domain-priming.md` 참조) |
+| Expert 2: 도메인 전문가 | 실존 전문가 관점으로 내용 정확성, 완전성, 누락 요소 검토 (`prompt-engineering-guide.md` 참조) |
 | Expert 3: 심판/통합자 | 상반된 의견 조율, 최종 결정 |
 
 ---
@@ -773,7 +766,7 @@ Subject(피사체) + Action(동작) + Environment(환경) + Mood(분위기) + Ca
 ## XML 프롬프트 (코딩/에이전트/분석용)
 
 > **적용**: 코딩, 에이전트, 분석, 팩트체크 시 XML 구조 사용
-> **상세 가이드**: `claude-4.7-prompt-strategies.md` 스킬 파일 참조 (Claude 4.6 Adaptive Thinking + Effort Parameter 포함)
+> **상세 가이드**: `prompt-engineering-guide.md` 스킬 파일 참조 (Claude 4.6 Adaptive Thinking + Effort Parameter 포함)
 
 ---
 
@@ -781,16 +774,8 @@ Subject(피사체) + Action(동작) + Environment(환경) + Mood(분위기) + Ca
 
 | # | 파일명 | 용도 | 필수 여부 |
 |---|--------|------|----------|
-| 1 | `prompt-engineering-guide.md` | 모델별 전략 총괄 | ✅ 필수 |
-| 2 | `gemini-3.1-prompt-strategies.md` | Gemini 3, Flash, Veo | Gemini 시 ✅ |
-| 3 | `claude-4.7-prompt-strategies.md` | Claude 4.5/4.6 전략 | Claude 시 ✅ |
-| 4 | `image-prompt-guide.md` | 이미지/동영상 가이드 | 이미지/동영상 시 ✅ |
-| 5 | `context-engineering-collection.md` | CE 원칙 | ✅ 권장 |
-| 6 | `research-prompt-guide.md` | 팩트체크/리서치 가이드 | 팩트체크/리서치 시 ✅ |
+| 1 | `prompt-engineering-guide.md` | 전체 프롬프트 전략 단일 권원 | ✅ 필수 |
 
----
-
----
 
 ## 💡 이미지/동영상 생성 방법 안내 (Gemini Gems)
 
@@ -853,16 +838,16 @@ Subject(피사체) + Action(동작) + Environment(환경) + Mood(분위기) + Ca
 
 **Version**: 2.5.1 | **Updated**: 2026-05-02
 **Changes v2.5.1** (2026-05-02):
-- **[PATCH] 파일명 표기 정정**: `claude-4.6-prompt-strategies.md` → `claude-4.7-prompt-strategies.md` (5개소 — 첨부 목록·라우팅·상세 가이드 참조·표·changelog. 실제 rename 반영)
+- **[PATCH] 파일명 표기 정정**: `prompt-engineering-guide.md` → `prompt-engineering-guide.md` (5개소 — 첨부 목록·라우팅·상세 가이드 참조·표·changelog. 실제 rename 반영)
 
 **Changes v2.5.0** (2026-04-30):
 - **[MAJOR] Opus 4.6 first-class 라우팅 추가**: 사용자가 "Opus 4.6"·"이전 Opus"·"비용 절감 Opus" 명시 시 4.6 코드 패턴 그대로 사용 (`budget_tokens`·`temperature`·prefill OK). 4.7 디폴트 유지하되 4.6 마이그레이션 강요 금지
 - **[MEDIUM] 모델 순위 표에 4.6 alternative 명시**: 코딩/에이전틱/수학/글쓰기/종합 모든 카테고리에 Opus 4.6 fallback 노출
-- **[MEDIUM] Opus 라우팅 규칙 명시**: 4.6→4.7 전환 전 회귀 매트릭스(`claude-4.7-prompt-strategies.md` Part 0.5) 통과 필수
+- **[MEDIUM] Opus 라우팅 규칙 명시**: 4.6→4.7 전환 전 회귀 매트릭스(`prompt-engineering-guide.md` Part 0.5) 통과 필수
 
 **Changes v2.4.0** (2026-04-30):
 - **[MAJOR] GPT-5.5 공식 outcome-first 가이드 반영**: [GPT-5.5 Prompt Guidance](https://developers.openai.com/api/docs/guides/prompt-guidance?model=gpt-5.5) (2026-04). XML 12블록 stack → Markdown 6섹션 (Role / Personality / Goal / Success Criteria / Constraints / Output / Stop Rules). 5.5 디폴트 + 5.4 명시 시 fallback
-- **[MAJOR] gpt-5.5-prompt-enhancement.md 참조 추가** (v1.0.0 신규 스킬): 6 핵심 블록 + Migration 매핑 + Anti-patterns
+- **[MAJOR] prompt-engineering-guide.md 참조 추가** (v1.0.0 신규 스킬): 6 핵심 블록 + Migration 매핑 + Anti-patterns
 - **[MEDIUM] 모델별 필수 블록 테이블 재구성**: GPT-5.5 outcome-first / GPT-5.4 legacy XML stack 분리, GPT 모델 라우팅 규칙 명시
 - **[MEDIUM] 추천 모델 부연 정정**: "API 미공개" → "outcome-first" (2026-04 공식 출시 반영)
 
@@ -930,7 +915,7 @@ Subject(피사체) + Action(동작) + Environment(환경) + Mood(분위기) + Ca
 **Changes v1.8.5**: generation_instruction 명확화 - "ONLY ONE image per call", "Do NOT combine" 명시로 다중 이미지 합성 방지
 **Changes v1.8.3**: 다중 이미지 순차 생성 프로세스 강화 - FINAL REMINDER에 nanobanana pro N회 순차 호출 필수 규칙 추가
 **Changes v1.8.2**: 다중 이미지 JSON 구조 개선 - generation_instruction 필드 추가, description→prompt 변경
-**Changes v1.8.1**: 스킬 파일 업데이트 반영 - gemini-3.1-prompt-strategies.md v1.1.0 (Gemini 실제 사용 예시 @specal1849), image-prompt-guide.md v1.6.0 (만화/코믹 스타일 추가)
+**Changes v1.8.1**: 스킬 파일 업데이트 반영 - prompt-engineering-guide.md v1.1.0 (Gemini 실제 사용 예시 @specal1849), prompt-engineering-guide.md v1.6.0 (만화/코믹 스타일 추가)
 **Changes v1.8.0**:
 - **[MAJOR] 동영상 모델 선택 기능 추가**: Veo 3.1 (기본), Sora 2, Sora 2 Pro 선택 가능
 - **동영상 모델별 생성 길이 비교 테이블 추가**: 기본 길이(확장 미사용), 최대 길이(확장 사용), 해상도 정보
@@ -952,7 +937,7 @@ Subject(피사체) + Action(동작) + Environment(환경) + Mood(분위기) + Ca
 - **버전 체계 리셋**: 모든 채널 1.5.0으로 통일
 
 **Changes v4.4.0**:
-- **research-prompt-guide.md 추가**: 리서치/팩트체크 가이드 스킬 파일 참조 추가 (두부 @tofukyung)
+- **prompt-engineering-guide.md 추가**: 리서치/팩트체크 가이드 스킬 파일 참조 추가 (두부 @tofukyung)
 **Changes v4.3.0**:
 - **네이티브 이미지 생성 호출 명시**: "바로 실행" 시 JSON action 객체 출력 대신 네이티브 기능 직접 호출 강제
 - **이미지/동영상 실행 방법 섹션 추가**: Constraints에 실행 방법 명확화
