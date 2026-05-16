@@ -124,7 +124,7 @@ Batch 지시문에 다음 키워드 중 하나라도 포함되면, **Codex Triad
 5. `<output_format>` — `{ role, final_phase_status, files_touched, summary, blockers? }` JSON
 
 **권위 있는 템플릿 명세**:
-`/home/tofu/AI/.claude/skills/tofu-at-spawn-templates/references/worker-templates.md#codex-triad-mode`
+`~/.claude/skills/tofu-at-spawn-templates/references/worker-templates.md#codex-triad-mode`
 
 Batch 호출 시 워커 템플릿이 자동 적용되며, `/tofu-at` 및 `/tofu-at-codex`의 STEP 7 스폰 로직이 이 규칙에 의존합니다.
 
