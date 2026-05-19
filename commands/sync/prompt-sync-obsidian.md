@@ -77,11 +77,11 @@ OBSIDIAN_CLI="/mnt/c/Program Files/Obsidian/Obsidian.com"
 
 ```
 # 부분 수정
-Edit(file_path="/mnt/c/Users/treyl/Documents/Obsidian/Second_Brain/Prompt-Engineering/GPTs-Prompt-Generator-Instructions.md",
+Edit(file_path="<wsl-home>/Documents/Obsidian/Second_Brain/Prompt-Engineering/GPTs-Prompt-Generator-Instructions.md",
      old_string="...", new_string="...")
 
 # 전체 교체
-Write(file_path="/mnt/c/Users/treyl/Documents/Obsidian/Second_Brain/Prompt-Engineering/GPTs-Prompt-Generator-Instructions.md",
+Write(file_path="<wsl-home>/Documents/Obsidian/Second_Brain/Prompt-Engineering/GPTs-Prompt-Generator-Instructions.md",
       content="[새로운 전체 내용]")
 ```
 
