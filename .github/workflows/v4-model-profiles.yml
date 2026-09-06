@@ -1,0 +1,25 @@
+name: v4 model profile validation
+
+on:
+  pull_request:
+  push:
+    branches:
+      - "v4/**"
+
+jobs:
+  model-profiles:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate provider and model profiles
+        run: python scripts/validate_model_profiles.py
+
+      - name: Verify model profile fixtures
+        run: test -f tests/v4/model-profile-fixtures.yaml

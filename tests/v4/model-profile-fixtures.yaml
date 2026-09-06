@@ -1,0 +1,60 @@
+version: 1
+
+required_profiles:
+  providers:
+    - openai
+    - anthropic
+    - google
+  deltas:
+    - openai/gpt-6-astra
+    - anthropic/claude-5
+    - google/gemini-3.8-flash
+
+invariants:
+  - id: confirmed_requires_official_source
+    statement: Every Confirmed section must cite the provider's official documentation domain.
+  - id: evaluated_not_assumed
+    statement: Legacy prompt advice must not be promoted to Evaluated without v4 outcome evidence.
+  - id: experimental_not_default
+    statement: Experimental strategies must remain optional until evaluation promotes them.
+  - id: delta_only
+    statement: Model overlays describe differences from Core/provider behavior rather than restating generic prompt rules.
+  - id: no_permission_escalation
+    statement: Provider/model profiles cannot expand execution, write, publish, commit, or push permissions.
+
+compatibility_cases:
+  - id: astra_none_invalid
+    model: gpt-6-astra
+    setting: reasoning.effort
+    value: none
+    expected: invalid
+  - id: astra_high_valid
+    model: gpt-6-astra
+    setting: reasoning.effort
+    value: high
+    expected: valid
+  - id: fable_disable_invalid
+    model: claude-fable-5
+    setting: thinking.type
+    value: disabled
+    expected: invalid
+  - id: sonnet5_sampling_invalid
+    model: claude-sonnet-5
+    setting: temperature
+    value: 0.3
+    expected: invalid
+  - id: gemini38_minimal_invalid
+    model: gemini-3.8-flash
+    setting: thinking_level
+    value: minimal
+    expected: invalid
+  - id: gemini38_medium_valid
+    model: gemini-3.8-flash
+    setting: thinking_level
+    value: medium
+    expected: valid
+
+migration_notes:
+  - legacy GPT outcome-first scaffolding remains experimental pending eval.
+  - legacy Claude XML recommendations remain optional pending eval.
+  - legacy Gemini separator/long-context recommendations remain optional pending eval.
