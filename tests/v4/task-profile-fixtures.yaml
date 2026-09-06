@@ -1,0 +1,52 @@
+version: 1
+
+required_core:
+  - skills/prompt-engineering/core/principles.md
+  - skills/prompt-engineering/core/prompt-contract.md
+  - skills/prompt-engineering/core/validation.md
+
+required_tasks:
+  - research
+  - fact-check
+  - coding
+  - analysis
+  - writing
+  - editing
+  - extraction
+  - agent
+  - image
+  - video
+  - slides
+
+profile_invariants:
+  - id: task_model_neutral
+    statement: Task Profiles must not contain provider or specific model rules.
+  - id: no_permission_escalation
+    statement: Task Profiles cannot authorize external side effects.
+  - id: source_scope_preserved
+    statement: Task rules cannot override user-defined source restrictions.
+  - id: observable_validation
+    statement: Every Task Profile defines observable validation checks.
+  - id: format_by_task_not_model
+    statement: Output structure is selected for task needs rather than model identity.
+
+shadow_examples:
+  - id: research_source_only
+    task: research
+    expected:
+      preserve_source_scope: true
+      model_rule_loaded_from_task: false
+  - id: extraction_strict_schema
+    task: extraction
+    expected:
+      missing_value_policy_required: true
+      invented_fields_allowed: false
+  - id: agent_review_only
+    task: agent
+    expected:
+      execution_authorized_by_prompt: false
+      provider_tool_protocol_in_task: false
+  - id: single_shot_video
+    task: video
+    expected:
+      storyboard_mandatory: false
