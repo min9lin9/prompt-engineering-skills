@@ -1,0 +1,28 @@
+name: v4 registry validation
+
+on:
+  pull_request:
+  push:
+    branches:
+      - "v4/**"
+
+jobs:
+  registry:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate model registry
+        run: python scripts/validate_registry.py
+
+      - name: Verify Prompt Contract
+        run: test -f skills/prompt-engineering/core/prompt-contract.md
+
+      - name: Verify registry fixtures
+        run: test -f tests/v4/registry-fixtures.yaml
