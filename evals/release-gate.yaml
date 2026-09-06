@@ -1,0 +1,47 @@
+version: 1
+status: blocked
+
+release_candidate:
+  name: v4-default-switch
+  target_router_default: v4
+
+requirements:
+  required_strategies: [legacy, neutral, v4]
+  min_repeats_per_case: 3
+  require_holdout: true
+  require_zero_hard_gate_failures: true
+  require_reproducible_provenance: true
+  require_no_material_v4_regression: true
+  min_verified_provider_families: 4
+  min_verified_target_models: 6
+
+provider_coverage:
+  required_families:
+    - openai
+    - anthropic
+    - google
+    - qwen
+  additional_candidates:
+    - moonshot
+    - zai
+    - deepseek
+    - xai
+    - minimax
+    - mistral
+
+quality_policy:
+  primary_comparison: v4_vs_neutral
+  secondary_comparison: v4_vs_legacy
+  hard_gate_override: true
+  allow_provider_failures_to_count_as_quality_failures: false
+  promote_evaluated_only_with_target_model_evidence: true
+
+current_evidence:
+  results_path: evals/results
+  approved_release_report: null
+  integration_verified_models: []
+  quality_evaluated_models: []
+
+# This manifest intentionally remains blocked until live/replayed target-model
+# results satisfy the release-gate validator. Structural CI alone cannot switch
+# the no-flag /prompt default from legacy to v4.
