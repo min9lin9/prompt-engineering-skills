@@ -1,0 +1,31 @@
+name: v4 distribution validation
+
+on:
+  pull_request:
+  push:
+    branches:
+      - "v4/**"
+
+jobs:
+  distribution:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate thin adapters and generated packs
+        run: python scripts/validate_distribution.py
+
+      - name: Build knowledge packs
+        run: python scripts/build.py
+
+      - name: Upload generated knowledge packs
+        uses: actions/upload-artifact@v4
+        with:
+          name: prompt-engineering-v4-knowledge-packs
+          path: generated/*.md
