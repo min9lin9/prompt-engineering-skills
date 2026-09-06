@@ -3,8 +3,8 @@ name: v4 manual live evaluation
 on:
   workflow_dispatch:
     inputs:
-      provider:
-        description: 'Executor family to use'
+      executor_family:
+        description: 'Transport executor to use for the target model'
         required: true
         type: choice
         options:
@@ -12,18 +12,31 @@ on:
           - anthropic
           - gemini
           - compatible
-      candidate_plan_path:
-        description: 'Repository-relative JSONL plan whose candidates are already status=ready'
+      target_provider:
+        description: 'Registry provider id (for example openai, anthropic, google, qwen, kimi, glm, deepseek, mistral, minimax)'
         required: true
-        default: 'evals/results/manual/ready-plan.jsonl'
         type: string
-      max_jobs:
-        description: 'Maximum paid/live jobs to execute in this run'
+      target_model:
+        description: 'Exact Registry model id to smoke-test'
         required: true
-        default: '3'
+        type: string
+      experiment_path:
+        description: 'Repository-relative experiment manifest'
+        required: true
+        default: 'evals/experiments/frontier-release-candidate.json'
+        type: string
+      smoke_cases:
+        description: 'Balanced holdout cases; each case executes legacy + neutral + v4'
+        required: true
+        default: '1'
+        type: string
+      materializer_model:
+        description: 'Fixed OpenAI generator model used to materialize legacy/v4 candidates'
+        required: true
+        default: 'gpt-5.6-sol'
         type: string
       timeout_seconds:
-        description: 'Per-job timeout'
+        description: 'Per materializer/target job timeout'
         required: true
         default: '300'
         type: string
@@ -34,6 +47,7 @@ env:
   GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
   COMPAT_API_KEY: ${{ secrets.COMPAT_API_KEY }}
   COMPAT_BASE_URL: ${{ secrets.COMPAT_BASE_URL }}
+  PROMPT_MATERIALIZER_MODEL: ${{ inputs.materializer_model }}
 
 jobs:
   live-eval:
@@ -50,24 +64,50 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          case "${{ inputs.max_jobs }}" in
-            ''|*[!0-9]*) echo 'max_jobs must be an integer'; exit 1 ;;
+          case "${{ inputs.smoke_cases }}" in
+            ''|*[!0-9]*) echo 'smoke_cases must be an integer'; exit 1 ;;
           esac
-          if [ "${{ inputs.max_jobs }}" -lt 1 ] || [ "${{ inputs.max_jobs }}" -gt 100 ]; then
-            echo 'max_jobs must be between 1 and 100'; exit 1
+          if [ "${{ inputs.smoke_cases }}" -lt 1 ] || [ "${{ inputs.smoke_cases }}" -gt 10 ]; then
+            echo 'smoke_cases must be between 1 and 10'; exit 1
           fi
           case "${{ inputs.timeout_seconds }}" in
             ''|*[!0-9]*) echo 'timeout_seconds must be an integer'; exit 1 ;;
           esac
-          test -f "${{ inputs.candidate_plan_path }}"
-          python scripts/validate_eval_candidates.py --input "${{ inputs.candidate_plan_path }}"
+          test -f "${{ inputs.experiment_path }}"
+          test -n "${OPENAI_API_KEY:-}" || { echo 'OPENAI_API_KEY is required for fixed candidate materialization'; exit 1; }
 
-      - name: Select executor and require matching secret
+      - name: Prepare and select balanced smoke plan
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/prepare_eval_run.py \
+            --experiment "${{ inputs.experiment_path }}" \
+            --output /tmp/pending-plan.jsonl
+          python scripts/select_eval_smoke.py \
+            --plan /tmp/pending-plan.jsonl \
+            --out /tmp/smoke-pending.jsonl \
+            --provider "${{ inputs.target_provider }}" \
+            --model "${{ inputs.target_model }}" \
+            --cases "${{ inputs.smoke_cases }}"
+
+      - name: Materialize legacy neutral and v4 candidates
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/run_candidate_materializers.py \
+            --plan /tmp/smoke-pending.jsonl \
+            --out /tmp/smoke-ready.jsonl \
+            --legacy-materializer python executors/openai_prompt_materializer.py \
+            --v4-materializer python executors/openai_prompt_materializer.py \
+            --timeout "${{ inputs.timeout_seconds }}"
+          python scripts/validate_eval_candidates.py --input /tmp/smoke-ready.jsonl
+
+      - name: Select target executor and require matching secret
         id: executor
         shell: bash
         run: |
           set -euo pipefail
-          case "${{ inputs.provider }}" in
+          case "${{ inputs.executor_family }}" in
             openai)
               test -n "${OPENAI_API_KEY:-}" || { echo 'OPENAI_API_KEY secret is missing'; exit 1; }
               echo 'cmd=python executors/openai_responses.py' >> "$GITHUB_OUTPUT"
@@ -85,19 +125,18 @@ jobs:
               test -n "${COMPAT_BASE_URL:-}" || { echo 'COMPAT_BASE_URL secret is missing'; exit 1; }
               echo 'cmd=python executors/openai_compatible_chat.py' >> "$GITHUB_OUTPUT"
               ;;
-            *) echo 'unsupported provider'; exit 1 ;;
+            *) echo 'unsupported executor family'; exit 1 ;;
           esac
 
-      - name: Execute bounded live evaluation
+      - name: Execute balanced live smoke evaluation
         shell: bash
         run: |
           set -euo pipefail
           read -r -a EXECUTOR <<< "${{ steps.executor.outputs.cmd }}"
           python scripts/run_eval_jobs.py \
-            --plan "${{ inputs.candidate_plan_path }}" \
+            --plan /tmp/smoke-ready.jsonl \
             --executor "${EXECUTOR[@]}" \
             --out /tmp/live-results.jsonl \
-            --limit "${{ inputs.max_jobs }}" \
             --timeout "${{ inputs.timeout_seconds }}"
 
       - name: Prepare blind judging packet
@@ -110,10 +149,12 @@ jobs:
       - name: Upload unjudged evidence bundle
         uses: actions/upload-artifact@v4
         with:
-          name: v4-live-eval-${{ inputs.provider }}-${{ github.run_id }}
+          name: v4-live-eval-${{ inputs.target_provider }}-${{ inputs.target_model }}-${{ github.run_id }}
           if-no-files-found: error
           retention-days: 30
           path: |
+            /tmp/smoke-pending.jsonl
+            /tmp/smoke-ready.jsonl
             /tmp/live-results.jsonl
             /tmp/blind-judging.jsonl
             /tmp/blind-mapping.json
