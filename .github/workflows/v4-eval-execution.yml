@@ -1,0 +1,27 @@
+name: v4 evaluation execution harness
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+      - 'v4/**'
+
+jobs:
+  eval-execution:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Prepare deterministic release-candidate matrix
+        run: python scripts/prepare_eval_run.py --output /tmp/frontier-release-plan.jsonl
+      - name: Validate synthetic valid import fixture
+        run: python scripts/validate_eval_import.py tests/v4/eval-import-valid.jsonl
+      - name: Verify invalid import fixture is rejected
+        run: |
+          if python scripts/validate_eval_import.py tests/v4/eval-import-invalid.jsonl; then
+            echo 'invalid fixture unexpectedly passed'
+            exit 1
+          fi
