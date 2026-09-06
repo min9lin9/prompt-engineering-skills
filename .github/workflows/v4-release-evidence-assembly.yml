@@ -26,7 +26,7 @@ jobs:
             --out /tmp/release-evidence.jsonl \
             --summary /tmp/release-summary.json
           test "$(wc -l < /tmp/release-evidence.jsonl)" -eq 54
-          python scripts/validate_eval_import.py --input /tmp/release-evidence.jsonl
+          python scripts/validate_eval_import.py /tmp/release-evidence.jsonl
       - name: Reject duplicate execution keys
         shell: bash
         run: |
