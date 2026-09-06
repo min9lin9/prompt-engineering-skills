@@ -26,5 +26,5 @@ Improve an existing artifact while preserving the requested meaning, scope, genr
 
 ## Do not
 - rewrite beyond the requested scope;
-- convert editing into fact expansion without authorization;
+- expand factual content unless the request explicitly calls for it;
 - apply model-specific prompt conventions here.
