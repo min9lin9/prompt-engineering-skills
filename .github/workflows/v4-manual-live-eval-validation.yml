@@ -15,3 +15,18 @@ jobs:
         with:
           python-version: '3.12'
       - run: python scripts/validate_manual_live_eval.py
+      - name: Validate balanced smoke selection without provider calls
+        run: |
+          python scripts/prepare_eval_run.py \
+            --experiment evals/experiments/frontier-release-candidate.json \
+            --output /tmp/pending-plan.jsonl
+          python scripts/select_eval_smoke.py \
+            --plan /tmp/pending-plan.jsonl \
+            --out /tmp/smoke-plan.jsonl \
+            --provider openai \
+            --model gpt-6-astra \
+            --cases 1
+          test "$(wc -l < /tmp/smoke-plan.jsonl)" -eq 3
+          grep -q '"strategy": "legacy"' /tmp/smoke-plan.jsonl
+          grep -q '"strategy": "neutral"' /tmp/smoke-plan.jsonl
+          grep -q '"strategy": "v4"' /tmp/smoke-plan.jsonl
