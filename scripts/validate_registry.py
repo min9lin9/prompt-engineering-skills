@@ -35,11 +35,17 @@ def parse_scalar(value: str):
 
 
 def load_minimal_registry(text: str):
-    """Parse the intentionally simple registry subset without external deps."""
+    """Parse the intentionally simple ``models:`` subset without external deps.
+
+    Top-level registry metadata such as ``support_maturity`` must never be
+    mistaken for model entries. Parsing starts only after the top-level
+    ``models:`` key is encountered and stops if another top-level key appears.
+    """
     models = {}
     current_model = None
     section = None
     subsection = None
+    in_models = False
 
     for raw in text.splitlines():
         if not raw.strip() or raw.lstrip().startswith("#"):
@@ -47,7 +53,21 @@ def load_minimal_registry(text: str):
         indent = len(raw) - len(raw.lstrip(" "))
         line = raw.strip()
 
-        if indent == 2 and line.endswith(":") and line != "models:":
+        if indent == 0:
+            if line == "models:":
+                in_models = True
+                current_model = None
+                section = None
+                subsection = None
+                continue
+            if in_models:
+                break
+            continue
+
+        if not in_models:
+            continue
+
+        if indent == 2 and line.endswith(":"):
             current_model = line[:-1]
             models[current_model] = {}
             section = None
@@ -83,7 +103,8 @@ def main() -> int:
         print("ERROR: registry/models.yaml is missing")
         return 1
 
-    models = load_minimal_registry(REGISTRY.read_text(encoding="utf-8"))
+    registry_text = REGISTRY.read_text(encoding="utf-8")
+    models = load_minimal_registry(registry_text)
     errors = []
     aliases = {}
 
@@ -122,7 +143,7 @@ def main() -> int:
         if model_id == "gemini-3.8-flash" and "minimal" in values:
             errors.append("gemini-3.8-flash: thinking 'minimal' must not be allowed")
 
-    if re.search(r"treylom/(?:prompt-engineering-skills|obsidian-ai-vault)", REGISTRY.read_text(encoding="utf-8")):
+    if re.search(r"treylom/(?:prompt-engineering-skills|obsidian-ai-vault)", registry_text):
         errors.append("registry must not hard-code legacy upstream repositories")
 
     if errors:
