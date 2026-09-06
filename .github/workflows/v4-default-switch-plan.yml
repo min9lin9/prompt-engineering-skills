@@ -1,0 +1,32 @@
+name: v4 default switch dry-run validation
+
+on:
+  pull_request:
+  push:
+    branches:
+      - 'v4/**'
+
+jobs:
+  validate-default-switch-plan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate plan invariants
+        run: python scripts/validate_default_switch_plan.py
+      - name: Generate dry-run readiness report
+        run: |
+          python scripts/plan_default_switch.py --out /tmp/default-switch-readiness.json
+          cat /tmp/default-switch-readiness.json
+      - name: Assert current release remains blocked
+        run: |
+          python - <<'PY'
+          import json
+          data=json.load(open('/tmp/default-switch-readiness.json'))
+          assert data['ready_for_switch_pr'] is False, data
+          assert data['current_default'] == 'legacy', data
+          assert data['mutations_performed'] == [], data
+          print('release correctly remains blocked before live evidence approval')
+          PY

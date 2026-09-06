@@ -1,0 +1,38 @@
+version: 1
+release_candidate: v4-default-switch
+mode: dry-run-only
+
+preconditions:
+  release_review_status: approved
+  material_regression_review: approved
+  require_release_report: true
+  require_machine_assessment_pass: true
+  require_all_required_ci: true
+
+router_transition:
+  file: commands/prompt.md
+  current_default: legacy
+  proposed_default: v4
+  preserve_explicit_legacy_flag: true
+  preserve_shadow_mode: true
+  preserve_batch_compatibility_until_reviewed: true
+
+legacy_assets:
+  preserve:
+    - commands/prompt-legacy.md
+    - legacy/instructions/GPTs-Prompt-Generator.md
+    - legacy/instructions/Gems-Prompt-Generator.md
+  archive_candidates:
+    - skills/gpt-5.5-prompt-enhancement.md
+  delete_candidates: []
+
+post_switch_observation:
+  keep_legacy_route: true
+  keep_shadow_route: true
+  cleanup_requires_separate_pr: true
+
+safety:
+  mutate_router: false
+  mutate_registry: false
+  delete_files: false
+  commit_or_push: false
