@@ -264,9 +264,11 @@ models:
       structured_output: true
     reasoning:
       configurable: true
-      values: [provider-defined]
+      values: [low, high, max]
+      always_on: true
     runtime:
       default: zai-api
+      variants: [openai-chat, openai-responses, anthropic-messages]
     support:
       spec_verified: true
       static_validation: false
@@ -282,9 +284,10 @@ models:
       reasoning: true
       tools: true
       structured_output: true
+      multimodal: true
     reasoning:
-      configurable: false
-      values: [always-on]
+      configurable: true
+      values: [low, high, max]
       always_on: true
     runtime:
       default: zai-api
@@ -304,10 +307,13 @@ models:
       tools: true
       structured_output: true
     reasoning:
-      configurable: provider-defined
-      values: [provider-defined]
+      configurable: true
+      values: [low, high, max]
+      default: high
+      toggle: [enabled, disabled]
     runtime:
       default: deepseek-api
+      variants: [openai-chat, openai-responses, anthropic-messages]
     support:
       spec_verified: true
       static_validation: false
@@ -324,10 +330,13 @@ models:
       tools: true
       structured_output: true
     reasoning:
-      configurable: provider-defined
-      values: [provider-defined]
+      configurable: true
+      values: [low, high, max]
+      default: high
+      toggle: [enabled, disabled]
     runtime:
       default: deepseek-api
+      variants: [openai-chat, openai-responses, anthropic-messages]
     support:
       spec_verified: true
       static_validation: false

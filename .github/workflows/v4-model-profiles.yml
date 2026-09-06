@@ -22,4 +22,6 @@ jobs:
         run: python scripts/validate_model_profiles.py
 
       - name: Verify model profile fixtures
-        run: test -f tests/v4/model-profile-fixtures.yaml
+        run: |
+          test -f tests/v4/model-profile-fixtures.yaml
+          test -f tests/v4/nonwestern-profile-fixtures.yaml
