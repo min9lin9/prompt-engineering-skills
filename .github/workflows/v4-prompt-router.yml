@@ -1,0 +1,25 @@
+name: v4 prompt router validation
+
+on:
+  pull_request:
+  push:
+    branches:
+      - "v4/**"
+
+jobs:
+  prompt-router:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate v4 prompt router
+        run: python scripts/validate_prompt_router.py
+
+      - name: Verify router fixtures
+        run: test -f tests/v4/prompt-router-fixtures.yaml
