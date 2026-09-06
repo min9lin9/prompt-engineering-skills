@@ -1,76 +1,57 @@
 ---
-description: AI 프롬프트 자동 생성 - K-AI 스테이션 양식 호환 (한 행에 한 모델)
-allowedTools: Task, Read, Write, Bash, Glob, Grep, AskUserQuestion, TodoWrite
+description: Optional batch prompt-generation workflow using the v4 Router and Registry
+allowedTools: Read, Write, Bash, Glob, Grep, AskUserQuestion
 ---
 
-# Auto Prompt 에이전트 실행 (v3.10.0)
+# /auto-prompt — v4 Optional Batch Workflow
 
-K-AI 스테이션 양식에 호환되는 AI 프롬프트를 자동 생성합니다.
+Generate multiple prompts for a user-supplied catalogue, occupation set, curriculum, or spreadsheet-style export.
 
-## 에이전트 정보
+$ARGUMENTS
 
-- **에이전트 파일**: `.claude/agents/auto-prompt.md`
-- **버전**: v3.10.0
-- **참조 스킬**:
-  - `.claude/skills/xlsx.md` (Excel 생성)
-  - `.claude/skills/gpt-5.4-prompt-enhancement.md` (GPT-5.2 스타일)
-  - `.claude/skills/claude-4.6-prompt-strategies.md` (Claude 스타일)
-  - `.claude/skills/gemini-3.1-prompt-strategies.md` (Gemini 스타일)
-  - `.claude/skills/research-prompt-guide.md` (Perplexity 검색 스타일)
+## Scope
 
-## Excel 출력 양식 (K-AI 스테이션)
+This is an optional workflow built on the v4 Prompt Contract, Task Profiles, Model Registry, and `/prompt --v4` behavior.
+It is not required for core prompt generation and must not depend on external `.claude/agents` or `.claude/skills` files.
 
-| 열 | 헤더 | 설명 |
-|----|------|------|
-| A | 직업 번호 | 1~100 직업 번호 |
-| B | 직업 | 직업명 (예: 교사) |
-| C | 프롬프트 주제 | 간단한 제목 (중복 금지) |
-| D | 프롬프트 설명 | 실제 프롬프트 내용 |
-| E | ai model | GPT / Gemini / Claude / Perplexity |
-| F | 난이도 | 1~7 숫자 |
-| G | 출처 | 김재경 (고정) |
+## Inputs
 
-## 입력 양식
+Resolve from the request:
+- subject/catalogue dimension;
+- target models or model families;
+- number of prompts per target;
+- task categories;
+- difficulty or complexity labels, if the user wants them;
+- output fields;
+- export format.
 
-### 모델별 × 난이도별 개수 지정
+Do not assume a fixed author/source name.
+Do not restrict targets to GPT, Gemini, Claude, or Perplexity; use `registry/models.yaml` when explicit model targets are requested.
 
-```
-GPT : 난이도 1~2 4개 / 난이도 3~5 4개 / 난이도 6 1개 / 난이도 7 1개
-Gemini : 난이도 1~2 11개 / 난이도 3~5 7개 / 난이도 6 1개 / 난이도 7 1개
-Claude : 난이도 1~2 4개 / 난이도 3~5 4개 / 난이도 6 1개 / 난이도 7 1개
-Perplexity : 난이도 1~2 4개 / 난이도 3~5 4개 / 난이도 6 1개 / 난이도 7 1개
-```
+## Prompt generation
 
-### 난이도별 프롬프트 형식
+For each row/item:
+1. Build a Prompt Contract.
+2. Select one primary Task Profile.
+3. Apply a verified Model Delta only when the target model is known.
+4. Preserve the requested semantics across model variants.
+5. Validate required fields and duplicate titles.
 
-| 난이도 | 형식 | 설명 |
-|--------|------|------|
-| 1~2 | 자연어 | 1~3줄의 간단한 지시 |
-| 3~5 | 마크다운 | 5줄 이상, # 헤더 + 구조화 |
-| 6~7 | XML | 20줄 이상, 태그 기반 구조 |
+Complexity labels must not determine serialization syntax or prompt markup. Choose structure from the task and output contract instead.
 
-## 실행 워크플로우
+## Export
 
-### Step 1: 직업군/직업 입력
-사용자로부터 직업군과 직업을 입력받습니다.
+Default to a simple tabular structure:
+- item id
+- category / occupation / subject
+- prompt title
+- prompt body
+- target model
+- complexity label, if requested
+- source/author, only if supplied
 
-### Step 2: 모델별 개수 입력
-위 입력 양식에 따라 모델별 × 난이도별 개수를 지정합니다.
+If spreadsheet generation is available in the host, export `.xlsx`; otherwise return a CSV/Markdown-compatible table or structured data without pretending a spreadsheet was created.
 
-### Step 3: 프롬프트 생성
-- 프롬프트 주제를 먼저 생성 (중복 방지)
-- 난이도에 맞는 형식으로 프롬프트 설명 작성
-- 모델별 특화 스타일 적용
+## Permission boundary
 
-### Step 4: Excel 저장
-파일명: `{직업군}_{직업}_AI프롬프트_{YYYYMMDD}.xlsx`
-
-## 실행
-
-에이전트 파일을 읽고 워크플로우를 따라 실행하세요.
-
-```
-Read: .claude/agents/auto-prompt.md
-```
-
-사용자의 추가 요청사항: $ARGUMENTS
+Generating the batch output does not authorize publication, external upload, repository mutation, or overwriting an existing file unless separately requested.
