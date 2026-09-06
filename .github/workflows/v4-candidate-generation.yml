@@ -1,0 +1,29 @@
+name: v4 candidate generation bridge
+
+on:
+  pull_request:
+  push:
+    branches:
+      - 'v4/**'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate bridge source
+        run: python scripts/validate_candidate_bridge.py
+      - name: Prepare synthetic evaluation plan
+        run: python scripts/prepare_eval_run.py --output /tmp/plan.jsonl
+      - name: Materialize all three strategies
+        run: |
+          python scripts/run_candidate_materializers.py \
+            --plan /tmp/plan.jsonl \
+            --out /tmp/candidates.jsonl \
+            --legacy-materializer python tests/v4/mock_candidate_materializer.py \
+            --v4-materializer python tests/v4/mock_candidate_materializer.py
+      - name: Validate candidate hashes and readiness
+        run: python scripts/validate_eval_candidates.py /tmp/candidates.jsonl
