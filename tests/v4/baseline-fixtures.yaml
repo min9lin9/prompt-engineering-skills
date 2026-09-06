@@ -1,0 +1,47 @@
+version: 1
+baseline_commit: 6231dbc394d106e8840a15066ebc247b181a0865
+
+entry_points:
+  - commands/prompt.md
+  - commands/prompt-update.md
+  - commands/prompt-sync.md
+  - commands/auto-prompt.md
+  - instructions/GPTs-Prompt-Generator.md
+  - instructions/Gems-Prompt-Generator.md
+  - skills/prompt-engineering-guide.md
+  - skills/prompt-engineering-guide/SKILL.md
+
+migration_invariants:
+  - id: prompt_not_execution_authority
+    statement: Generated prompt text must not itself authorize execution.
+  - id: no_model_permission_escalation
+    statement: Model profiles must not grant write, publish, commit, or push permission.
+  - id: preserve_user_source_scope
+    statement: A source-only request must remain source-only after model adaptation.
+  - id: unknown_model_generic_fallback
+    statement: Unknown models may use generic Core plus Task behavior, but model optimization must be marked unverified.
+  - id: shared_dirs_non_destructive
+    statement: Shared command and skill directories must not be synchronized destructively by default.
+  - id: quality_claim_requires_eval
+    statement: A model cannot be marked quality_evaluated without target-model outcome evaluation.
+
+known_legacy_findings:
+  - id: upstream_repo_hardcoding
+    expected_paths:
+      - README.md
+      - commands/prompt-sync.md
+      - commands/prompt-update.md
+  - id: push_semantics
+    expected_paths:
+      - commands/prompt-update.md
+  - id: destructive_sync_semantics
+    expected_paths:
+      - commands/prompt-sync.md
+  - id: external_auto_prompt_dependencies
+    expected_paths:
+      - commands/auto-prompt.md
+
+shadow_eval_modes:
+  - legacy
+  - neutral_minimal
+  - v4_model_aware
