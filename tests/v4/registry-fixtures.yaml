@@ -1,0 +1,50 @@
+version: 1
+
+valid_cases:
+  - id: astra_high
+    model: gpt-6-astra
+    reasoning: high
+  - id: sol_none
+    model: gpt-5.6-sol
+    reasoning: none
+  - id: luna_medium
+    model: gpt-5.6-luna
+    reasoning: medium
+  - id: kimi_high
+    model: kimi-k3
+    reasoning: high
+  - id: gemini_flash_medium
+    model: gemini-3.8-flash
+    reasoning: medium
+
+invalid_cases:
+  - id: astra_none
+    model: gpt-6-astra
+    reasoning: none
+    reason: unsupported_reasoning_value
+  - id: kimi_medium
+    model: kimi-k3
+    reasoning: medium
+    reason: unsupported_reasoning_value
+  - id: gemini_flash_minimal
+    model: gemini-3.8-flash
+    reasoning: minimal
+    reason: unsupported_reasoning_value
+
+contract_cases:
+  - id: generator_target_independent
+    generator_model: gpt-6-astra
+    target_model: qwen3.8-flash-next
+    expected: valid
+  - id: unknown_target_generic_fallback
+    target_model: future-model-unknown
+    expected: generic_unverified
+  - id: prompt_text_not_execution_authority
+    permissions:
+      execute: false
+      write: false
+      publish: false
+    expected: permissions_preserved
+  - id: transform_preserves_source_scope
+    source_scope: provided_only
+    expected: provided_only
