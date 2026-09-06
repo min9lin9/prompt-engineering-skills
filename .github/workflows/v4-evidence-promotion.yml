@@ -1,0 +1,35 @@
+name: v4 evidence promotion governance
+
+on:
+  pull_request:
+  push:
+    branches:
+      - 'v4/**'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Generate synthetic test-only release evidence
+        run: python tests/v4/generate_synthetic_release_evidence.py /tmp/synthetic-release.jsonl
+      - name: Validate synthetic import
+        run: python scripts/validate_eval_import.py /tmp/synthetic-release.jsonl
+      - name: Machine-assess evidence
+        run: python scripts/assess_release_evidence.py --allow-test-fixtures /tmp/synthetic-release.jsonl --out /tmp/assessment.json
+      - name: Ensure machine pass does not equal release approval
+        run: |
+          python - <<'PY'
+          import json
+          r=json.load(open('/tmp/assessment.json'))
+          assert r['machine_gate_pass'] is True
+          assert r['release_approved'] is False
+          assert r['human_review_status'] == 'pending'
+          PY
+      - name: Generate review-only Registry promotion proposal
+        run: python scripts/propose_registry_promotion.py --allow-test-fixtures /tmp/synthetic-release.jsonl --assessment /tmp/assessment.json --out /tmp/promotion.json
+      - name: Ensure proposal does not write Registry
+        run: git diff --exit-code -- registry/models.yaml
