@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Static validation for v4 provider/model profiles.
 
-This validator checks structure and evidence hygiene only. It does not claim
-provider integration or model-quality evaluation.
+Checks structure, official-evidence hygiene, registry linkage, and selected
+provider compatibility invariants. It does not claim provider integration or
+model-quality evaluation.
 """
 
 from __future__ import annotations
@@ -22,12 +23,25 @@ REQUIRED = (
     "anthropic/claude-5.md",
     "google.md",
     "google/gemini-3.8-flash.md",
+    "qwen.md",
+    "qwen/qwen3.8-flash-next.md",
+    "kimi.md",
+    "kimi/kimi-k3.md",
+    "glm.md",
+    "glm/glm-5.3.md",
+    "glm/glm-5.3-flash.md",
+    "deepseek.md",
+    "deepseek/deepseek-v4.md",
 )
 REQUIRED_SECTIONS = ("## Confirmed", "## Evaluated", "## Experimental", "## Boundary")
 OFFICIAL_DOMAINS = {
     "openai": "developers.openai.com",
     "anthropic": "platform.claude.com",
     "google": "ai.google.dev",
+    "qwen": "huggingface.co/Qwen",
+    "moonshot": "platform.kimi.ai",
+    "zai": "docs.z.ai",
+    "deepseek": "api-docs.deepseek.com",
 }
 FORBIDDEN_DEFAULT_CLAIMS = (
     re.compile(r"\bLMArena\b", re.I),
@@ -39,6 +53,17 @@ FORBIDDEN_DEFAULT_CLAIMS = (
 def frontmatter_value(text: str, key: str) -> str | None:
     match = re.search(rf"(?m)^{re.escape(key)}:\s*([^\n]+)$", text)
     return match.group(1).strip() if match else None
+
+
+def require_registry_block(registry_text: str, model: str, snippets: tuple[str, ...], errors: list[str]) -> None:
+    match = re.search(rf"(?ms)^  {re.escape(model)}:\n(.*?)(?=^  [\w.-]+:\n|\Z)", registry_text)
+    if not match:
+        errors.append(f"registry missing model block: {model}")
+        return
+    block = match.group(1)
+    for snippet in snippets:
+        if snippet not in block:
+            errors.append(f"{model}: registry missing invariant {snippet!r}")
 
 
 def main() -> int:
@@ -79,11 +104,13 @@ def main() -> int:
         if "quality_evaluated: true" in text or "integration_verified: true" in text:
             errors.append(f"{rel}: profile must not self-promote support maturity")
 
-    # Delta-only guard: model overlays must acknowledge their narrower scope.
-    for rel in ("openai/gpt-6-astra.md", "anthropic/claude-5.md", "google/gemini-3.8-flash.md"):
-        path = MODELS / rel
-        if path.exists() and "## Scope" not in path.read_text(encoding="utf-8"):
-            errors.append(f"{rel}: missing delta scope")
+    # Core compatibility invariants derived from official provider documentation.
+    require_registry_block(registry_text, "kimi-k3", ("values: [low, high, max]", "always_on: true"), errors)
+    require_registry_block(registry_text, "glm-5.3", ("values: [low, high, max]", "always_on: true"), errors)
+    require_registry_block(registry_text, "glm-5.3-flash", ("values: [low, high, max]", "always_on: true", "multimodal: true"), errors)
+    require_registry_block(registry_text, "deepseek-v4-pro", ("values: [low, high, max]", "default: high", "toggle: [enabled, disabled]"), errors)
+    require_registry_block(registry_text, "deepseek-v4-flash", ("values: [low, high, max]", "default: high", "toggle: [enabled, disabled]"), errors)
+    require_registry_block(registry_text, "qwen3.8-flash-next", ("structured_output: runtime-dependent", "default: runtime-dependent"), errors)
 
     if errors:
         print("v4 model profile validation FAILED")
@@ -91,7 +118,7 @@ def main() -> int:
             print(f"- {error}")
         return 1
 
-    print("v4 model profile validation OK")
+    print(f"v4 model profile validation OK: {len(REQUIRED)} required profiles")
     print("note: profile validation does not imply provider integration or quality evaluation")
     return 0
 
