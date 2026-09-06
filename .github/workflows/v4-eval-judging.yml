@@ -1,0 +1,32 @@
+name: v4 evaluation judging pipeline
+
+on:
+  pull_request:
+  push:
+    branches:
+      - v4/**
+
+jobs:
+  judging:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Prepare blind judge items
+        run: |
+          python scripts/prepare_blind_judging.py \
+            --results tests/v4/judge-transport.jsonl \
+            --out /tmp/judge-items.jsonl \
+            --mapping-out /tmp/judge-map.jsonl \
+            --seed 20260906
+      - name: Apply judgments
+        run: |
+          python scripts/apply_eval_judgments.py \
+            --results tests/v4/judge-transport.jsonl \
+            --mapping /tmp/judge-map.jsonl \
+            --judgments tests/v4/judge-scores.jsonl \
+            --out /tmp/judged-results.jsonl
+      - name: Validate judged results
+        run: python scripts/validate_eval_import.py /tmp/judged-results.jsonl
