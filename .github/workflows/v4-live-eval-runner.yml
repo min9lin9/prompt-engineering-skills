@@ -1,0 +1,33 @@
+name: v4 live evaluation runner
+
+on:
+  pull_request:
+  push:
+    branches:
+      - 'v4/**'
+
+jobs:
+  live-eval-runner:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Prepare evaluation plan
+        run: python scripts/prepare_eval_run.py --output /tmp/eval-plan.jsonl
+      - name: Run synthetic executor through common runner
+        run: >-
+          python scripts/run_eval_jobs.py
+          --plan /tmp/eval-plan.jsonl
+          --executor python tests/v4/mock_eval_executor.py
+          --out /tmp/eval-results.jsonl
+          --limit 6
+      - name: Validate collected result records
+        run: python scripts/validate_eval_import.py /tmp/eval-results.jsonl
+      - name: Generate evidence summary
+        run: python scripts/generate_release_report.py /tmp/eval-results.jsonl --out /tmp/release-evidence.md
+      - name: Assert report safety boundary
+        run: |
+          grep -q 'does not approve the release gate' /tmp/release-evidence.md
+          grep -q 'Hard-gate failures: 0' /tmp/release-evidence.md

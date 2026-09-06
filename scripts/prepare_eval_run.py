@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Prepare a deterministic evaluation execution plan without calling providers."""
+"""Prepare a deterministic evaluation plan without calling providers.
+
+The produced plan contains case metadata and the original holdout task text, but it
+is not executable release evidence until each row receives an immutable candidate
+prompt according to evals/candidate-contract.md.
+"""
 
 from __future__ import annotations
 
@@ -22,12 +27,14 @@ def parse_holdout(text: str) -> dict[str, dict]:
         lines = block.splitlines()
         case_id = lines[0].strip()
         task_match = re.search(r"(?m)^\s*task:\s*([^\n#]+)", block)
+        prompt_match = re.search(r"(?m)^\s*prompt:\s*([^\n#]+)", block)
         targets_match = re.search(r"(?m)^\s*target_matrix:\s*\[([^\]]*)\]", block)
         gates_match = re.search(r"(?m)^\s*hard_gates:\s*\[([^\]]*)\]", block)
         targets = [x.strip() for x in targets_match.group(1).split(",")] if targets_match else []
         hard_gates = [x.strip() for x in gates_match.group(1).split(",")] if gates_match else []
         cases[case_id] = {
             "task": task_match.group(1).strip() if task_match else None,
+            "prompt": prompt_match.group(1).strip() if prompt_match else None,
             "targets": targets,
             "hard_gates": hard_gates,
         }
@@ -55,6 +62,8 @@ def main() -> int:
     for case_id in experiment["cases"]:
         if case_id not in holdout:
             errors.append(f"experiment case missing from holdout dataset: {case_id}")
+        elif not holdout[case_id].get("prompt"):
+            errors.append(f"holdout case has no prompt text: {case_id}")
 
     if errors:
         for error in errors:
@@ -77,11 +86,13 @@ def main() -> int:
                         "dataset": experiment["dataset"],
                         "case_id": case_id,
                         "task": case["task"],
+                        "case_prompt": case["prompt"],
                         "strategy": strategy,
                         "repeat": repeat,
                         "target": target,
                         "hard_gates": case["hard_gates"],
-                        "status": "planned"
+                        "candidate": None,
+                        "status": "needs_candidate",
                     })
 
     if errors:
@@ -95,7 +106,7 @@ def main() -> int:
 
     providers = sorted({row["target"]["provider"] for row in rows})
     models = sorted({row["target"]["model"] for row in rows})
-    print(f"prepared {len(rows)} planned executions")
+    print(f"prepared {len(rows)} candidate-pending execution(s)")
     print(f"providers: {', '.join(providers)}")
     print(f"models: {', '.join(models)}")
     print(f"output: {output.relative_to(ROOT) if output.is_relative_to(ROOT) else output}")
