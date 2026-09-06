@@ -1,0 +1,119 @@
+name: v4 manual live evaluation
+
+on:
+  workflow_dispatch:
+    inputs:
+      provider:
+        description: 'Executor family to use'
+        required: true
+        type: choice
+        options:
+          - openai
+          - anthropic
+          - gemini
+          - compatible
+      candidate_plan_path:
+        description: 'Repository-relative JSONL plan whose candidates are already status=ready'
+        required: true
+        default: 'evals/results/manual/ready-plan.jsonl'
+        type: string
+      max_jobs:
+        description: 'Maximum paid/live jobs to execute in this run'
+        required: true
+        default: '3'
+        type: string
+      timeout_seconds:
+        description: 'Per-job timeout'
+        required: true
+        default: '300'
+        type: string
+
+env:
+  OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+  ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+  GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+  COMPAT_API_KEY: ${{ secrets.COMPAT_API_KEY }}
+  COMPAT_BASE_URL: ${{ secrets.COMPAT_BASE_URL }}
+
+jobs:
+  live-eval:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Validate manual-run inputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          case "${{ inputs.max_jobs }}" in
+            ''|*[!0-9]*) echo 'max_jobs must be an integer'; exit 1 ;;
+          esac
+          if [ "${{ inputs.max_jobs }}" -lt 1 ] || [ "${{ inputs.max_jobs }}" -gt 100 ]; then
+            echo 'max_jobs must be between 1 and 100'; exit 1
+          fi
+          case "${{ inputs.timeout_seconds }}" in
+            ''|*[!0-9]*) echo 'timeout_seconds must be an integer'; exit 1 ;;
+          esac
+          test -f "${{ inputs.candidate_plan_path }}"
+          python scripts/validate_eval_candidates.py --input "${{ inputs.candidate_plan_path }}"
+
+      - name: Select executor and require matching secret
+        id: executor
+        shell: bash
+        run: |
+          set -euo pipefail
+          case "${{ inputs.provider }}" in
+            openai)
+              test -n "${OPENAI_API_KEY:-}" || { echo 'OPENAI_API_KEY secret is missing'; exit 1; }
+              echo 'cmd=python executors/openai_responses.py' >> "$GITHUB_OUTPUT"
+              ;;
+            anthropic)
+              test -n "${ANTHROPIC_API_KEY:-}" || { echo 'ANTHROPIC_API_KEY secret is missing'; exit 1; }
+              echo 'cmd=python executors/anthropic_messages.py' >> "$GITHUB_OUTPUT"
+              ;;
+            gemini)
+              test -n "${GEMINI_API_KEY:-}" || { echo 'GEMINI_API_KEY secret is missing'; exit 1; }
+              echo 'cmd=python executors/gemini_generate_content.py' >> "$GITHUB_OUTPUT"
+              ;;
+            compatible)
+              test -n "${COMPAT_API_KEY:-}" || { echo 'COMPAT_API_KEY secret is missing'; exit 1; }
+              test -n "${COMPAT_BASE_URL:-}" || { echo 'COMPAT_BASE_URL secret is missing'; exit 1; }
+              echo 'cmd=python executors/openai_compatible_chat.py' >> "$GITHUB_OUTPUT"
+              ;;
+            *) echo 'unsupported provider'; exit 1 ;;
+          esac
+
+      - name: Execute bounded live evaluation
+        shell: bash
+        run: |
+          set -euo pipefail
+          read -r -a EXECUTOR <<< "${{ steps.executor.outputs.cmd }}"
+          python scripts/run_eval_jobs.py \
+            --plan "${{ inputs.candidate_plan_path }}" \
+            --executor "${EXECUTOR[@]}" \
+            --out /tmp/live-results.jsonl \
+            --limit "${{ inputs.max_jobs }}" \
+            --timeout "${{ inputs.timeout_seconds }}"
+
+      - name: Prepare blind judging packet
+        run: |
+          python scripts/prepare_blind_judging.py \
+            --input /tmp/live-results.jsonl \
+            --out /tmp/blind-judging.jsonl \
+            --mapping-out /tmp/blind-mapping.json
+
+      - name: Upload unjudged evidence bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: v4-live-eval-${{ inputs.provider }}-${{ github.run_id }}
+          if-no-files-found: error
+          retention-days: 30
+          path: |
+            /tmp/live-results.jsonl
+            /tmp/blind-judging.jsonl
+            /tmp/blind-mapping.json
