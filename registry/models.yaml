@@ -1,0 +1,373 @@
+version: 1
+verified_at: 2026-09-06
+
+support_maturity:
+  fields:
+    - spec_verified
+    - static_validation
+    - integration_verified
+    - quality_evaluated
+
+models:
+  gpt-6-astra:
+    provider: openai
+    family: gpt-6
+    lifecycle: frontier
+    aliases: [astra]
+    capabilities:
+      reasoning: true
+      tools: true
+      structured_output: true
+    reasoning:
+      configurable: true
+      values: [low, medium, high, xhigh, max]
+    runtime:
+      default: openai-responses
+    support:
+      spec_verified: true
+      static_validation: false
+      integration_verified: false
+      quality_evaluated: false
+
+  gpt-5.6-sol:
+    provider: openai
+    family: gpt-5.6
+    lifecycle: frontier
+    aliases: [gpt-5.6, sol]
+    capabilities:
+      reasoning: true
+      tools: true
+      structured_output: true
+    reasoning:
+      configurable: true
+      values: [none, low, medium, high, xhigh, max]
+    runtime:
+      default: openai-responses
+    support:
+      spec_verified: true
+      static_validation: false
+      integration_verified: false
+      quality_evaluated: false
+
+  gpt-5.6-terra:
+    provider: openai
+    family: gpt-5.6
+    lifecycle: frontier
+    aliases: [terra]
+    capabilities:
+      reasoning: true
+      tools: true
+      structured_output: true
+    reasoning:
+      configurable: true
+      values: [none, low, medium, high, xhigh, max]
+    runtime:
+      default: openai-responses
+    support:
+      spec_verified: true
+      static_validation: false
+      integration_verified: false
+      quality_evaluated: false
+
+  gpt-5.6-luna:
+    provider: openai
+    family: gpt-5.6
+    lifecycle: frontier
+    aliases: [luna]
+    capabilities:
+      reasoning: true
+      tools: true
+      structured_output: true
+    reasoning:
+      configurable: true
+      values: [none, low, medium, high, xhigh, max]
+    runtime:
+      default: openai-responses
+    support:
+      spec_verified: true
+      static_validation: false
+      integration_verified: false
+      quality_evaluated: false
+
+  claude-fable-5.1:
+    provider: anthropic
+    family: claude-5
+    lifecycle: frontier
+    aliases: [fable-5.1]
+    capabilities:
+      reasoning: true
+      tools: true
+      structured_output: false
+    reasoning:
+      configurable: true
+      values: [adaptive]
+    runtime:
+      default: anthropic-messages
+    support:
+      spec_verified: true
+      static_validation: false
+      integration_verified: false
+      quality_evaluated: false
+
+  claude-opus-5:
+    provider: anthropic
+    family: claude-5
+    lifecycle: frontier
+    aliases: [opus-5]
+    capabilities:
+      reasoning: true
+      tools: true
+      structured_output: false
+    reasoning:
+      configurable: true
+      values: [adaptive]
+    runtime:
+      default: anthropic-messages
+    support:
+      spec_verified: true
+      static_validation: false
+      integration_verified: false
+      quality_evaluated: false
+
+  claude-sonnet-5:
+    provider: anthropic
+    family: claude-5
+    lifecycle: frontier
+    aliases: [sonnet-5]
+    capabilities:
+      reasoning: true
+      tools: true
+      structured_output: false
+    reasoning:
+      configurable: true
+      values: [adaptive]
+    runtime:
+      default: anthropic-messages
+    support:
+      spec_verified: true
+      static_validation: false
+      integration_verified: false
+      quality_evaluated: false
+
+  gemini-3.8-flash:
+    provider: google
+    family: gemini-3.8
+    lifecycle: frontier
+    aliases: [gemini-flash]
+    capabilities:
+      reasoning: true
+      tools: true
+      structured_output: true
+    reasoning:
+      configurable: true
+      values: [low, medium, high]
+    runtime:
+      default: gemini-api
+    support:
+      spec_verified: true
+      static_validation: false
+      integration_verified: false
+      quality_evaluated: false
+
+  gemini-3.1-pro-preview:
+    provider: google
+    family: gemini-3.1
+    lifecycle: experimental
+    aliases: [gemini-pro-preview]
+    capabilities:
+      reasoning: true
+      tools: true
+      structured_output: true
+    reasoning:
+      configurable: true
+      values: [low, medium, high]
+    runtime:
+      default: gemini-api
+    support:
+      spec_verified: true
+      static_validation: false
+      integration_verified: false
+      quality_evaluated: false
+
+  qwen3.8-flash-next:
+    provider: qwen
+    family: qwen3.8
+    lifecycle: frontier
+    aliases: [qwen-3.8-next, qwen3.8-next]
+    capabilities:
+      reasoning: true
+      tools: true
+      structured_output: runtime-dependent
+    reasoning:
+      configurable: runtime-dependent
+      values: [runtime-dependent]
+    runtime:
+      default: runtime-dependent
+      variants: [qwen-cloud, transformers, vllm, sglang]
+    support:
+      spec_verified: true
+      static_validation: false
+      integration_verified: false
+      quality_evaluated: false
+
+  kimi-k3:
+    provider: moonshot
+    family: kimi-k3
+    lifecycle: frontier
+    aliases: [k3, kimi-3]
+    capabilities:
+      reasoning: true
+      tools: true
+      structured_output: true
+    reasoning:
+      configurable: true
+      values: [low, high, max]
+      always_on: true
+    runtime:
+      default: kimi-api
+    support:
+      spec_verified: true
+      static_validation: false
+      integration_verified: false
+      quality_evaluated: false
+
+  glm-5.3:
+    provider: zai
+    family: glm-5.3
+    lifecycle: frontier
+    aliases: [glm5.3]
+    capabilities:
+      reasoning: true
+      tools: true
+      structured_output: true
+    reasoning:
+      configurable: true
+      values: [provider-defined]
+    runtime:
+      default: zai-api
+    support:
+      spec_verified: true
+      static_validation: false
+      integration_verified: false
+      quality_evaluated: false
+
+  glm-5.3-flash:
+    provider: zai
+    family: glm-5.3
+    lifecycle: frontier
+    aliases: [glm5.3-flash]
+    capabilities:
+      reasoning: true
+      tools: true
+      structured_output: true
+    reasoning:
+      configurable: false
+      values: [always-on]
+      always_on: true
+    runtime:
+      default: zai-api
+    support:
+      spec_verified: true
+      static_validation: false
+      integration_verified: false
+      quality_evaluated: false
+
+  deepseek-v4-pro:
+    provider: deepseek
+    family: deepseek-v4
+    lifecycle: frontier
+    aliases: [deepseek-v4]
+    capabilities:
+      reasoning: true
+      tools: true
+      structured_output: true
+    reasoning:
+      configurable: provider-defined
+      values: [provider-defined]
+    runtime:
+      default: deepseek-api
+    support:
+      spec_verified: true
+      static_validation: false
+      integration_verified: false
+      quality_evaluated: false
+
+  deepseek-v4-flash:
+    provider: deepseek
+    family: deepseek-v4
+    lifecycle: frontier
+    aliases: [deepseek-flash]
+    capabilities:
+      reasoning: true
+      tools: true
+      structured_output: true
+    reasoning:
+      configurable: provider-defined
+      values: [provider-defined]
+    runtime:
+      default: deepseek-api
+    support:
+      spec_verified: true
+      static_validation: false
+      integration_verified: false
+      quality_evaluated: false
+
+  grok-4.6:
+    provider: xai
+    family: grok-4
+    lifecycle: frontier
+    aliases: [grok]
+    capabilities:
+      reasoning: true
+      tools: true
+      structured_output: true
+    reasoning:
+      configurable: provider-defined
+      values: [provider-defined]
+    runtime:
+      default: xai-api
+    support:
+      spec_verified: true
+      static_validation: false
+      integration_verified: false
+      quality_evaluated: false
+
+  minimax-m3:
+    provider: minimax
+    family: minimax-m3
+    lifecycle: frontier
+    aliases: [minimax]
+    capabilities:
+      reasoning: true
+      tools: true
+      structured_output: provider-defined
+    reasoning:
+      configurable: provider-defined
+      values: [provider-defined]
+    runtime:
+      default: minimax-api
+    support:
+      spec_verified: true
+      static_validation: false
+      integration_verified: false
+      quality_evaluated: false
+
+  mistral-large-3:
+    provider: mistral
+    family: mistral-3
+    lifecycle: frontier
+    aliases: [mistral-large]
+    capabilities:
+      reasoning: provider-defined
+      tools: true
+      structured_output: true
+    reasoning:
+      configurable: provider-defined
+      values: [provider-defined]
+    runtime:
+      default: mistral-api
+    support:
+      spec_verified: true
+      static_validation: false
+      integration_verified: false
+      quality_evaluated: false
