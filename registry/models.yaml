@@ -89,18 +89,40 @@ models:
       integration_verified: false
       quality_evaluated: false
 
-  claude-fable-5.1:
+  claude-fable-5:
     provider: anthropic
     family: claude-5
     lifecycle: frontier
-    aliases: [fable-5.1]
+    aliases: [fable-5]
     capabilities:
       reasoning: true
       tools: true
-      structured_output: false
+      structured_output: true
     reasoning:
       configurable: true
       values: [adaptive]
+      always_on: true
+    runtime:
+      default: anthropic-messages
+    support:
+      spec_verified: true
+      static_validation: false
+      integration_verified: false
+      quality_evaluated: false
+
+  claude-mythos-5:
+    provider: anthropic
+    family: claude-5
+    lifecycle: frontier
+    aliases: [mythos-5]
+    capabilities:
+      reasoning: true
+      tools: true
+      structured_output: true
+    reasoning:
+      configurable: true
+      values: [adaptive]
+      always_on: true
     runtime:
       default: anthropic-messages
     support:
@@ -117,10 +139,10 @@ models:
     capabilities:
       reasoning: true
       tools: true
-      structured_output: false
+      structured_output: true
     reasoning:
       configurable: true
-      values: [adaptive]
+      values: [adaptive, disabled]
     runtime:
       default: anthropic-messages
     support:
@@ -137,10 +159,10 @@ models:
     capabilities:
       reasoning: true
       tools: true
-      structured_output: false
+      structured_output: true
     reasoning:
       configurable: true
-      values: [adaptive]
+      values: [adaptive, disabled]
     runtime:
       default: anthropic-messages
     support:
