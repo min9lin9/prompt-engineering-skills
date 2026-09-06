@@ -86,7 +86,7 @@ def main() -> int:
     if "no flag | `legacy`" not in router_text:
         errors.append("no-flag migration default is not explicitly legacy")
 
-    if "`--shadow --batch` is invalid" not in router_text:
+    if not re.search(r"`?/prompt --shadow --batch`?[^\n]*invalid", router_text, re.I):
         errors.append("shadow/batch incompatibility is not explicit")
 
     if errors:
