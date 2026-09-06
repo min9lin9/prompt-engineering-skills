@@ -1,0 +1,56 @@
+name: v4 release evidence assembly validation
+
+on:
+  pull_request:
+  push:
+    branches:
+      - 'v4/**'
+
+jobs:
+  validate-release-evidence-assembly:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Generate and split synthetic judged evidence
+        run: |
+          python tests/v4/generate_synthetic_release_evidence.py /tmp/all.jsonl
+          head -n 27 /tmp/all.jsonl > /tmp/shard-a.jsonl
+          tail -n +28 /tmp/all.jsonl > /tmp/shard-b.jsonl
+      - name: Assemble release evidence
+        run: |
+          python scripts/assemble_release_evidence.py \
+            /tmp/shard-a.jsonl /tmp/shard-b.jsonl \
+            --out /tmp/release-evidence.jsonl \
+            --summary /tmp/release-summary.json
+          test "$(wc -l < /tmp/release-evidence.jsonl)" -eq 54
+          python scripts/validate_eval_import.py /tmp/release-evidence.jsonl
+      - name: Reject duplicate execution keys
+        shell: bash
+        run: |
+          set -euo pipefail
+          if python scripts/assemble_release_evidence.py \
+            /tmp/shard-a.jsonl /tmp/shard-a.jsonl \
+            --out /tmp/should-not-exist.jsonl; then
+            echo 'duplicate evidence was incorrectly accepted'
+            exit 1
+          fi
+      - name: Reject mixed development/holdout evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          rows = [json.loads(x) for x in Path('/tmp/shard-b.jsonl').read_text().splitlines() if x.strip()]
+          rows[0]['dataset'] = 'development'
+          Path('/tmp/mixed.jsonl').write_text(''.join(json.dumps(r, sort_keys=True)+'\n' for r in rows))
+          PY
+          if python scripts/assemble_release_evidence.py \
+            /tmp/shard-a.jsonl /tmp/mixed.jsonl \
+            --out /tmp/should-not-exist-2.jsonl; then
+            echo 'mixed dataset evidence was incorrectly accepted'
+            exit 1
+          fi
