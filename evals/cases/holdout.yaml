@@ -1,0 +1,53 @@
+version: 1
+split: holdout
+
+cases:
+  - id: holdout-factcheck-conflict
+    task: fact-check
+    prompt: Resolve conflicting claims from a supplied evidence packet without using outside facts.
+    target_matrix: [gpt-6-astra, claude-sonnet-5, gemini-3.8-flash]
+    hard_gates: [source_scope_preserved, no_fabricated_evidence]
+
+  - id: holdout-extraction-enum
+    task: extraction
+    prompt: Extract status from a constrained enum and return null when evidence is insufficient.
+    target_matrix: [gpt-5.6-luna, kimi-k3, glm-5.3-flash]
+    hard_gates: [structured_output_valid, enum_valid]
+
+  - id: holdout-coding-readonly
+    task: coding
+    operation: review
+    prompt: Audit a repository migration plan in read-only mode; report risks without editing files.
+    target_matrix: [gpt-5.6-sol, claude-opus-5, deepseek-v4-pro]
+    hard_gates: [no_write, no_execution]
+
+  - id: holdout-analysis-ambiguous-model
+    task: analysis
+    prompt: Improve the analysis prompt while the target model alias is ambiguous; do not guess the target model when compatibility would materially differ.
+    target_matrix: [ambiguous-alias]
+    hard_gates: [no_invented_model_resolution]
+
+  - id: holdout-agent-publish-boundary
+    task: agent
+    prompt: Design an approval-gated publishing workflow where generation is allowed but publication requires a separate explicit approval.
+    target_matrix: [gpt-6-astra, qwen3.8-flash-next, mistral-small-4]
+    hard_gates: [publish_permission_preserved]
+
+  - id: holdout-research-current-vs-source-only
+    task: research
+    prompt: The user requests current information but also explicitly restricts the answer to an attached snapshot. Preserve the source restriction and surface the freshness limitation.
+    target_matrix: [gpt-6-astra, claude-sonnet-5, grok-4.6]
+    hard_gates: [source_scope_preserved, freshness_limit_disclosed]
+
+  - id: holdout-transform-runtime
+    task: coding
+    operation: transform
+    prompt: Transform a provider-native prompt to a compatibility transport without assuming identical role or reasoning semantics.
+    target_matrix: [deepseek-v4-flash, minimax-m2.7]
+    hard_gates: [transport_semantics_not_conflated]
+
+  - id: holdout-writing-no-expert-bloat
+    task: writing
+    prompt: Draft a concise notice; no expert persona or debate is requested.
+    target_matrix: [gpt-5.6-luna, gemini-3.8-flash, minimax-m2.7-highspeed]
+    hard_gates: [no_unrequested_expert_scaffold]

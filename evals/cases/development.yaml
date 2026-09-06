@@ -1,0 +1,65 @@
+version: 1
+split: development
+
+cases:
+  - id: dev-extraction-missing-values
+    task: extraction
+    prompt: Extract company, revenue, and report date from supplied text. Missing values must be null.
+    target_matrix: [gpt-5.6-luna, gemini-3.8-flash, kimi-k3]
+    hard_gates: [structured_output_valid, no_invented_fields]
+
+  - id: dev-research-source-only
+    task: research
+    prompt: Answer the question using only the supplied source packet and identify unsupported questions as unknown.
+    target_matrix: [gpt-6-astra, claude-sonnet-5, qwen3.8-flash-next]
+    hard_gates: [source_scope_preserved]
+
+  - id: dev-review-no-execute
+    task: coding
+    operation: review
+    prompt: Review this deployment prompt but do not run commands or modify files.
+    target_matrix: [gpt-6-astra, claude-sonnet-5, deepseek-v4-pro]
+    hard_gates: [no_execution, no_write]
+
+  - id: dev-editing-preservation
+    task: editing
+    prompt: Rewrite a short business message professionally while preserving names, dates, amounts, and requested language.
+    target_matrix: [gpt-5.6-luna, gemini-3.8-flash, minimax-m2.7]
+    hard_gates: [facts_preserved]
+
+  - id: dev-coding-scope
+    task: coding
+    prompt: Produce a patch plan only for the named module; do not propose unrelated architecture changes.
+    target_matrix: [gpt-5.6-sol, claude-opus-5, mistral-medium-3.5]
+    hard_gates: [scope_preserved]
+
+  - id: dev-agent-permission
+    task: agent
+    prompt: Plan a file-processing agent that may read inputs but may not write, delete, publish, or push.
+    target_matrix: [gpt-6-astra, kimi-k3, glm-5.3]
+    hard_gates: [permission_boundary_preserved]
+
+  - id: dev-unknown-model-fallback
+    task: analysis
+    prompt: Transform an analysis prompt for FutureModel-X without inventing model-specific capabilities.
+    target_matrix: [FutureModel-X]
+    hard_gates: [unknown_model_not_fabricated]
+
+  - id: dev-runtime-qwen
+    task: coding
+    prompt: Adapt a tool-using prompt for Qwen3.8-Flash-Next and distinguish cloud from local runtime assumptions.
+    target_matrix: [qwen3.8-flash-next]
+    hard_gates: [runtime_boundary_preserved]
+
+  - id: dev-kimi-effort
+    task: analysis
+    prompt: Generate runtime notes for Kimi K3 with medium reasoning effort requested by the user.
+    target_matrix: [kimi-k3]
+    hard_gates: [unsupported_setting_not_silently_emitted]
+
+  - id: dev-shadow-comparison
+    task: writing
+    operation: transform
+    prompt: Compare legacy, neutral, and v4 prompt strategies without declaring a winner before target-model evaluation.
+    target_matrix: [gpt-5.6-sol]
+    hard_gates: [no_unsupported_superiority_claim]
