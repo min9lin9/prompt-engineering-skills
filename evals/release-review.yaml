@@ -1,0 +1,13 @@
+version: 1
+status: pending
+release_candidate: v4-default-switch
+machine_assessment: null
+material_regression_review: pending
+reviewer: null
+reviewed_at: null
+notes: null
+
+# This record is intentionally pending. Machine evidence may establish coverage,
+# repeat completeness, hard-gate safety, and measured score deltas, but it may not
+# approve the v4 default switch by itself. A reviewed release report and explicit
+# material-regression decision are required before status can become approved.
