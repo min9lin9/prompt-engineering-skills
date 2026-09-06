@@ -1,0 +1,1 @@
+{"experiment_id":"synthetic-validator-fixture","case_id":"fixture-case","dataset":"holdout","strategy":"v4","repeat":1,"target":{"provider":"openai","model":"gpt-6-astra","runtime":"openai-responses"},"inputs":{"prompt_sha256":"bad"},"outcome":{"completed":true,"hard_gate_pass":true,"scores":{},"failure_class":"none"},"provenance":{"run_at":"2000-01-01T00:00:00Z"}}
