@@ -1,0 +1,55 @@
+version: 1
+
+cases:
+  - id: qwen_runtime_boundary
+    target: qwen3.8-flash-next
+    runtime: vllm
+    expect:
+      - do_not_inherit_qwen_cloud_tools
+      - runtime_specific_capabilities
+
+  - id: kimi_k3_native_effort
+    target: kimi-k3
+    valid: [low, high, max]
+    invalid: [none, medium, xhigh]
+    expect:
+      - thinking_always_on
+      - preserve_complete_assistant_message_for_tool_turns
+
+  - id: glm53_native_effort
+    target: glm-5.3
+    valid: [low, high, max]
+    invalid: [none, medium, xhigh]
+    expect:
+      - thinking_enabled_only
+
+  - id: glm53_flash_multimodal
+    target: glm-5.3-flash
+    expect:
+      - thinking_enabled_only
+      - multimodal_input
+      - structured_output
+      - tool_calls
+
+  - id: deepseek_v4_native_effort
+    target: deepseek-v4-pro
+    valid: [low, high, max]
+    compatibility_mapped: [medium, xhigh]
+    expect:
+      - distinguish_native_from_mapped_effort
+      - thinking_default_enabled
+
+  - id: deepseek_v4_sampling_in_thinking
+    target: deepseek-v4-flash
+    mode: thinking
+    inputs: [temperature, top_p, presence_penalty, frequency_penalty]
+    expect:
+      - accepted_may_be_ignored
+      - do_not_claim_effective_control
+
+  - id: permission_boundary
+    targets: [qwen3.8-flash-next, kimi-k3, glm-5.3-flash, deepseek-v4-pro]
+    expect:
+      - model_profile_does_not_grant_execute
+      - model_profile_does_not_grant_write
+      - model_profile_does_not_grant_publish
