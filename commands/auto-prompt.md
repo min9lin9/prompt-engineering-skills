@@ -37,7 +37,7 @@ For each row/item:
 4. Preserve the requested semantics across model variants.
 5. Validate required fields and duplicate titles.
 
-Complexity labels do not mandate a syntax. Do not map high difficulty to XML or low difficulty to natural language by default.
+Complexity labels must not determine serialization syntax or prompt markup. Choose structure from the task and output contract instead.
 
 ## Export
 
