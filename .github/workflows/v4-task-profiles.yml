@@ -1,0 +1,25 @@
+name: v4 core and task profile validation
+
+on:
+  pull_request:
+  push:
+    branches:
+      - "v4/**"
+
+jobs:
+  task-profiles:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate Core and Task Profiles
+        run: python scripts/validate_task_profiles.py
+
+      - name: Verify task profile fixtures
+        run: test -f tests/v4/task-profile-fixtures.yaml
