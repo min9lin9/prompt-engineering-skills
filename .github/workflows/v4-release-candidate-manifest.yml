@@ -1,0 +1,50 @@
+name: v4 release candidate manifest validation
+
+on:
+  pull_request:
+  push:
+    branches:
+      - 'v4/**'
+
+jobs:
+  validate-release-candidate-manifest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build synthetic release artifacts
+        run: |
+          python tests/v4/generate_synthetic_release_evidence.py /tmp/evidence.jsonl
+          python scripts/generate_release_report.py /tmp/evidence.jsonl --out /tmp/report.md
+          python scripts/assess_release_evidence.py /tmp/evidence.jsonl --out /tmp/assessment.json --allow-test-fixtures
+          cp evals/release-review.yaml /tmp/review.yaml
+      - name: Create and verify manifest
+        run: |
+          python scripts/create_release_candidate_manifest.py \
+            --evidence /tmp/evidence.jsonl \
+            --report /tmp/report.md \
+            --assessment /tmp/assessment.json \
+            --review /tmp/review.yaml \
+            --out /tmp/manifest.json
+          python scripts/create_release_candidate_manifest.py \
+            --evidence /tmp/evidence.jsonl \
+            --report /tmp/report.md \
+            --assessment /tmp/assessment.json \
+            --review /tmp/review.yaml \
+            --out /tmp/manifest.json --verify
+      - name: Reject artifact drift
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo '\nchanged after review' >> /tmp/report.md
+          if python scripts/create_release_candidate_manifest.py \
+            --evidence /tmp/evidence.jsonl \
+            --report /tmp/report.md \
+            --assessment /tmp/assessment.json \
+            --review /tmp/review.yaml \
+            --out /tmp/manifest.json --verify; then
+            echo 'manifest verification incorrectly accepted changed artifact'
+            exit 1
+          fi
