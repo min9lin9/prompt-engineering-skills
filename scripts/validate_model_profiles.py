@@ -32,6 +32,14 @@ REQUIRED = (
     "glm/glm-5.3-flash.md",
     "deepseek.md",
     "deepseek/deepseek-v4.md",
+    "xai.md",
+    "xai/grok-4.6.md",
+    "minimax.md",
+    "minimax/minimax-m2.7.md",
+    "mistral.md",
+    "mistral/mistral-large-3.md",
+    "mistral/mistral-medium-3.5.md",
+    "mistral/mistral-small-4.md",
 )
 REQUIRED_SECTIONS = ("## Confirmed", "## Evaluated", "## Experimental", "## Boundary")
 OFFICIAL_DOMAINS = {
@@ -42,6 +50,9 @@ OFFICIAL_DOMAINS = {
     "moonshot": "platform.kimi.ai",
     "zai": "docs.z.ai",
     "deepseek": "api-docs.deepseek.com",
+    "xai": "docs.x.ai",
+    "minimax": "platform.minimax.io",
+    "mistral": "docs.mistral.ai",
 }
 FORBIDDEN_DEFAULT_CLAIMS = (
     re.compile(r"\bLMArena\b", re.I),
@@ -55,8 +66,12 @@ def frontmatter_value(text: str, key: str) -> str | None:
     return match.group(1).strip() if match else None
 
 
+def registry_has_model(registry_text: str, model: str) -> bool:
+    return re.search(rf"(?mi)^\s{{2}}{re.escape(model)}:\s*$", registry_text) is not None
+
+
 def require_registry_block(registry_text: str, model: str, snippets: tuple[str, ...], errors: list[str]) -> None:
-    match = re.search(rf"(?ms)^  {re.escape(model)}:\n(.*?)(?=^  [\w.-]+:\n|\Z)", registry_text)
+    match = re.search(rf"(?msi)^  {re.escape(model)}:\n(.*?)(?=^  [\w.-]+:\n|\Z)", registry_text)
     if not match:
         errors.append(f"registry missing model block: {model}")
         return
@@ -96,9 +111,9 @@ def main() -> int:
 
         model = frontmatter_value(text, "model")
         family = frontmatter_value(text, "family")
-        if model and re.search(rf"(?m)^\s{{2}}{re.escape(model)}:\s*$", registry_text) is None:
+        if model and not registry_has_model(registry_text, model):
             errors.append(f"{rel}: model {model!r} is not present in registry")
-        if family and family not in registry_text:
+        if family and family.lower() not in registry_text.lower():
             errors.append(f"{rel}: family {family!r} is not represented in registry")
 
         if "quality_evaluated: true" in text or "integration_verified: true" in text:
@@ -111,6 +126,19 @@ def main() -> int:
     require_registry_block(registry_text, "deepseek-v4-pro", ("values: [low, high, max]", "default: high", "toggle: [enabled, disabled]"), errors)
     require_registry_block(registry_text, "deepseek-v4-flash", ("values: [low, high, max]", "default: high", "toggle: [enabled, disabled]"), errors)
     require_registry_block(registry_text, "qwen3.8-flash-next", ("structured_output: runtime-dependent", "default: runtime-dependent"), errors)
+
+    # PR-006 frontier coverage.
+    require_registry_block(registry_text, "grok-4.6", ("values: [low, medium, high, xhigh]", "default: high", "always_on: true", "structured_output: true"), errors)
+    require_registry_block(registry_text, "minimax-m2.7", ("structured_output: false", "openai-compatible", "anthropic-compatible"), errors)
+    require_registry_block(registry_text, "minimax-m2.7-highspeed", ("structured_output: false",), errors)
+    require_registry_block(registry_text, "mistral-large-3", ("structured_output: true", "multimodal: true", "values: [not-confirmed]"), errors)
+    require_registry_block(registry_text, "mistral-medium-3.5", ("values: [none, high]", "structured_output: true", "multimodal: true"), errors)
+    require_registry_block(registry_text, "mistral-small-4", ("values: [none, high]", "structured_output: true"), errors)
+
+    if re.search(r"(?mi)^\s{2}minimax-m3:\s*$", registry_text):
+        errors.append("registry must not contain unverified MiniMax-M3 model")
+    if "model: minimax-m3" in "\n".join((MODELS / rel).read_text(encoding="utf-8").lower() for rel in REQUIRED if (MODELS / rel).exists()):
+        errors.append("profiles must not reference unverified MiniMax-M3 model")
 
     if errors:
         print("v4 model profile validation FAILED")

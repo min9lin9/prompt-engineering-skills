@@ -25,3 +25,4 @@ jobs:
         run: |
           test -f tests/v4/model-profile-fixtures.yaml
           test -f tests/v4/nonwestern-profile-fixtures.yaml
+          test -f tests/v4/frontier-provider-fixtures.yaml

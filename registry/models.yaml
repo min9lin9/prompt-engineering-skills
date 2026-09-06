@@ -352,31 +352,57 @@ models:
       reasoning: true
       tools: true
       structured_output: true
+      multimodal: true
     reasoning:
-      configurable: provider-defined
-      values: [provider-defined]
+      configurable: true
+      values: [low, medium, high, xhigh]
+      default: high
+      always_on: true
     runtime:
       default: xai-api
+      variants: [responses, chat-completions]
     support:
       spec_verified: true
       static_validation: false
       integration_verified: false
       quality_evaluated: false
 
-  minimax-m3:
+  minimax-m2.7:
     provider: minimax
-    family: minimax-m3
+    family: minimax-m2
     lifecycle: frontier
-    aliases: [minimax]
+    aliases: [minimax, minimax-m2.7]
     capabilities:
       reasoning: true
       tools: true
-      structured_output: provider-defined
+      structured_output: false
     reasoning:
-      configurable: provider-defined
-      values: [provider-defined]
+      configurable: prompt-guided
+      values: [model-managed]
     runtime:
       default: minimax-api
+      variants: [minimax-native, openai-compatible, anthropic-compatible]
+    support:
+      spec_verified: true
+      static_validation: false
+      integration_verified: false
+      quality_evaluated: false
+
+  minimax-m2.7-highspeed:
+    provider: minimax
+    family: minimax-m2
+    lifecycle: frontier
+    aliases: [minimax-highspeed]
+    capabilities:
+      reasoning: true
+      tools: true
+      structured_output: false
+    reasoning:
+      configurable: prompt-guided
+      values: [model-managed]
+    runtime:
+      default: minimax-api
+      variants: [minimax-native, openai-compatible, anthropic-compatible]
     support:
       spec_verified: true
       static_validation: false
@@ -387,14 +413,56 @@ models:
     provider: mistral
     family: mistral-3
     lifecycle: frontier
-    aliases: [mistral-large]
+    aliases: [mistral-large, mistral-large-2512]
     capabilities:
-      reasoning: provider-defined
+      reasoning: false
+      tools: true
+      structured_output: true
+      multimodal: true
+    reasoning:
+      configurable: false
+      values: [not-confirmed]
+    runtime:
+      default: mistral-api
+    support:
+      spec_verified: true
+      static_validation: false
+      integration_verified: false
+      quality_evaluated: false
+
+  mistral-medium-3.5:
+    provider: mistral
+    family: mistral-3
+    lifecycle: frontier
+    aliases: [mistral-medium, mistral-medium-3-5]
+    capabilities:
+      reasoning: true
+      tools: true
+      structured_output: true
+      multimodal: true
+    reasoning:
+      configurable: true
+      values: [none, high]
+    runtime:
+      default: mistral-api
+    support:
+      spec_verified: true
+      static_validation: false
+      integration_verified: false
+      quality_evaluated: false
+
+  mistral-small-4:
+    provider: mistral
+    family: mistral-4
+    lifecycle: frontier
+    aliases: [mistral-small, mistral-small-2603]
+    capabilities:
+      reasoning: true
       tools: true
       structured_output: true
     reasoning:
-      configurable: provider-defined
-      values: [provider-defined]
+      configurable: true
+      values: [none, high]
     runtime:
       default: mistral-api
     support:

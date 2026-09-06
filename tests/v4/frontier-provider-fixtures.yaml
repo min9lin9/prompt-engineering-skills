@@ -1,0 +1,68 @@
+version: 1
+scope: PR-006
+
+cases:
+  - id: grok_46_high_valid
+    model: grok-4.6
+    reasoning_effort: high
+    expect: valid
+
+  - id: grok_46_xhigh_valid
+    model: grok-4.6
+    reasoning_effort: xhigh
+    expect: valid
+
+  - id: grok_46_none_invalid
+    model: grok-4.6
+    reasoning_effort: none
+    expect: invalid
+    reason: reasoning cannot be disabled
+
+  - id: grok_46_stop_invalid
+    model: grok-4.6
+    parameter: stop
+    expect: invalid
+    reason: incompatible with xAI reasoning models
+
+  - id: minimax_m3_unknown
+    model: MiniMax-M3
+    expect: unknown_model
+    reason: not present in current official MiniMax text-model documentation
+
+  - id: minimax_m27_openai_compat
+    model: MiniMax-M2.7
+    runtime: openai-compatible
+    expect: valid_transport
+    invariant: protocol compatibility must not imply OpenAI reasoning semantics
+
+  - id: minimax_m27_structured_output_unverified
+    model: MiniMax-M2.7
+    feature: json_schema_structured_output
+    expect: unverified
+    reason: current native text API documents response_format for MiniMax-Text-01 rather than M2.7
+
+  - id: mistral_medium_35_reasoning_none
+    model: mistral-medium-3.5
+    reasoning_effort: none
+    expect: valid
+
+  - id: mistral_medium_35_reasoning_high
+    model: mistral-medium-3.5
+    reasoning_effort: high
+    expect: valid
+
+  - id: mistral_large_3_reasoning_unknown
+    model: mistral-large-3
+    feature: adjustable_reasoning
+    expect: not_confirmed
+
+  - id: mistral_small_4_structured_output
+    model: mistral-small-4
+    feature: structured_output
+    expect: valid
+
+  - id: model_profile_maturity
+    models: [grok-4.6, minimax-m2.7, mistral-large-3, mistral-medium-3.5, mistral-small-4]
+    expect:
+      integration_verified: false
+      quality_evaluated: false
